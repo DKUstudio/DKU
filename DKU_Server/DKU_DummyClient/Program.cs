@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using DKU_ServerCore;
 
 namespace DKU_DummyClient
@@ -15,8 +16,18 @@ namespace DKU_DummyClient
             IPAddress ipAddr = ipHost.AddressList[0];
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
+            Console.WriteLine("Client: " + ipAddr);
 
-            while(true)
+            Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            SocketAsyncEventArgs _args = new SocketAsyncEventArgs();
+            _args.RemoteEndPoint = endPoint;
+            _args.UserToken = socket;
+
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Hello world");
+            _args.SetBuffer(buffer, 0, buffer.Length);
+            socket.SendAsync(_args);
+
+            while (true)
             {
                 // 연결 유지
             }

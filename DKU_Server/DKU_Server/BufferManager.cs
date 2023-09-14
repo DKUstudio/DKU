@@ -17,17 +17,14 @@ namespace DKU_Server
         int m_currentIndex;             // 
         int m_bufferSize;               // 나눠가질 버퍼의 단위 크기
 
-        public BufferManager(int totalBytes, int bufferSize)
+        public BufferManager()
         {
-            m_numBytes = totalBytes;
+            // (recv, send) 2개
+            m_numBytes = (Constants.MAX_CONNECTION * 2) * Constants.SOCKET_BUFFER_SIZE;
             m_currentIndex = 0;
-            m_bufferSize = bufferSize;
+            m_bufferSize = Constants.SOCKET_BUFFER_SIZE;
             m_freeIndexPool = new Stack<int>();
-        }
 
-        // 바이트 배열 크기 잡아줌
-        public void InitBuffer()
-        {
             m_buffer = new byte[m_numBytes];
         }
 
@@ -53,6 +50,8 @@ namespace DKU_Server
         // 버퍼를 사용해제하고 사용가능한 스택에 추가해줌 (재활용)
         public void FreeBuffer(SocketAsyncEventArgs args)
         {
+            if (args == null)
+                return;
             m_freeIndexPool.Push(args.Offset);
             args.SetBuffer(null, 0, 0);
         }

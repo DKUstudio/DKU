@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace DKU_Server
 {
-    public class CPacket
+    internal class Constants
     {
-        public int position;
-        public byte[] buffer;
-
-        public void RecordSize()
-        {
-
-        }
+        public static int MAX_CONNECTION = 50;
+        public static int SOCKET_BUFFER_SIZE = 4096;
     }
 }
