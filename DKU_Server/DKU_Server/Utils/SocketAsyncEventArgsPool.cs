@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server
+namespace DKU_Server.Utils
 {
     public class SocketAsyncEventArgsPool
     {
@@ -16,7 +16,7 @@ namespace DKU_Server
         {
             m_pool = new Stack<SocketAsyncEventArgs>(Constants.MAX_CONNECTION);
 
-            for(int i = 0; i < Constants.MAX_CONNECTION; i++)
+            for (int i = 0; i < Constants.MAX_CONNECTION; i++)
             {
                 SocketAsyncEventArgs args = new SocketAsyncEventArgs();
                 m_pool.Push(args);
@@ -28,7 +28,7 @@ namespace DKU_Server
             if (item == null) { throw new ArgumentNullException("items added to a SocketAsyncEventArgsPool cannot be null"); }
             lock (m_pool)
             {
-                if(m_pool.Count >= Constants.MAX_CONNECTION)
+                if (m_pool.Count >= Constants.MAX_CONNECTION)
                 {
                     item.Dispose();
                     return;
