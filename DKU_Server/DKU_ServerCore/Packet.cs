@@ -11,8 +11,6 @@ namespace DKU_ServerCore
         TYPE_NONE = -1,
 
         TEST_TYPE_1,
-        TEST_TYPE_2,
-        TEST_TYPE_3,
 
         PACKET_COUNT
     }

@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_ServerCore;
 
-namespace DKU_Server.Packets
+namespace DKU_DummyClinet.Packets
 {
     [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Sequential, Pack =1, CharSet = CharSet.Unicode)]
     public class TestPacketRes : Data<TestPacketRes>
     {
         public bool m_is_success;

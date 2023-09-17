@@ -24,7 +24,7 @@ namespace DKU_ServerCore
             return array;
         }
 
-        public T Deserialize(byte[] array)
+        public static T Deserialize(byte[] array)
         {
             var size = Marshal.SizeOf(typeof(T));
             var ptr = Marshal.AllocHGlobal((int)size);
