@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server.Utils
+namespace DKU_ServerCore
 {
     // SocketAsyncEventArgs 들이 나누어 가질 수 있는 하나의 큰 바이트 배열을 만듦
     // 이렇게 하면 heap 메모리의 단편화 없이 깔끔하게 관리 가능함
@@ -20,9 +20,9 @@ namespace DKU_Server.Utils
         public BufferManager()
         {
             // (recv, send) 2개
-            m_numBytes = Constants.MAX_CONNECTION * 2 * Constants.SOCKET_BUFFER_SIZE;
+            m_numBytes = CommonDefine.MAX_CONNECTION * 2 * CommonDefine.SOCKET_BUFFER_SIZE;
             m_currentIndex = 0;
-            m_bufferSize = Constants.SOCKET_BUFFER_SIZE;
+            m_bufferSize = CommonDefine.SOCKET_BUFFER_SIZE;
             m_freeIndexPool = new Stack<int>();
 
             m_buffer = new byte[m_numBytes];

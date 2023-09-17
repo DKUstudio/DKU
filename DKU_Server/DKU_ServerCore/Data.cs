@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server.Packet
+namespace DKU_ServerCore
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]     // Pack=1: 1byte 단위로 데이터의 크기를 맞춤
-    class Data<T> where T : class
+    public class Data<T> where T : class
     {
         public byte[] Serialize()
         {

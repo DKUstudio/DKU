@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server.Packet
+namespace DKU_ServerCore
 {
-    class Packet
+    public class Packet
     {
         public UInt16 m_type { get; set; }
         public byte[] m_data { get; set; }

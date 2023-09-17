@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace DKU_Server
+namespace DKU_ServerCore
 {
     class Program
     {
