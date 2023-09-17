@@ -146,9 +146,30 @@ namespace DKU_DummyClient
             }
         }
 
-        void onMessageCompleted(object sender, SocketAsyncEventArgs e)
+        void onMessageCompleted(Packet packet)
         {
+            // 패킷 리스트에 넣는다.
+            PushPacket(packet);   
+        }
 
+        void PushPacket(Packet packet)
+        {
+            // 패킷 완성하는 메인 스레드가 아닐 수도 있다.
+            // 서로 다른 스레드인 경우가 있어, 락을 건다.
+            lock(m_recv_packet_list)
+            {
+                m_recv_packet_list.AddLast(packet);
+            }
+        }
+
+        public void ProcessPackets()
+        {
+            lock(m_recv_packet_list)
+            {
+                foreach (Packet packet in m_recv_packet_list)
+                    m_game_packet_handler.ParsePacket(packet);
+                m_recv_packet_list.Clear();
+            }
         }
     }
 }

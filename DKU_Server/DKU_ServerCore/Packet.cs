@@ -6,9 +6,20 @@ using System.Threading.Tasks;
 
 namespace DKU_ServerCore
 {
+    public enum PacketType
+    {
+        TYPE_NONE = -1,
+
+        TEST_TYPE_1,
+        TEST_TYPE_2,
+        TEST_TYPE_3,
+
+        PACKET_COUNT
+    }
+
     public class Packet
     {
-        public UInt16 m_type { get; set; }
+        public Int16 m_type { get; set; }
         public byte[] m_data { get; set; }
 
         public void SetData(byte[] data, int len)
