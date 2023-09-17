@@ -19,10 +19,6 @@ namespace DKU_ServerCore
             }
         }
 
-
-
-
-
         Stack<SocketAsyncEventArgs> m_pool;
         public int Count => m_pool.Count;
 

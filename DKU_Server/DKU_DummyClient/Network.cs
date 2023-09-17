@@ -76,6 +76,7 @@ namespace DKU_DummyClient
             }
         }
 
+        #region send
         public void Send(Packet packet)
         {
             // 소켓에 연결이 안된 상태라면, 종료한다.
@@ -118,7 +119,9 @@ namespace DKU_DummyClient
             e.Completed -= onSendCompleted;
             SocketAsyncEventArgsPool.Instance.Push(e);
         }
+        #endregion
 
+        #region recv
         public void StartRecv()
         {
             // 서버에 연결된 상태에서 이 함수를 호출해, 메시지가 오기를 기다리자.
@@ -152,6 +155,7 @@ namespace DKU_DummyClient
             PushPacket(packet);   
         }
 
+        // 수신한 패킷들을 리스트에 저장해둠.
         void PushPacket(Packet packet)
         {
             // 패킷 완성하는 메인 스레드가 아닐 수도 있다.
@@ -162,6 +166,7 @@ namespace DKU_DummyClient
             }
         }
 
+        // 패킷 리스트에 담긴 내용들을 해석하고 처리함.
         public void ProcessPackets()
         {
             lock(m_recv_packet_list)
@@ -171,5 +176,6 @@ namespace DKU_DummyClient
                 m_recv_packet_list.Clear();
             }
         }
+        #endregion
     }
 }

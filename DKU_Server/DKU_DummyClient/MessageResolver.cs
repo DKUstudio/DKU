@@ -34,21 +34,23 @@ namespace DKU_DummyClient
             ClearBuffer();
         }
 
-        public void onRecv(byte[] v_buffer, int v_offset, int v_bytesTransffered, Action<Packet> onComplete) 
+        public void onRecv(byte[] buffer, int offset, int transffered, Action<Packet> onComplete) 
         {
             // 현재 들어온 데이터의 위치를 저장한다.
-            int src_position = v_offset;
+            // 원본 byte 배열에서의 offset이 eventArgs로 날아오는듯?
+            int src_position = offset;
 
             // 메시지가 완성되었다면, 콜백함수를 호출해준다.
             m_complete_callback = onComplete;
 
             // 처리해야 할 메시지 양을 저장한다.
-            m_remain_bytes = v_bytesTransffered;
+            m_remain_bytes = transffered;
 
+            // 헤더가 완성되지 않은 상태 (패킷의 길이 데이터)
             if(m_head_completed == false)
             {
                 // 패킷의 헤더 데이터를 완성하지 않았다면, 읽어 온 데이터로 헤더를 완성한다.
-                m_head_completed = readHead(v_buffer, ref src_position);
+                m_head_completed = readHead(buffer, ref src_position);
 
                 // 읽어 온 데이터로도 헤더를 완성하지 못했다면, 다음 데이터 전송을 기다린다.
                 if(m_head_completed == false)
@@ -64,10 +66,11 @@ namespace DKU_DummyClient
                     return;
             }
 
+            // 타입이 완성되지 않은 상태 (클래스 enum 정보)
             if(m_type_completed == false)
             {
                 // 남은 데이터가 있다면, 타입 정보를 완성한다.
-                m_type_completed = readType(v_buffer, ref src_position);
+                m_type_completed = readType(buffer, ref src_position);
 
                 // 타입 정보를 완성하지 못했다면, 다음 메시지 전송을 기다린다.
                 if (m_type_completed == false)
@@ -89,7 +92,7 @@ namespace DKU_DummyClient
             if(m_completed == false)
             {
                 // 남은 데이터가 있다면, 데이터 완성 과정을 진행한다.
-                m_completed = readBody(v_buffer, ref src_position);
+                m_completed = readBody(buffer, ref src_position);
                 if (m_completed == false)
                     return;
             }
@@ -125,21 +128,25 @@ namespace DKU_DummyClient
             m_completed = false;
         }
 
+        // m_header_buffer로 데이터 크기 정보 복사함. (int)
         bool readHead(byte[] buffer, ref int src_position)
         {
             return readUntil(buffer, ref src_position, m_header_buffer, ref m_head_position, 4);
         }
 
+        // m_type_buffer로 클래스 타입 정보 복사함. (short)
         bool readType(byte[] buffer, ref int src_position)
         {
             return readUntil(buffer, ref src_position, m_type_buffer, ref m_type_position, 2);
         }
 
+        // m_header_buffer로 읽어온 데이터의 크기만큼 복사함.
         bool readBody(byte[] buffer, ref int src_position)
         {
             return readUntil(buffer, ref src_position, m_message_buffer, ref m_current_position, m_message_size);
         }
 
+        // A 버퍼에서 B 버퍼로, 내용을 복사해줌
         bool readUntil(byte[] buffer, ref int src_position, byte[] dest_buffer, ref int dest_position, int to_size)
         {
             // 남은 데이터가 없다면, 리턴
