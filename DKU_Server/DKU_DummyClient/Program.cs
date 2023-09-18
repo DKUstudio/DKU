@@ -10,26 +10,18 @@ namespace DKU_DummyClient
 
         static void Main(string[] args)
         {
-            // 주소 설정
+            Network network = new Network();
+            network.Init();
+
             string host = Dns.GetHostName();
-            IPHostEntry ipHost = Dns.GetHostEntry(host);
-            IPAddress ipAddr = ipHost.AddressList[0];
-            IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+            IPHostEntry entry = Dns.GetHostEntry(host);
+            IPAddress ipAddr = entry.AddressList[0];
+            Console.WriteLine(ipAddr);
+            network.Connect(ipAddr.ToString(), 7777);
 
-            Console.WriteLine("Client: " + ipAddr);
-
-            Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            SocketAsyncEventArgs _args = new SocketAsyncEventArgs();
-            _args.RemoteEndPoint = endPoint;
-            _args.UserToken = socket;
-
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes("Hello world");
-            _args.SetBuffer(buffer, 0, buffer.Length);
-            socket.SendAsync(_args);
-
-            while (true)
+            while(true)
             {
-                // 연결 유지
+
             }
         }
     }

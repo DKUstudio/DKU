@@ -27,13 +27,13 @@ namespace DKU_Server
         public void Start(string host, int port, int backlog)
         {
             // 소켓을 연다
-            m_listen_socket = new Socket(AddressFamily.InterNetwork,
+            m_listen_socket = new Socket(AddressFamily.InterNetworkV6,
                 SocketType.Stream,
                 ProtocolType.Tcp);
             m_listen_socket.NoDelay = true;
 
             IPAddress address;
-            if(host == "0,0,0,0")
+            if(host == "0.0.0.0")
             {
                 address = IPAddress.Any;
             }
@@ -101,6 +101,8 @@ namespace DKU_Server
         {
             if(e.SocketError == SocketError.Success)
             {
+                Console.WriteLine("[Server] New Client Came");
+
                 // 새로운 유저가 접속 했을 때,
                 Socket client_socket = e.AcceptSocket;
 
@@ -110,6 +112,7 @@ namespace DKU_Server
             else
             {
                 // 실패
+                Console.WriteLine("[server] failed new client");
             }
 
             // 위의 스레드를 재개시켜, 다음 유저의 접속을 기다린다.

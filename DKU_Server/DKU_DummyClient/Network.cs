@@ -42,7 +42,7 @@ namespace DKU_DummyClient
         public void Connect(string v_address, int v_port)
         {
             // tcp connect
-            m_socket = new Socket(AddressFamily.InterNetwork,
+            m_socket = new Socket(AddressFamily.InterNetworkV6,
                 SocketType.Stream, ProtocolType.Tcp);
 
             // 버퍼에 데이터를 쌓아서 한번에 전송하는게 아니라, 그때그때 전송한다.
@@ -73,6 +73,7 @@ namespace DKU_DummyClient
             else
             {
                 // 연결 실패
+                Console.WriteLine("[Client] Failed to connect Server");
             }
         }
 
