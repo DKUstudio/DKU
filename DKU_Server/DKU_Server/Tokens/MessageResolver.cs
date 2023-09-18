@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server.UserToken
+namespace DKU_Server.Tokens
 {
     public class MessageResolver
     {
