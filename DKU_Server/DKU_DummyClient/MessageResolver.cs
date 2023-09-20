@@ -81,8 +81,8 @@ namespace DKU_DummyClient
 
                 // 잘못된 데이터인지 확인하는 코드이다.
                 // 현재 20K까지만 받을 수 있다.
-                if (m_message_size < 0 || 
-                    m_message_size >= (int)PacketType.PACKET_COUNT)
+                if (m_message_type < 0 ||
+                    m_message_type >= (int)PacketType.PACKET_COUNT)
                     return;
 
                 // 데이터가 미완성일 경우, 다음에 전송되었을 때를 위해 저장해둔다.

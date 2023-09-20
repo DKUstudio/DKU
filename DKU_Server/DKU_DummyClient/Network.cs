@@ -69,6 +69,13 @@ namespace DKU_DummyClient
             {
                 // 연결 성공
                 Console.WriteLine("[Client] Connected to Server!");
+
+                StartRecv();
+
+                byte[] data = Encoding.Unicode.GetBytes("Hello world!");
+                Packet packet = new Packet();
+                packet.SetData(data, data.Length);
+                Send(packet);
             }
             else
             {
@@ -100,8 +107,6 @@ namespace DKU_DummyClient
             bool pending = m_socket.SendAsync(send_event_args);
             if(!pending)
                 onSendCompleted(null, send_event_args);
-            Console.WriteLine($"send completed: {send_data.Length}");
-
         }
 
         void onSendCompleted(object sender, SocketAsyncEventArgs e)
@@ -155,7 +160,9 @@ namespace DKU_DummyClient
         {
             // 패킷 리스트에 넣는다.
             PushPacket(packet);
-            Console.WriteLine("packed message");
+
+            string str = Encoding.Unicode.GetString(packet.m_data);
+            Console.WriteLine(str);
         }
 
         // 수신한 패킷들을 리스트에 저장해둠.

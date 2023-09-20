@@ -8,11 +8,15 @@ namespace DKU_Server
 
         static void Main(string[] args)
         {
+            Console.WriteLine("============================");
+            Console.WriteLine("           Server           ");
+            Console.WriteLine("============================");
+
             ClientListener listener = new ClientListener();
             string host = Dns.GetHostName();
             IPHostEntry entry = Dns.GetHostEntry(host);
             IPAddress ipAddr = entry.AddressList[0];
-            Console.WriteLine(ipAddr);
+            //Console.WriteLine(ipAddr);
             listener.Start(ipAddr.ToString(), 7777, 10);
 
             while (true) { }

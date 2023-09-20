@@ -87,7 +87,6 @@ namespace DKU_Server.Tokens
             if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
                 // read message
-                Console.WriteLine($"[server] received {args.BytesTransferred}");
                 m_message_resolver.onRecv(args.Buffer, args.Offset, args.BytesTransferred, onMessageCompleted);
 
                 StartRecv();
@@ -223,7 +222,6 @@ namespace DKU_Server.Tokens
 
         void onMessageCompleted(Packet packet)
         {
-            Console.WriteLine("success packing");
             string str = Encoding.Unicode.GetString(packet.m_data);
             Console.WriteLine(str);
         }

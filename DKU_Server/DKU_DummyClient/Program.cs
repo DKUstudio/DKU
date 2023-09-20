@@ -11,19 +11,20 @@ namespace DKU_DummyClient
 
         static void Main(string[] args)
         {
+            Console.WriteLine("============================");
+            Console.WriteLine("           Client           ");
+            Console.WriteLine("============================");
+
             Network network = new Network();
             network.Init();
 
             string host = Dns.GetHostName();
             IPHostEntry entry = Dns.GetHostEntry(host);
             IPAddress ipAddr = entry.AddressList[0];
-            Console.WriteLine(ipAddr);
+            //Console.WriteLine(ipAddr);
             network.Connect(ipAddr.ToString(), 7777);
 
-            byte[] data = Encoding.Unicode.GetBytes("Hello world!");
-            Packet packet = new Packet();
-            packet.SetData(data, data.Length);
-            network.Send(packet);
+            
 
             while(true)
             {

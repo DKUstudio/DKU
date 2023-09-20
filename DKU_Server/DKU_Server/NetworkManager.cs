@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Tokens;
 using DKU_Server.Users;
+using DKU_ServerCore;
 
 namespace DKU_Server
 {
@@ -39,9 +40,16 @@ namespace DKU_Server
             token.StartRecv();
 
 
+            // welcome data
+            byte[] data = Encoding.Unicode.GetBytes("Welcome to DKU server...");
+            Packet packet = new Packet();
+            packet.SetData(data, data.Length);
+            token.Send(packet);
+
+
             // User객체는 db에서 가져온 데이터를 저장하는 객체이다. 말 그대로 접속한 유저의 정보를 가지고 있다.
-            UserData user = new UserData(); // 나중에 UserDataPool로 최적화.
-            user.Init(token);
+            //UserData user = new UserData(); // 나중에 UserDataPool로 최적화.
+            //user.Init(token);
         }
     }
 }
