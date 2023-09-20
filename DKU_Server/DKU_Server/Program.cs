@@ -14,6 +14,8 @@ namespace DKU_Server
             IPAddress ipAddr = entry.AddressList[0];
             Console.WriteLine(ipAddr);
             listener.Start(ipAddr.ToString(), 7777, 10);
+
+            while (true) { }
         }
     }
 }

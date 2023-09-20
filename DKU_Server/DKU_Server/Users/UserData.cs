@@ -1,4 +1,5 @@
 ﻿using DKU_Server.Tokens;
+using DKU_ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace DKU_Server.Users
         public UserToken UserToken { get; set; }
 
         public void Init(UserToken token)
+        {
+
+        }
+
+        public void ProcessPacket(Packet packet)
         {
 
         }

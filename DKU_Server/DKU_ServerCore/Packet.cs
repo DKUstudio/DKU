@@ -38,7 +38,7 @@ namespace DKU_ServerCore
             byte[] header_bytes = BitConverter.GetBytes(header_size);   // 데이터 크기 정보를 byte 배열로 변환
 
             // return::직렬화
-            byte[] send_bytes = new byte[header_bytes.Length + type_bytes.Length];
+            byte[] send_bytes = new byte[header_bytes.Length + type_bytes.Length + m_data.Length];
 
             // 헤더 복사, 헤더==데이터의 크기, tcp 통신을 위해 앞에 붙여줌
             Array.Copy(header_bytes, 0, send_bytes, 0, header_bytes.Length);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using DKU_ServerCore;
 
 namespace DKU_DummyClient
@@ -18,6 +19,11 @@ namespace DKU_DummyClient
             IPAddress ipAddr = entry.AddressList[0];
             Console.WriteLine(ipAddr);
             network.Connect(ipAddr.ToString(), 7777);
+
+            byte[] data = Encoding.Unicode.GetBytes("Hello world!");
+            Packet packet = new Packet();
+            packet.SetData(data, data.Length);
+            network.Send(packet);
 
             while(true)
             {

@@ -100,6 +100,7 @@ namespace DKU_DummyClient
             bool pending = m_socket.SendAsync(send_event_args);
             if(!pending)
                 onSendCompleted(null, send_event_args);
+            Console.WriteLine($"send completed: {send_data.Length}");
 
         }
 
@@ -153,7 +154,8 @@ namespace DKU_DummyClient
         void onMessageCompleted(Packet packet)
         {
             // 패킷 리스트에 넣는다.
-            PushPacket(packet);   
+            PushPacket(packet);
+            Console.WriteLine("packed message");
         }
 
         // 수신한 패킷들을 리스트에 저장해둠.
