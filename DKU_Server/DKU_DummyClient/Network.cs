@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DKU_DummyClinet;
 using DKU_ServerCore;
@@ -39,6 +40,7 @@ namespace DKU_DummyClient
             m_recv_event_args.SetBuffer(m_recv_buffer, 0, 1024 * 4);
         }
 
+        #region connect
         public void Connect(string v_address, int v_port)
         {
             // tcp connect
@@ -63,6 +65,7 @@ namespace DKU_DummyClient
                 onConnected(null, args);
         }
 
+        Thread recvThread;
         void onConnected(object sender, SocketAsyncEventArgs e)
         {
             if(e.SocketError == SocketError.Success)
@@ -70,7 +73,10 @@ namespace DKU_DummyClient
                 // 연결 성공
                 Console.WriteLine("[Client] Connected to Server!");
 
-                StartRecv();
+                recvThread = new Thread(StartRecv);
+                recvThread.Name = "recvThread";
+                recvThread.Start();
+                //StartRecv();
 
                 byte[] data = Encoding.Unicode.GetBytes("Hello world!");
                 Packet packet = new Packet();
@@ -83,6 +89,7 @@ namespace DKU_DummyClient
                 Console.WriteLine("[Client] Failed to connect Server");
             }
         }
+        #endregion
 
         #region send
         public void Send(Packet packet)
@@ -153,6 +160,8 @@ namespace DKU_DummyClient
             else
             {
                 // 실패
+                StartRecv();
+
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading;
 
 namespace DKU_Server
 {
@@ -19,7 +20,11 @@ namespace DKU_Server
             //Console.WriteLine(ipAddr);
             listener.Start(ipAddr.ToString(), 7777, 10);
 
-            while (true) { }
+            while (true) 
+            { 
+                Thread.Sleep(1000);
+                NetworkManager.Instance.TestPing();
+            }
         }
     }
 }

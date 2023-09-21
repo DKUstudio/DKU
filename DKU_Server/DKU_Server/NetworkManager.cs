@@ -23,6 +23,9 @@ namespace DKU_Server
             }
         }
 
+        public static short sampleid = 0;
+        public Dictionary<short, UserToken> tokens = new Dictionary<short, UserToken>();
+
         public void onNewClient(Socket client_socket, object event_args)
         {
             // UserToken은 유저가 연결되었을 때 해당 유저의 소켓을 저장하고,
@@ -46,10 +49,22 @@ namespace DKU_Server
             packet.SetData(data, data.Length);
             token.Send(packet);
 
+            tokens.Add(sampleid++, token);
 
             // User객체는 db에서 가져온 데이터를 저장하는 객체이다. 말 그대로 접속한 유저의 정보를 가지고 있다.
             //UserData user = new UserData(); // 나중에 UserDataPool로 최적화.
             //user.Init(token);
+        }
+
+        public void TestPing()
+        {
+            foreach(var token in tokens)
+            {
+                byte[] data = Encoding.Unicode.GetBytes("test ping...");
+                Packet packet = new Packet();
+                packet.SetData(data, data.Length);
+                (token.Value as UserToken).Send(packet);
+            }
         }
     }
 }
