@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Tokens;
 using DKU_Server.Users;
-using DKU_ServerCore;
+using DKU_ServerCore.Packets;
 
 namespace DKU_Server
 {

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_ServerCore
+namespace DKU_ServerCore.Packets
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]     // Pack=1: 1byte 단위로 데이터의 크기를 맞춤
@@ -27,7 +27,7 @@ namespace DKU_ServerCore
         public static T Deserialize(byte[] array)
         {
             var size = Marshal.SizeOf(typeof(T));
-            var ptr = Marshal.AllocHGlobal((int)size);
+            var ptr = Marshal.AllocHGlobal(size);
 
             Marshal.Copy(array, 0, ptr, size);
 

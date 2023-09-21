@@ -1,11 +1,12 @@
-﻿using System;
+﻿using DKU_ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_ServerCore
+namespace DKU_Server.Utils
 {
     // SocketAsyncEventArgs 들이 나누어 가질 수 있는 하나의 큰 바이트 배열을 만듦
     // 이렇게 하면 heap 메모리의 단편화 없이 깔끔하게 관리 가능함
@@ -16,7 +17,7 @@ namespace DKU_ServerCore
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                     instance = new BufferManager();
                 return instance;
             }

@@ -6,8 +6,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DKU_DummyClinet;
 using DKU_ServerCore;
+using DKU_ServerCore.Packets;
 
 namespace DKU_DummyClient
 {
@@ -99,8 +99,10 @@ namespace DKU_DummyClient
                 return;
 
             // 네트워크 전송이 빈번해 SocketAsyncEventArgs 객체를 풀로 만들어 쓴다.
-            SocketAsyncEventArgs send_event_args = SocketAsyncEventArgsPool.Instance.Pop();
-            if(send_event_args == null)
+            //SocketAsyncEventArgs send_event_args = SocketAsyncEventArgsPool.Instance.Pop();
+            SocketAsyncEventArgs send_event_args = new SocketAsyncEventArgs();
+
+            if (send_event_args == null)
             {
                 Console.WriteLine("SocketAsyncEventArgsPool::Pop() result is null");
                 return;
@@ -131,7 +133,7 @@ namespace DKU_DummyClient
             // 사용했던 SocketAsyncEventArgs를 다시 풀에 넣어준다.
             // 넣기 전에 해당 객체를 초기화 시켜준다.
             e.Completed -= onSendCompleted;
-            SocketAsyncEventArgsPool.Instance.Push(e);
+            //SocketAsyncEventArgsPool.Instance.Push(e);
         }
         #endregion
 

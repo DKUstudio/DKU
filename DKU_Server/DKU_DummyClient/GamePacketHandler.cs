@@ -1,13 +1,12 @@
-﻿using DKU_DummyClient;
-using DKU_DummyClinet.Packets;
-using DKU_ServerCore;
+﻿using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_DummyClinet
+namespace DKU_DummyClient
 {
     public class GamePacketHandler
     {
@@ -20,7 +19,7 @@ namespace DKU_DummyClinet
 
         public void ParsePacket(Packet packet)
         {
-            switch((PacketType)packet.m_type)
+            switch ((PacketType)packet.m_type)
             {
                 case PacketType.TEST_TYPE_1:
                     TestPacketRes(packet);

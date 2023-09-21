@@ -1,12 +1,11 @@
-﻿using DKU_ServerCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server.Tokens
+namespace DKU_ServerCore.Packets
 {
     public class MessageResolver
     {
@@ -170,7 +169,7 @@ namespace DKU_Server.Tokens
         int getBodySize()
         {
             Type type = CommonDefine.HEADER_SIZE.GetType();
-            if (type.Equals(typeof(Int16)))
+            if (type.Equals(typeof(short)))
             {
                 return BitConverter.ToInt16(m_header_buffer, 0);
             }

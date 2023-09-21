@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using DKU_ServerCore;
 
 namespace DKU_DummyClient
 {

@@ -1,5 +1,5 @@
 ﻿using DKU_Server.Tokens;
-using DKU_ServerCore;
+using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;

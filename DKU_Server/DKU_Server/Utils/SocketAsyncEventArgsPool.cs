@@ -1,18 +1,20 @@
-﻿using System;
+﻿using DKU_ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_ServerCore
+namespace DKU_Server.Utils
 {
     public class SocketAsyncEventArgsPool
     {
         static SocketAsyncEventArgsPool instance;
         public static SocketAsyncEventArgsPool Instance
         {
-            get { 
+            get
+            {
                 if (instance == null)
                     instance = new SocketAsyncEventArgsPool();
                 return instance;
@@ -51,7 +53,7 @@ namespace DKU_ServerCore
         {
             lock (m_pool)
             {
-                if(m_pool.Count > 0)
+                if (m_pool.Count > 0)
                     return m_pool.Pop();
                 else
                 {

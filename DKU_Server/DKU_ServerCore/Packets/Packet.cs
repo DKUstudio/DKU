@@ -4,21 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_ServerCore
+namespace DKU_ServerCore.Packets
 {
-    public enum PacketType
-    {
-        TYPE_NONE = -1,
-
-        TEST_TYPE_1,
-
-        PACKET_COUNT
-    }
 
     public class Packet
     {
-        // 해당 패킷의 타입 데이터
-        public Int16 m_type { get; set; }
+        // 해당 패킷의 타입 데이터, enum PacketType
+        public short m_type { get; set; }
         // 해당 타입의 직렬화된 데이터
         public byte[] m_data { get; set; }
 
@@ -34,7 +26,7 @@ namespace DKU_ServerCore
         public byte[] GetSendBytes()
         {
             byte[] type_bytes = BitConverter.GetBytes(m_type);          // 타입을 byte 배열로 변환
-            int header_size = (int)(m_data.Length);                     // 데이터 크기 정보
+            int header_size = m_data.Length;                     // 데이터 크기 정보
             byte[] header_bytes = BitConverter.GetBytes(header_size);   // 데이터 크기 정보를 byte 배열로 변환
 
             // return::직렬화
