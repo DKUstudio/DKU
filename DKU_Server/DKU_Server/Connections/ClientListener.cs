@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DKU_Server
+namespace DKU_Server.Connections
 {
     public class ClientListener
     {
@@ -27,13 +27,13 @@ namespace DKU_Server
         public void Start(string host, int port, int backlog)
         {
             // 소켓을 연다
-            m_listen_socket = new Socket(AddressFamily.InterNetworkV6,
+            m_listen_socket = new Socket(AddressFamily.InterNetwork,
                 SocketType.Stream,
                 ProtocolType.Tcp);
             m_listen_socket.NoDelay = true;
 
             IPAddress address;
-            if(host == "0.0.0.0")
+            if (host == "0.0.0.0")
             {
                 address = IPAddress.Any;
             }
@@ -42,6 +42,7 @@ namespace DKU_Server
                 address = IPAddress.Parse(host);
             }
             IPEndPoint endPoint = new IPEndPoint(address, port);
+            Console.WriteLine(endPoint);
 
             try
             {
@@ -57,7 +58,7 @@ namespace DKU_Server
                 Thread listen_thread = new Thread(doListen);
                 listen_thread.Start();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -65,11 +66,12 @@ namespace DKU_Server
 
         void doListen()
         {
+            Console.WriteLine("listen ready...");
             // 하나의 유저를 받고 처리를 기다리도록 하기 위해 사용
             m_flow_control_event = new AutoResetEvent(false);
 
             // 서버가 살아있는 동안, 유저를 기다림
-            while(m_thread_live)
+            while (m_thread_live)
             {
                 // 초기화 부분
                 m_accept_args.AcceptSocket = null;
@@ -87,7 +89,7 @@ namespace DKU_Server
                 }
 
                 // 바로 accept 된 경우
-                if(pending == false)
+                if (pending == false)
                 {
                     onAcceptCompleted(null, m_accept_args);
                 }
@@ -99,7 +101,7 @@ namespace DKU_Server
 
         void onAcceptCompleted(object sender, SocketAsyncEventArgs e)
         {
-            if(e.SocketError == SocketError.Success)
+            if (e.SocketError == SocketError.Success)
             {
                 Console.WriteLine("[Server] New Client Came");
 

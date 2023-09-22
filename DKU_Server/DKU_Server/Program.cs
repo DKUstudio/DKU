@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using DKU_Server.Connections;
+using DKU_ServerCore;
 
 namespace DKU_Server
 {
@@ -14,11 +16,13 @@ namespace DKU_Server
             Console.WriteLine("============================");
 
             ClientListener listener = new ClientListener();
-            string host = Dns.GetHostName();
-            IPHostEntry entry = Dns.GetHostEntry(host);
-            IPAddress ipAddr = entry.AddressList[0];
+            //string host = Dns.GetHostName();
+            //IPHostEntry entry = Dns.GetHostEntry(host);
+            //IPAddress ipAddr = entry.AddressList[0];
             //Console.WriteLine(ipAddr);
-            listener.Start(ipAddr.ToString(), 7777, 10);
+            //Console.WriteLine(ipAddr);
+            //listener.Start(ipAddr.ToString(), CommonDefine.IP_PORT, 10);
+            listener.Start("192.168.0.4", CommonDefine.IP_PORT, 10);
 
             while (true) 
             { 

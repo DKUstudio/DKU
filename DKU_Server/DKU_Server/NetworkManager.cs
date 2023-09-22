@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using DKU_Server.Tokens;
+using DKU_Server.Connections.Tokens;
 using DKU_Server.Users;
 using DKU_ServerCore.Packets;
 

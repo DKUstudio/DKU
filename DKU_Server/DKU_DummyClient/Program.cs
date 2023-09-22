@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DKU_ServerCore;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -21,11 +22,13 @@ namespace DKU_DummyClient
             IPHostEntry entry = Dns.GetHostEntry(host);
             IPAddress ipAddr = entry.AddressList[0];
             //Console.WriteLine(ipAddr);
-            network.Connect(ipAddr.ToString(), 7777);
+            //network.Connect(ipAddr.ToString(), 7777);
+            network.Connect(CommonDefine.IPv4_ADDRESS, CommonDefine.IP_PORT);
 
-            
 
-            while(true)
+
+
+            while (true)
             {
 
             }

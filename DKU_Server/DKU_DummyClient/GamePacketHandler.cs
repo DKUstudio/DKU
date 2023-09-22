@@ -12,10 +12,15 @@ namespace DKU_DummyClient
     {
         Network m_network;
 
-        public void Init(Network network)
+        public GamePacketHandler(Network network)
+        {
+            this.m_network = network;
+        }
+
+        /*public void Init(Network network)
         {
             m_network = network;
-        }
+        }*/
 
         public void ParsePacket(Packet packet)
         {

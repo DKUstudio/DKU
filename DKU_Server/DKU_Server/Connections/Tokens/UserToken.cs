@@ -13,7 +13,7 @@ using DKU_Server.Users;
 using DKU_ServerCore.Packets;
 using DKU_Server.Utils;
 
-namespace DKU_Server.Tokens
+namespace DKU_Server.Connections.Tokens
 {
     public class UserToken
     {
@@ -57,9 +57,9 @@ namespace DKU_Server.Tokens
 
         public void Update()
         {
-            if(m_packet_list.Count > 0)
+            if (m_packet_list.Count > 0)
             {
-                lock(m_mutex_packet_list)
+                lock (m_mutex_packet_list)
                 {
                     try
                     {
@@ -68,7 +68,7 @@ namespace DKU_Server.Tokens
                             user.ProcessPacket(packet);
                         m_packet_list.Clear();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
 
                     }
@@ -95,8 +95,14 @@ namespace DKU_Server.Tokens
             }
             else
             {
-                // disconect
+                // COMPLETE_MESSAGE_SIZE_CLIENT
             }
+        }
+
+        void onMessageCompleted(Packet packet)
+        {
+            string str = Encoding.Unicode.GetString(packet.m_data);
+            Console.WriteLine(str);
         }
         #endregion
 
@@ -216,16 +222,12 @@ namespace DKU_Server.Tokens
 
         void AddPacket(Packet packet)
         {
-            lock(m_mutex_packet_list)
+            lock (m_mutex_packet_list)
             {
                 m_packet_list.Add(packet);
             }
         }
 
-        void onMessageCompleted(Packet packet)
-        {
-            string str = Encoding.Unicode.GetString(packet.m_data);
-            Console.WriteLine(str);
-        }
+
     }
 }

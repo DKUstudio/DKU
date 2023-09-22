@@ -1,4 +1,4 @@
-﻿using DKU_Server.Tokens;
+﻿using DKU_Server.Connections.Tokens;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;

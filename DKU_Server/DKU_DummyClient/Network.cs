@@ -29,30 +29,34 @@ namespace DKU_DummyClient
             m_message_resolver = new MessageResolver();
 
             // 전송된 패킷을 처리하는 부분이다.
-            m_game_packet_handler = new GamePacketHandler();
-            m_game_packet_handler.Init(this);
+            m_game_packet_handler = new GamePacketHandler(this);
+            //m_game_packet_handler.Init(this);
 
             // 메세지를 받을 버퍼를 설정한다. 여기서는 4K.
             // 만약 패킷 크기가 4K보다 큰 10K라면, [4K,4K,2K]로 3번에 나누어 이벤트가 발생한다.
             m_recv_event_args = new SocketAsyncEventArgs();
             m_recv_event_args.Completed += onRecvCompleted;
             m_recv_event_args.UserToken = this;
-            m_recv_event_args.SetBuffer(m_recv_buffer, 0, 1024 * 4);
+            m_recv_event_args.SetBuffer(m_recv_buffer, 0, CommonDefine.SOCKET_BUFFER_SIZE);
         }
 
         #region connect
         public void Connect(string v_address, int v_port)
         {
             // tcp connect
-            m_socket = new Socket(AddressFamily.InterNetworkV6,
+            m_socket = new Socket(AddressFamily.InterNetwork,
                 SocketType.Stream, ProtocolType.Tcp);
 
             // 버퍼에 데이터를 쌓아서 한번에 전송하는게 아니라, 그때그때 전송한다.
             // 이렇게 하지 않으면, 렉이 생긴다.
             m_socket.NoDelay = true;
 
+
+            IPAddress address = IPAddress.Parse(v_address);
+
             // 연결할 서버의 ip 및 포트 설정
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(v_address), v_port);
+            IPEndPoint endPoint = new IPEndPoint(address, v_port);
+            Console.WriteLine(endPoint);
 
             // 비동기 접속을 위한 event args.
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
