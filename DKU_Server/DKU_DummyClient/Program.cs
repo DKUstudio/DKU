@@ -15,6 +15,7 @@ namespace DKU_DummyClient
         {
             Console.WriteLine("============================");
             Console.WriteLine("           Client           ");
+            Console.WriteLine("   type \"exit\" to EXIT    ");
             Console.WriteLine("============================");
 
             network = new Network();
@@ -43,7 +44,7 @@ namespace DKU_DummyClient
                     Packet packet = new Packet();
                     packet.SetData(PacketType.LogoutReq, bytes, bytes.Length);
                     network.Send(packet);
-                    continue;
+                    break;
                 }
 
                 GlobalChatRes chat = new GlobalChatRes();

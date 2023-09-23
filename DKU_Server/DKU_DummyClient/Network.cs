@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var;
 
 namespace DKU_DummyClient
 {
@@ -67,14 +68,14 @@ namespace DKU_DummyClient
 
             bool pending = m_socket.ConnectAsync(args);
 
-            if(!pending)
+            if (!pending)
                 onConnected(null, args);
         }
 
         Thread recvThread;
         void onConnected(object sender, SocketAsyncEventArgs e)
         {
-            if(e.SocketError == SocketError.Success)
+            if (e.SocketError == SocketError.Success)
             {
                 // 연결 성공
                 Console.WriteLine("[Client] Connected to Server!");
@@ -101,7 +102,7 @@ namespace DKU_DummyClient
         public void Send(Packet packet)
         {
             // 소켓에 연결이 안된 상태라면, 종료한다.
-            if(m_socket == null || !m_socket.Connected) 
+            if (m_socket == null || !m_socket.Connected)
                 return;
 
             // 네트워크 전송이 빈번해 SocketAsyncEventArgs 객체를 풀로 만들어 쓴다.
@@ -120,13 +121,13 @@ namespace DKU_DummyClient
 
             // 앞서 연결과 마찬가지로, 비동기 함수로 SocketAsyncEventArgs 객체를 전송한다.
             bool pending = m_socket.SendAsync(send_event_args);
-            if(!pending)
+            if (!pending)
                 onSendCompleted(null, send_event_args);
         }
 
         void onSendCompleted(object sender, SocketAsyncEventArgs e)
         {
-            if(e.SocketError == SocketError.Success)
+            if (e.SocketError == SocketError.Success)
             {
                 // 전송 성공
                 Console.WriteLine("[Client] Send to Server Complete.");
@@ -156,7 +157,7 @@ namespace DKU_DummyClient
 
         void onRecvCompleted(object sender, SocketAsyncEventArgs e)
         {
-            if(e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
+            if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
             {
                 // 수신 성공
                 // byte 배열의 데이터를 다시 패킷으로 만들어준다.
@@ -191,7 +192,7 @@ namespace DKU_DummyClient
         {
             // 패킷 완성하는 메인 스레드가 아닐 수도 있다.
             // 서로 다른 스레드인 경우가 있어, 락을 건다.
-            lock(m_recv_packet_list)
+            lock (m_recv_packet_list)
             {
                 m_recv_packet_list.AddLast(packet);
             }
@@ -200,7 +201,7 @@ namespace DKU_DummyClient
         // 패킷 리스트에 담긴 내용들을 해석하고 처리함.
         public void ProcessPackets()
         {
-            lock(m_recv_packet_list)
+            lock (m_recv_packet_list)
             {
                 foreach (Packet packet in m_recv_packet_list)
                     m_game_packet_handler.ParsePacket(packet);
