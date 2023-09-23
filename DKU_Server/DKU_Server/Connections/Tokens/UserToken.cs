@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DKU_ServerCore;
-using DKU_Server.Users;
 using DKU_ServerCore.Packets;
 using DKU_Server.Utils;
 
@@ -64,8 +63,8 @@ namespace DKU_Server.Connections.Tokens
                     try
                     {
                         // 수신 패킷 처리
-                        foreach (Packet packet in m_packet_list)
-                            user.ProcessPacket(packet);
+                        /*foreach (Packet packet in m_packet_list)
+                            user.ProcessPacket(packet);*/
                         m_packet_list.Clear();
                     }
                     catch (Exception e)

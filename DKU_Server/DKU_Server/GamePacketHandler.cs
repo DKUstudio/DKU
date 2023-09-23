@@ -26,6 +26,9 @@ namespace DKU_Server
                     GlobalChatReq_Handler(packet);
                     break;
 
+                case PacketType.LogoutReq:
+                    LogoutReq_Handler(packet);
+                    break;
 
             }
         }
@@ -52,8 +55,14 @@ namespace DKU_Server
 
             foreach (var targets in NetworkManager.Instance.tokens)
             {
-                targets.Value.Send(resPkt);
+                targets.Value.Token.Send(resPkt);
             }
+        }
+
+        void LogoutReq_Handler(Packet packet)
+        {
+            LogoutReq req = Data<LogoutReq>.Deserialize(packet.m_data);
+            NetworkManager.Instance.tokens.Remove(req.uid);
         }
     }
 }

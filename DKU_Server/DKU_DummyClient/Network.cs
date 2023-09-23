@@ -21,6 +21,8 @@ namespace DKU_DummyClient
         GamePacketHandler m_game_packet_handler;
         byte[] m_recv_buffer;
 
+        public UserData m_user_data;
+
         public void Init()
         {
             // 받은 byte 배열을 패킷으로 만들어, 리스트에 넣고 GamePacketHandler에서 처리한다.

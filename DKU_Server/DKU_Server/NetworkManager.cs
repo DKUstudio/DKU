@@ -4,9 +4,10 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using DKU_Server.Connections;
 using DKU_Server.Connections.Tokens;
-using DKU_Server.Users;
 using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var;
 
 namespace DKU_Server
 {
@@ -31,7 +32,7 @@ namespace DKU_Server
         }
 
         public static short sampleid = 0;
-        public Dictionary<short, UserToken> tokens = new Dictionary<short, UserToken>();
+        public Dictionary<long, LoginData> tokens = new Dictionary<long, LoginData>();
 
         public void onNewClient(Socket client_socket, object event_args)
         {
@@ -56,7 +57,21 @@ namespace DKU_Server
             packet.SetData(data, data.Length);
             token.Send(packet);*/
 
-            tokens.Add(sampleid++, token);
+            long new_client_id = sampleid++;
+            UserData data = new UserData();
+            data.uid = new_client_id;
+
+            UserDataRes userDataRes = new UserDataRes();
+            userDataRes.user_data = data;
+            byte[] udata = userDataRes.Serialize();
+            Packet upacket = new Packet();
+            upacket.SetData(PacketType.UserDataRes, udata, udata.Length);
+            token.Send(upacket);
+
+            LoginData loginData = new LoginData(token, data);
+            tokens.Add(new_client_id, loginData);
+
+            //tokens.Add(sampleid++, token);
 
             // User객체는 db에서 가져온 데이터를 저장하는 객체이다. 말 그대로 접속한 유저의 정보를 가지고 있다.
             //UserData user = new UserData(); // 나중에 UserDataPool로 최적화.
@@ -70,8 +85,14 @@ namespace DKU_Server
                 byte[] data = Encoding.Unicode.GetBytes("test ping...");
                 Packet packet = new Packet();
                 packet.SetData(data, data.Length);
-                (token.Value as UserToken).Send(packet);
+                //(token.Value as UserToken).Send(packet);
+                token.Value.Token.Send(packet);
             }
+        }
+
+        public void TokensCount()
+        {
+            Console.WriteLine("Connected users: " + tokens.Count);
         }
     }
 }

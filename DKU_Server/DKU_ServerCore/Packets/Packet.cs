@@ -22,6 +22,13 @@ namespace DKU_ServerCore.Packets
             Array.Copy(data, m_data, len);
         }
 
+        public void SetData(PacketType type, byte[] data, int len)
+        {
+            m_type = (short)type;
+            m_data = new byte[len];
+            Array.Copy(data, m_data, len);
+        }
+
         // 클래스를 직렬화한 데이터를 tcp 통신에 맞는 형태로 변환해줌.
         public byte[] GetSendBytes()
         {

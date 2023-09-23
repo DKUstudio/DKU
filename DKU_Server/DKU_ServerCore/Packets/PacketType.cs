@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace DKU_ServerCore.Packets
 {
+    [Serializable]
     public enum PacketType
     {
         TYPE_NONE = -1,
 
+        UserDataRes,
+        LogoutReq,
         GlobalChatReq,
         GlobalChatRes,
 

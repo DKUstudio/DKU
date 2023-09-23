@@ -32,6 +32,9 @@ namespace DKU_DummyClient
                     GlobalChatRes_Handler(packet);
                     break;
 
+                case PacketType.UserDataRes:
+                    UserDataRes_Handler(packet);
+                    break;
 
             }
         }
@@ -47,6 +50,12 @@ namespace DKU_DummyClient
             //Console.WriteLine(CommonDefine.ToReadableByteArray(packet.m_data));
             GlobalChatRes res = Data<GlobalChatRes>.Deserialize(packet.m_data);
             Console.WriteLine(res.chat_message);
+        }
+
+        void UserDataRes_Handler(Packet packet)
+        {
+            UserDataRes res = Data<UserDataRes>.Deserialize(packet.m_data);
+            m_network.m_user_data = res.user_data;
         }
     }
 }

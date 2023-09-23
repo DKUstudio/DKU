@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DKU_ServerCore.Packets
 {
+    // 직렬화할 수 있도록
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]     // Pack=1: 1byte 단위로 데이터의 크기를 맞춤
     public class Data<T> where T : class

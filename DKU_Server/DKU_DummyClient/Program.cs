@@ -10,14 +10,14 @@ namespace DKU_DummyClient
 {
     class Program
     {
-
+        static Network network;
         static void Main(string[] args)
         {
             Console.WriteLine("============================");
             Console.WriteLine("           Client           ");
             Console.WriteLine("============================");
 
-            Network network = new Network();
+            network = new Network();
             network.Init();
 
             //string host = Dns.GetHostName();
@@ -34,6 +34,18 @@ namespace DKU_DummyClient
             {
                 string str = Console.ReadLine();
                 //Console.WriteLine(str);
+                if(str == "exit")
+                {
+                    LogoutReq logoutReq = new LogoutReq();
+                    logoutReq.uid = network.m_user_data.uid;
+                    byte[] bytes = logoutReq.Serialize();
+
+                    Packet packet = new Packet();
+                    packet.SetData(PacketType.LogoutReq, bytes, bytes.Length);
+                    network.Send(packet);
+                    continue;
+                }
+
                 GlobalChatRes chat = new GlobalChatRes();
                 chat.chat_message = str;
                 byte[] serial = chat.Serialize();

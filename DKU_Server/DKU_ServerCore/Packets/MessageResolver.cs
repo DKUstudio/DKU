@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DKU_ServerCore.Packets
 {
+    // 예를 들어, [4,4,4,3]으로 들어온 패킷을 하나로 합쳐줌
     public class MessageResolver
     {
         public Action<Packet> m_complete_callback;
