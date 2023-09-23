@@ -1,4 +1,5 @@
-﻿using DKU_ServerCore.Packets;
+﻿using DKU_ServerCore;
+using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var;
 using System;
 using System.Collections.Generic;
@@ -26,18 +27,26 @@ namespace DKU_DummyClient
         {
             switch ((PacketType)packet.m_type)
             {
-                case PacketType.TEST_TYPE_1:
-                    TestPacketRes(packet);
+                case PacketType.GlobalChatRes:
+                    //TestPacketRes(packet);
+                    GlobalChatRes_Handler(packet);
                     break;
 
 
             }
         }
 
-        public void TestPacketRes(Packet packet)
+        /*public void TestPacketRes(Packet packet)
         {
             // 역직렬화해서 원래 데이터로 만든다.
             TestPacketRes notify = Data<TestPacketRes>.Deserialize(packet.m_data);
+        }*/
+
+        void GlobalChatRes_Handler(Packet packet)
+        {
+            //Console.WriteLine(CommonDefine.ToReadableByteArray(packet.m_data));
+            GlobalChatRes res = Data<GlobalChatRes>.Deserialize(packet.m_data);
+            Console.WriteLine(res.chat_message);
         }
     }
 }

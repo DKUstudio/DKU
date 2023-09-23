@@ -101,8 +101,10 @@ namespace DKU_Server.Connections.Tokens
 
         void onMessageCompleted(Packet packet)
         {
-            string str = Encoding.Unicode.GetString(packet.m_data);
-            Console.WriteLine(str);
+            /*string str = Encoding.Unicode.GetString(packet.m_data);
+            Console.WriteLine(str);*/
+
+            NetworkManager.Instance.m_game_packet_handler.ParsePacket(packet);
         }
         #endregion
 

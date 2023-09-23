@@ -9,7 +9,11 @@ namespace DKU_ServerCore
     public static class CommonDefine
     {
         // 
-        public const string IPv4_ADDRESS = "20.127.134.163";
+#if DEBUG
+        public const string IPv4_ADDRESS = "172.30.1.9";
+#else
+        public const string IPv4_ADDRESS = "52.149.182.41";
+#endif
         public const int IP_PORT = 53;
 
         // 패킷에 담는 문자열의 최대 길이
@@ -26,5 +30,10 @@ namespace DKU_ServerCore
         
         // 패킷의 헤더 크기 : 4 byte
         public const int HEADER_SIZE = 4;
+
+        static public string ToReadableByteArray(byte[] bytes)
+        {
+            return string.Join(",", bytes);
+        }
     }
 }

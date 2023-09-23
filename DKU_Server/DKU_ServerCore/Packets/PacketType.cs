@@ -10,7 +10,8 @@ namespace DKU_ServerCore.Packets
     {
         TYPE_NONE = -1,
 
-        TEST_TYPE_1,
+        GlobalChatReq,
+        GlobalChatRes,
 
         PACKET_COUNT
     }

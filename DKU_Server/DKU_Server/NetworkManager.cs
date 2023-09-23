@@ -23,6 +23,13 @@ namespace DKU_Server
             }
         }
 
+        public GamePacketHandler m_game_packet_handler;
+
+        NetworkManager()
+        {
+            m_game_packet_handler = new GamePacketHandler();
+        }
+
         public static short sampleid = 0;
         public Dictionary<short, UserToken> tokens = new Dictionary<short, UserToken>();
 
@@ -44,10 +51,10 @@ namespace DKU_Server
 
 
             // welcome data
-            byte[] data = Encoding.Unicode.GetBytes("Welcome to DKU server...");
+            /*byte[] data = Encoding.Unicode.GetBytes("Welcome to DKU server...");
             Packet packet = new Packet();
             packet.SetData(data, data.Length);
-            token.Send(packet);
+            token.Send(packet);*/
 
             tokens.Add(sampleid++, token);
 

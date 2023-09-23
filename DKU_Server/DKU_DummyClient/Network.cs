@@ -82,10 +82,10 @@ namespace DKU_DummyClient
                 recvThread.Start();
                 //StartRecv();
 
-                byte[] data = Encoding.Unicode.GetBytes("Hello world!");
+                /*byte[] data = Encoding.Unicode.GetBytes("Hello world!");
                 Packet packet = new Packet();
                 packet.SetData(data, data.Length);
-                Send(packet);
+                Send(packet);*/
             }
             else
             {
@@ -176,8 +176,12 @@ namespace DKU_DummyClient
             // 패킷 리스트에 넣는다.
             PushPacket(packet);
 
-            string str = Encoding.Unicode.GetString(packet.m_data);
-            Console.WriteLine(str);
+            // TODO
+            // test
+            m_game_packet_handler.ParsePacket(packet);
+
+            /*string str = Encoding.Unicode.GetString(packet.m_data);
+            Console.WriteLine(str);*/
         }
 
         // 수신한 패킷들을 리스트에 저장해둠.
