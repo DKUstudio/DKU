@@ -14,7 +14,6 @@ namespace DKU_DummyClient
 {
     class Program
     {
-        static Network network;
         static void Main(string[] args)
         {
             Console.WriteLine("============================");
@@ -22,9 +21,7 @@ namespace DKU_DummyClient
             Console.WriteLine("   type \"exit\" to EXIT    ");
             Console.WriteLine("============================");
 
-            network = new Network();
-
-            network.Connect(CommonDefine.IPv4_ADDRESS, CommonDefine.IP_PORT);
+            Network.Instance.Connect(CommonDefine.IPv4_ADDRESS, CommonDefine.IP_PORT);
 
             string id, pw;
 
@@ -63,13 +60,24 @@ namespace DKU_DummyClient
         static void ConsoleJob()
         {
             string txt = Console.ReadLine();
+            if(txt == "exit")
+            {
+                C_LogoutReq outreq = new C_LogoutReq();
+                outreq.uid = Network.Instance.m_user_data.uid;
+                byte[] oserial = outreq.Serialize();
+
+                Packet outpkt = new Packet(PacketType.C_LogoutReq, oserial, oserial.Length);
+                Network.Instance.Send(outpkt);
+                return;
+            }
+
             C_GlobalChatReq req = new C_GlobalChatReq();
-            req.udata = network.m_user_data;
+            req.udata = Network.Instance.m_user_data;
             req.chat_message = txt;
             byte[] serial = req.Serialize();
 
             Packet pkt = new Packet(PacketType.C_GlobalChatReq, serial, serial.Length);
-            network.Send(pkt);
+            Network.Instance.Send(pkt);
         }
         static void Ping()
         {
@@ -82,7 +90,7 @@ namespace DKU_DummyClient
         static void Register(string id, string pw)
         {
             C_RegisterReq req = new C_RegisterReq();
-            req.accept_id = network.m_accept_id;
+            req.accept_id = Network.Instance.m_accept_id;
             req.id = id;
             req.pw = pw;
             req.nickname = id;
@@ -91,13 +99,13 @@ namespace DKU_DummyClient
             Packet pkt = new Packet();
             pkt.SetData(PacketType.C_RegisterReq, serial, serial.Length);
 
-            network.Send(pkt);
+            Network.Instance.Send(pkt);
         }
 
         static void Login(string id, string pw)
         {
             C_LoginReq req = new C_LoginReq();
-            req.accept_id = network.m_accept_id;
+            req.accept_id = Network.Instance.m_accept_id;
             req.id = id;
             req.pw = pw;
             byte[] serial = req.Serialize();
@@ -105,7 +113,7 @@ namespace DKU_DummyClient
             Packet pkt = new Packet();
             pkt.SetData(PacketType.C_LoginReq, serial, serial.Length);
 
-            network.Send(pkt);
+            Network.Instance.Send(pkt);
         }
         #endregion
     }

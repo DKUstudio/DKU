@@ -17,7 +17,7 @@ namespace DKU_Server.Worlds
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = new TheWorld();
                 }
@@ -33,8 +33,9 @@ namespace DKU_Server.Worlds
         }
         public void AddUser(LoginData data)
         {
-            lock(users)
+            lock (users)
             {
+                Console.WriteLine("[Login] " + data.UserData.nickname);
                 users.Add(data.UserData.uid, data);
             }
         }
@@ -43,12 +44,22 @@ namespace DKU_Server.Worlds
         {
             lock (users)
             {
+                Console.WriteLine("[Logout] " + users[id].UserData.nickname);
+                Packet pkt = new Packet();
+                pkt.m_type = (short)PacketType.S_LogoutRes;
+                pkt.SetData(new byte[] { }, 0);
+                users[id].UserToken.Send(pkt);
+
                 users.Remove(id);
             }
         }
 
         public void GlobalChat(C_GlobalChatReq req)
         {
+            // 현재 접속중인 아이디인지 확인하는 절차?
+            if (users.ContainsKey(req.udata.uid) == false)
+                return;
+
             S_GlobalChatRes res = new S_GlobalChatRes();
             res.udata = req.udata;
             res.chat_message = req.chat_message;

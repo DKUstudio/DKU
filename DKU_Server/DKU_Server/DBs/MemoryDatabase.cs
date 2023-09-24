@@ -40,7 +40,6 @@ namespace DKU_Server.DBs
             if(success == false)
                 return null;
 
-            Console.WriteLine($"{id} login");
             return userData.data;
         }
 

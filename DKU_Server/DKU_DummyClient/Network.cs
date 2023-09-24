@@ -14,6 +14,17 @@ namespace DKU_DummyClient
 {
     public class Network
     {
+        private static Network instance;
+        public static Network Instance
+        {
+            get
+            {
+                if(instance == null)
+                    instance = new Network();
+                return instance;
+            }
+        }
+
         Socket m_socket;
 
         SocketAsyncEventArgs m_recv_event_args;
@@ -34,7 +45,7 @@ namespace DKU_DummyClient
             m_message_resolver = new MessageResolver();
 
             // 전송된 패킷을 처리하는 부분이다.
-            m_game_packet_handler = new GamePacketHandler(this);
+            m_game_packet_handler = new GamePacketHandler();
             //m_game_packet_handler.Init(this);
 
             // 메세지를 받을 버퍼를 설정한다. 여기서는 4K.

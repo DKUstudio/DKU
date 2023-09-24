@@ -20,6 +20,7 @@ namespace DKU_ServerCore.Packets
         S_AcceptIdRes,
         S_RegisterRes,
         S_LoginRes,
+        S_LogoutRes,
         S_GlobalChatRes,
 
         PACKET_COUNT

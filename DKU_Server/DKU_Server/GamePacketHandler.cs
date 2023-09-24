@@ -91,22 +91,12 @@ namespace DKU_Server
         {
             C_GlobalChatReq req = Data<C_GlobalChatReq>.Deserialize(packet.m_data);
             TheWorld.Instance.GlobalChat(req);
-/*
-            Console.WriteLine("recved: " + req.chat_message);
-            GlobalChatRes res = new GlobalChatRes();
-            res.chat_message = req.chat_message;
-            byte[] serial = res.Serialize();
-
-            Packet resPkt = new Packet();
-            resPkt.SetData(serial, serial.Length);
-            resPkt.m_type = (int)PacketType.S_GlobalChatRes;*/
-
-            
         }
 
         void C_LogoutReq_Handler(Packet packet)
         {
             C_LogoutReq req = Data<C_LogoutReq>.Deserialize(packet.m_data);
+            TheWorld.Instance.RemoveUser(req.uid);
         }
 
     }

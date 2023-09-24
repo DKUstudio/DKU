@@ -11,13 +11,6 @@ namespace DKU_DummyClient
 {
     public class GamePacketHandler
     {
-        Network m_network;
-
-        public GamePacketHandler(Network network)
-        {
-            this.m_network = network;
-        }
-
         public void ParsePacket(Packet packet)
         {
             switch ((PacketType)packet.m_type)
@@ -34,6 +27,10 @@ namespace DKU_DummyClient
                     S_LoginRes_Handler(packet);
                     break;
 
+                case PacketType.S_LogoutRes:
+                    S_LogoutRes_Handler(packet);
+                    break;
+
                 case PacketType.S_GlobalChatRes:
                     //TestPacketRes(packet);
                     S_GlobalChatRes_Handler(packet);
@@ -46,7 +43,7 @@ namespace DKU_DummyClient
         void S_AcceptIdRes_Handler(Packet packet)
         {
             S_AcceptIdRes res = Data<S_AcceptIdRes>.Deserialize(packet.m_data);
-            m_network.m_accept_id = res.accept_id;
+            Network.Instance.m_accept_id = res.accept_id;
         }
         void S_RegisterRes_Handler(Packet packet)
         {
@@ -70,13 +67,18 @@ namespace DKU_DummyClient
             {
                 // 성공
                 Console.WriteLine("로그인 성공");
-                m_network.m_user_data = res.udata;
+                Network.Instance.m_user_data = res.udata;
             }
             else
             {
                 // 실패
                 Console.WriteLine("로그인 실패");
             }
+        }
+
+        void S_LogoutRes_Handler(Packet packet)
+        {
+            Environment.Exit(0);
         }
 
         void S_GlobalChatRes_Handler(Packet packet)
