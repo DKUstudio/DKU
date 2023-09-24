@@ -14,6 +14,12 @@ namespace DKU_ServerCore.Packets
         // 해당 타입의 직렬화된 데이터
         public byte[] m_data { get; set; }
 
+        public Packet() { }
+        public Packet(PacketType type, byte[] data, int len)
+        {
+            SetData(type, data, len);
+        }
+
         // 클래스를 직렬화한 데이터를 받아옴
         public void SetData(byte[] data, int len)
         {

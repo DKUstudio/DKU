@@ -39,7 +39,7 @@ namespace DKU_Server
             { 
                 Thread.Sleep(1000);
                 //NetworkManager.Instance.TestPing();
-                NetworkManager.Instance.TokensCount();
+                //NetworkManager.Instance.TokensCount();
             }
         }
     }

@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Connections;
 using DKU_Server.Connections.Tokens;
+using DKU_Server.DBs;
+using DKU_Server.Worlds;
 using DKU_ServerCore.Packets;
-using DKU_ServerCore.Packets.var;
+using DKU_ServerCore.Packets.var.server;
 
 namespace DKU_Server
 {
@@ -18,23 +20,34 @@ namespace DKU_Server
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                     instance = new NetworkManager();
                 return instance;
             }
         }
 
+        // db 인터페이스
+        public IDatabaseManager m_database_manager;
+        // 패킷 조립
         public GamePacketHandler m_game_packet_handler;
 
-        NetworkManager()
+        // before login
+        public Dictionary<long, UserToken> m_waiting_list;
+        static long m_accept_id = 0;
+        Stack<long> m_accept_id_pool;
+
+
+        public NetworkManager()
         {
+            m_database_manager = new MemoryDatabase();  // 메모리 저장, 휘발성
             m_game_packet_handler = new GamePacketHandler();
+
+            m_waiting_list = new Dictionary<long, UserToken>();
+            m_accept_id_pool = new Stack<long>();
+
         }
 
-        public static short sampleid = 0;
-        public Dictionary<long, LoginData> tokens = new Dictionary<long, LoginData>();
-
-        public void onNewClient(Socket client_socket, object event_args)
+        public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)
         {
             // UserToken은 유저가 연결되었을 때 해당 유저의 소켓을 저장하고,
             // 메시지를 주고받을 때 사용하는 기능들을 담고 있다.
@@ -50,49 +63,37 @@ namespace DKU_Server
             token.m_socket = client_socket;
             token.StartRecv();
 
+            long gen_id = GenerateAcceptId();
+            m_waiting_list.Add(gen_id, token);
 
-            // welcome data
-            /*byte[] data = Encoding.Unicode.GetBytes("Welcome to DKU server...");
-            Packet packet = new Packet();
-            packet.SetData(data, data.Length);
-            token.Send(packet);*/
+            S_AcceptIdRes res = new S_AcceptIdRes();
+            res.accept_id = gen_id;
+            byte[] serial = res.Serialize();
 
-            long new_client_id = sampleid++;
-            UserData data = new UserData();
-            data.uid = new_client_id;
-
-            UserDataRes userDataRes = new UserDataRes();
-            userDataRes.user_data = data;
-            byte[] udata = userDataRes.Serialize();
-            Packet upacket = new Packet();
-            upacket.SetData(PacketType.UserDataRes, udata, udata.Length);
-            token.Send(upacket);
-
-            LoginData loginData = new LoginData(token, data);
-            tokens.Add(new_client_id, loginData);
-
-            //tokens.Add(sampleid++, token);
-
-            // User객체는 db에서 가져온 데이터를 저장하는 객체이다. 말 그대로 접속한 유저의 정보를 가지고 있다.
-            //UserData user = new UserData(); // 나중에 UserDataPool로 최적화.
-            //user.Init(token);
+            Packet packet = new Packet(PacketType.S_AcceptIdRes, serial, serial.Length);
+            token.Send(packet);
         }
 
-        public void TestPing()
+        long GenerateAcceptId()
         {
-            foreach(var token in tokens)
+            lock (m_accept_id_pool)
             {
-                byte[] data = Encoding.Unicode.GetBytes("test ping...");
-                Packet packet = new Packet();
-                packet.SetData(data, data.Length);
-                //(token.Value as UserToken).Send(packet);
-                token.Value.Token.Send(packet);
+                if (m_accept_id_pool.Count > 0)
+                    return m_accept_id_pool.Pop();
             }
+            return m_accept_id++;
         }
-
-        public void TokensCount()
+        public void ReturnAcceptId(long id)
         {
-            Console.WriteLine("Connected users: " + tokens.Count);
+            lock(m_waiting_list)
+            {
+                if(m_waiting_list.ContainsKey(id))
+                    m_waiting_list.Remove(id);
+            }
+            lock (m_accept_id_pool)
+            {
+                m_accept_id_pool.Push(id);
+            }
         }
     }
 }

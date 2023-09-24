@@ -11,10 +11,16 @@ namespace DKU_ServerCore.Packets
     {
         TYPE_NONE = -1,
 
-        UserDataRes,
-        LogoutReq,
-        GlobalChatReq,
-        GlobalChatRes,
+        C_RegisterReq,
+        C_LoginReq,
+        C_LogoutReq,
+        C_GlobalChatReq,
+
+
+        S_AcceptIdRes,
+        S_RegisterRes,
+        S_LoginRes,
+        S_GlobalChatRes,
 
         PACKET_COUNT
     }

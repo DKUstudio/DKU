@@ -102,7 +102,7 @@ namespace DKU_Server.Connections.Tokens
         {
             /*string str = Encoding.Unicode.GetString(packet.m_data);
             Console.WriteLine(str);*/
-
+            //Console.WriteLine((PacketType)packet.m_type);
             NetworkManager.Instance.m_game_packet_handler.ParsePacket(packet);
         }
         #endregion

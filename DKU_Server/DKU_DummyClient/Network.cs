@@ -22,9 +22,11 @@ namespace DKU_DummyClient
         GamePacketHandler m_game_packet_handler;
         byte[] m_recv_buffer;
 
+        // services
+        public long m_accept_id = -1;
         public UserData m_user_data;
 
-        public void Init()
+        public Network()
         {
             // 받은 byte 배열을 패킷으로 만들어, 리스트에 넣고 GamePacketHandler에서 처리한다.
             m_recv_packet_list = new LinkedList<Packet>();
@@ -73,9 +75,9 @@ namespace DKU_DummyClient
         }
 
         Thread recvThread;
-        void onConnected(object sender, SocketAsyncEventArgs e)
+        void onConnected(object sender, SocketAsyncEventArgs args)
         {
-            if (e.SocketError == SocketError.Success)
+            if (args.SocketError == SocketError.Success)
             {
                 // 연결 성공
                 Console.WriteLine("[Client] Connected to Server!");
@@ -106,8 +108,7 @@ namespace DKU_DummyClient
                 return;
 
             // 네트워크 전송이 빈번해 SocketAsyncEventArgs 객체를 풀로 만들어 쓴다.
-            //SocketAsyncEventArgs send_event_args = SocketAsyncEventArgsPool.Instance.Pop();
-            SocketAsyncEventArgs send_event_args = new SocketAsyncEventArgs();
+            SocketAsyncEventArgs send_event_args = SocketAsyncEventArgsPool.Instance.Pop();
 
             if (send_event_args == null)
             {
@@ -125,12 +126,12 @@ namespace DKU_DummyClient
                 onSendCompleted(null, send_event_args);
         }
 
-        void onSendCompleted(object sender, SocketAsyncEventArgs e)
+        void onSendCompleted(object sender, SocketAsyncEventArgs args)
         {
-            if (e.SocketError == SocketError.Success)
+            if (args.SocketError == SocketError.Success)
             {
                 // 전송 성공
-                Console.WriteLine("[Client] Send to Server Complete.");
+                //Console.WriteLine("[Client] Send to Server Complete.");
             }
             else
             {
@@ -139,8 +140,8 @@ namespace DKU_DummyClient
 
             // 사용했던 SocketAsyncEventArgs를 다시 풀에 넣어준다.
             // 넣기 전에 해당 객체를 초기화 시켜준다.
-            e.Completed -= onSendCompleted;
-            //SocketAsyncEventArgsPool.Instance.Push(e);
+            args.Completed -= onSendCompleted;
+            SocketAsyncEventArgsPool.Instance.Push(args);
         }
         #endregion
 
@@ -155,13 +156,13 @@ namespace DKU_DummyClient
 
         }
 
-        void onRecvCompleted(object sender, SocketAsyncEventArgs e)
+        void onRecvCompleted(object sender, SocketAsyncEventArgs args)
         {
-            if (e.BytesTransferred > 0 && e.SocketError == SocketError.Success)
+            if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
                 // 수신 성공
                 // byte 배열의 데이터를 다시 패킷으로 만들어준다.
-                m_message_resolver.onRecv(e.Buffer, e.Offset, e.BytesTransferred, onMessageCompleted);
+                m_message_resolver.onRecv(args.Buffer, args.Offset, args.BytesTransferred, onMessageCompleted);
 
                 // 새로운 메시지 수신 시작
                 StartRecv();

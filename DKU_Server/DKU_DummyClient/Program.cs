@@ -1,10 +1,14 @@
 ﻿using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var;
+using DKU_ServerCore.Packets.var.client;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DKU_DummyClient
 {
@@ -19,44 +23,90 @@ namespace DKU_DummyClient
             Console.WriteLine("============================");
 
             network = new Network();
-            network.Init();
 
-            //string host = Dns.GetHostName();
-            //IPHostEntry entry = Dns.GetHostEntry(host);
-            //IPAddress ipAddr = entry.AddressList[0];
-            //Console.WriteLine(ipAddr);
-            //network.Connect(ipAddr.ToString(), 7777);
             network.Connect(CommonDefine.IPv4_ADDRESS, CommonDefine.IP_PORT);
 
+            string id, pw;
 
-
-
+            if (args.Length > 0)
+            {
+                id = args[0];
+                pw = args[1];
+            }
+            else
+            {
+                id = method2(8);
+                pw = "1111";
+            }
+            Thread.Sleep(1000);
+            Register(id, pw);
+            Thread.Sleep(1000);
+            Login(id, pw);
+            /*
+                        Task task = new Task(Ping);
+                        task.Start();*/
             while (true)
             {
-                string str = Console.ReadLine();
-                //Console.WriteLine(str);
-                if(str == "exit")
-                {
-                    LogoutReq logoutReq = new LogoutReq();
-                    logoutReq.uid = network.m_user_data.uid;
-                    byte[] bytes = logoutReq.Serialize();
+                ConsoleJob();
 
-                    Packet packet = new Packet();
-                    packet.SetData(PacketType.LogoutReq, bytes, bytes.Length);
-                    network.Send(packet);
-                    break;
-                }
-
-                GlobalChatRes chat = new GlobalChatRes();
-                chat.chat_message = str;
-                byte[] serial = chat.Serialize();
-                //Console.WriteLine(CommonDefine.ToReadableByteArray(serial));
-
-                Packet pkt = new Packet();
-                pkt.SetData(serial, serial.Length);
-                pkt.m_type = (int)PacketType.GlobalChatReq;
-                network.Send(pkt);
             }
         }
+
+        #region console
+        private static Random random = new Random();
+        public static string method2(int length)
+        {
+            const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(characters, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        static void ConsoleJob()
+        {
+            string txt = Console.ReadLine();
+            C_GlobalChatReq req = new C_GlobalChatReq();
+            req.udata = network.m_user_data;
+            req.chat_message = txt;
+            byte[] serial = req.Serialize();
+
+            Packet pkt = new Packet(PacketType.C_GlobalChatReq, serial, serial.Length);
+            network.Send(pkt);
+        }
+        static void Ping()
+        {
+            while (true)
+            {
+
+                Thread.Sleep(1000);
+            }
+        }
+        static void Register(string id, string pw)
+        {
+            C_RegisterReq req = new C_RegisterReq();
+            req.accept_id = network.m_accept_id;
+            req.id = id;
+            req.pw = pw;
+            req.nickname = id;
+            byte[] serial = req.Serialize();
+
+            Packet pkt = new Packet();
+            pkt.SetData(PacketType.C_RegisterReq, serial, serial.Length);
+
+            network.Send(pkt);
+        }
+
+        static void Login(string id, string pw)
+        {
+            C_LoginReq req = new C_LoginReq();
+            req.accept_id = network.m_accept_id;
+            req.id = id;
+            req.pw = pw;
+            byte[] serial = req.Serialize();
+
+            Packet pkt = new Packet();
+            pkt.SetData(PacketType.C_LoginReq, serial, serial.Length);
+
+            network.Send(pkt);
+        }
+        #endregion
     }
 }

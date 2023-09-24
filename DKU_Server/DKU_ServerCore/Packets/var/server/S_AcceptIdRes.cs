@@ -5,13 +5,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_ServerCore.Packets.var
+namespace DKU_ServerCore.Packets.var.server
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
-    public class GlobalChatRes : Data<GlobalChatRes>
+    public class S_AcceptIdRes : Data<S_AcceptIdRes>
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CommonDefine.MAX_PACKET_STRING_LENGTH)]
-        public string chat_message;
+        public long accept_id;
     }
 }

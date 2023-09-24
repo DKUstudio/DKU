@@ -1,6 +1,6 @@
 ﻿using DKU_ServerCore;
 using DKU_ServerCore.Packets;
-using DKU_ServerCore.Packets.var;
+using DKU_ServerCore.Packets.var.server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,44 +18,72 @@ namespace DKU_DummyClient
             this.m_network = network;
         }
 
-        /*public void Init(Network network)
-        {
-            m_network = network;
-        }*/
-
         public void ParsePacket(Packet packet)
         {
             switch ((PacketType)packet.m_type)
             {
-                case PacketType.GlobalChatRes:
-                    //TestPacketRes(packet);
-                    GlobalChatRes_Handler(packet);
+                case PacketType.S_AcceptIdRes:
+                    S_AcceptIdRes_Handler(packet);
                     break;
 
-                case PacketType.UserDataRes:
-                    UserDataRes_Handler(packet);
+                case PacketType.S_RegisterRes:
+                    S_RegisterRes_Handler(packet);
                     break;
+
+                case PacketType.S_LoginRes:
+                    S_LoginRes_Handler(packet);
+                    break;
+
+                case PacketType.S_GlobalChatRes:
+                    //TestPacketRes(packet);
+                    S_GlobalChatRes_Handler(packet);
+                    break;
+
 
             }
         }
 
-        /*public void TestPacketRes(Packet packet)
+        void S_AcceptIdRes_Handler(Packet packet)
         {
-            // 역직렬화해서 원래 데이터로 만든다.
-            TestPacketRes notify = Data<TestPacketRes>.Deserialize(packet.m_data);
-        }*/
-
-        void GlobalChatRes_Handler(Packet packet)
+            S_AcceptIdRes res = Data<S_AcceptIdRes>.Deserialize(packet.m_data);
+            m_network.m_accept_id = res.accept_id;
+        }
+        void S_RegisterRes_Handler(Packet packet)
         {
-            //Console.WriteLine(CommonDefine.ToReadableByteArray(packet.m_data));
-            GlobalChatRes res = Data<GlobalChatRes>.Deserialize(packet.m_data);
-            Console.WriteLine(res.chat_message);
+            S_RegisterRes res = Data<S_RegisterRes>.Deserialize(packet.m_data);
+            if(res.success)
+            {
+                // 성공
+                Console.WriteLine("회원가입 성공");
+            }
+            else
+            {
+                // 실패
+                Console.WriteLine("회원가입 실패");
+            }
         }
 
-        void UserDataRes_Handler(Packet packet)
+        void S_LoginRes_Handler(Packet packet)
         {
-            UserDataRes res = Data<UserDataRes>.Deserialize(packet.m_data);
-            m_network.m_user_data = res.user_data;
+            S_LoginRes res = Data<S_LoginRes>.Deserialize(packet.m_data);
+            if (res.success)
+            {
+                // 성공
+                Console.WriteLine("로그인 성공");
+                m_network.m_user_data = res.udata;
+            }
+            else
+            {
+                // 실패
+                Console.WriteLine("로그인 실패");
+            }
         }
+
+        void S_GlobalChatRes_Handler(Packet packet)
+        {
+            S_GlobalChatRes res = Data<S_GlobalChatRes>.Deserialize(packet.m_data);
+            Console.WriteLine($"[{res.udata.nickname}]: {res.chat_message}");
+        }
+
     }
 }
