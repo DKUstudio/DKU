@@ -17,5 +17,7 @@ namespace DKU_ServerCore.Packets.var.client
         public string id;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CommonDefine.MAX_PACKET_STRING_LENGTH)]
         public string pw;
+
+
     }
 }

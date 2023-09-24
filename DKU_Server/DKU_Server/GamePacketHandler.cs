@@ -58,6 +58,8 @@ namespace DKU_Server
 
         void C_LoginReq_Handler(Packet packet)
         {
+            Console.WriteLine(packet.m_data.Length);
+            Console.WriteLine(CommonDefine.ToReadableByteArray(packet.m_data));
             // 로그인 성공시, 대기 리스트에서 월드방으로 이동
             C_LoginReq req = Data<C_LoginReq>.Deserialize(packet.m_data);
             bool isTrue = NetworkManager.Instance.m_waiting_list.TryGetValue(req.accept_id, out UserToken token);
