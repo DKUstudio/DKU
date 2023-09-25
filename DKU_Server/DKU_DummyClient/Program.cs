@@ -39,9 +39,10 @@ namespace DKU_DummyClient
             Register(id, pw);
             Thread.Sleep(1000);
             Login(id, pw);
-            /*
-                        Task task = new Task(Ping);
-                        task.Start();*/
+
+            //Task task = new Task(Ping);
+            //task.Start();
+
             while (true)
             {
                 ConsoleJob();
@@ -60,7 +61,7 @@ namespace DKU_DummyClient
         static void ConsoleJob()
         {
             string txt = Console.ReadLine();
-            if(txt == "exit")
+            if (txt == "exit")
             {
                 C_LogoutReq outreq = new C_LogoutReq();
                 outreq.uid = Network.Instance.m_user_data.uid;
@@ -83,7 +84,12 @@ namespace DKU_DummyClient
         {
             while (true)
             {
+                C_PingReq req = new C_PingReq();
+                req.send_ms = DateTime.Now.Millisecond;
+                byte[] serial = req.Serialize();
 
+                Packet pkt = new Packet(PacketType.C_PingReq, serial, serial.Length);
+                Network.Instance.Send(pkt);
                 Thread.Sleep(1000);
             }
         }

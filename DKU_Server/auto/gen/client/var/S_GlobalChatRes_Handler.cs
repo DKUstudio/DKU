@@ -1,4 +1,5 @@
 
+using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace DKU_DummyClient.Packets.var
     {
         public static void Method(Packet packet)
         {
-
+            S_GlobalChatRes res = Data<S_GlobalChatRes>.Deserialize(packet.m_data);
+            //TODO
         }
     }
 }

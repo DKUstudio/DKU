@@ -87,6 +87,7 @@ namespace DKU_Server.Packets
         // {0}: type
         public static string Server_Packet_Handler_Handle =
 @"
+using DKU_ServerCore.Packets.var.client;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
@@ -100,7 +101,8 @@ namespace DKU_Server.Packets.var
     {{
         public static void Method(Packet packet)
         {{
-
+            {0} req = Data<{0}>.Deserialize(packet.m_data);
+            //TODO
         }}
     }}
 }}
@@ -137,6 +139,7 @@ namespace DKU_DummyClient.Packets
         // {0}: type
         public static string DummyClient_Packet_Handler_Handle =
 @"
+using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
@@ -150,7 +153,8 @@ namespace DKU_DummyClient.Packets.var
     {{
         public static void Method(Packet packet)
         {{
-
+            {0} res = Data<{0}>.Deserialize(packet.m_data);
+            //TODO
         }}
     }}
 }}

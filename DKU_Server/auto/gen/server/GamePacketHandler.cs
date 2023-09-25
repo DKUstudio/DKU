@@ -35,6 +35,10 @@ namespace DKU_Server.Packets
                     C_LogoutReq_Impl(packet);
                     break;
 
+                case PacketType.C_PingReq:
+                    C_PingReq_Impl(packet);
+                    break;
+
                 case PacketType.C_RegisterReq:
                     C_RegisterReq_Impl(packet);
                     break;
@@ -55,6 +59,11 @@ namespace DKU_Server.Packets
         void C_LogoutReq_Impl(Packet packet)
         {
             C_LogoutReq_Handler.Method(packet);
+        }
+
+        void C_PingReq_Impl(Packet packet)
+        {
+            C_PingReq_Handler.Method(packet);
         }
 
         void C_RegisterReq_Impl(Packet packet)

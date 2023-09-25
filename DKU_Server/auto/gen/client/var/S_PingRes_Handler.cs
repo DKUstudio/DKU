@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DKU_DummyClient.Packets.var
 {
-    public class S_AcceptIdRes_Handler
+    public class S_PingRes_Handler
     {
         public static void Method(Packet packet)
         {
-            S_AcceptIdRes res = Data<S_AcceptIdRes>.Deserialize(packet.m_data);
+            S_PingRes res = Data<S_PingRes>.Deserialize(packet.m_data);
             //TODO
         }
     }

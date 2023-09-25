@@ -15,6 +15,7 @@ namespace DKU_ServerCore.Packets
 		C_GlobalChatReq,
 		C_LoginReq,
 		C_LogoutReq,
+		C_PingReq,
 		C_RegisterReq,
 
 
@@ -22,6 +23,7 @@ namespace DKU_ServerCore.Packets
 		S_GlobalChatRes,
 		S_LoginRes,
 		S_LogoutRes,
+		S_PingRes,
 		S_RegisterRes,
 
         PACKET_COUNT

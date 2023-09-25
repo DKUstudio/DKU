@@ -34,6 +34,10 @@ namespace DKU_DummyClient.Packets
                     S_LogoutRes_Impl(packet);
                     break;
 
+                case PacketType.S_PingRes:
+                    S_PingRes_Impl(packet);
+                    break;
+
                 case PacketType.S_RegisterRes:
                     S_RegisterRes_Impl(packet);
                     break;
@@ -59,6 +63,11 @@ namespace DKU_DummyClient.Packets
         void S_LogoutRes_Impl(Packet packet)
         {
             S_LogoutRes_Handler.Method(packet);
+        }
+
+        void S_PingRes_Impl(Packet packet)
+        {
+            S_PingRes_Handler.Method(packet);
         }
 
         void S_RegisterRes_Impl(Packet packet)
