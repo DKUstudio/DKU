@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DKU_ServerCore", "DKU_Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DKU_DummyClient", "DKU_DummyClient\DKU_DummyClient.csproj", "{5FA13FB8-0149-4FDF-BB9D-F066D3454EB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DKU_PacketGenerator", "DKU_PacketGenerator\DKU_PacketGenerator.csproj", "{2020CC32-DAEB-4E0F-9239-DC72710F0775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DKU_PacketGenerator", "DKU_PacketGenerator\DKU_PacketGenerator.csproj", "{2020CC32-DAEB-4E0F-9239-DC72710F0775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{89EF1088-7580-45E8-A50E-FAA8C7F0AF34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2020CC32-DAEB-4E0F-9239-DC72710F0775} = {89EF1088-7580-45E8-A50E-FAA8C7F0AF34}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A51C7790-F3BD-4AFE-9216-B7FE5410FFFD}

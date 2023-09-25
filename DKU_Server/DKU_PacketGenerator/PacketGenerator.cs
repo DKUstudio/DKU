@@ -9,8 +9,8 @@ namespace DKU_PacketGenerator
 {
     public class PacketGenerator
     {
-        public static string clientSrc = "C:\\Users\\PSG\\Desktop\\DKU\\DKU_Server\\DKU_ServerCore\\Packets\\var\\client\\";
-        public static string serverSrc = "C:\\Users\\PSG\\Desktop\\DKU\\DKU_Server\\DKU_ServerCore\\Packets\\var\\server\\";
+        public static string clientSrc = "../DKU_ServerCore/Packets/var/client";
+        public static string serverSrc = "../DKU_ServerCore/Packets/var/server";
 
         static FileInfo[] c_file_infos;
         static FileInfo[] s_file_infos;
@@ -69,8 +69,8 @@ namespace DKU_PacketGenerator
             string impl_txt = "";
             foreach (string str in c_file_names)
             {
-                case_txt += String.Format(PacketFormat.Server_Packet_Handler_Case, str);
-                impl_txt += String.Format(PacketFormat.Server_Packet_Handler_Func, str);
+                case_txt += String.Format(PacketFormat.Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.Packet_Handler_Func, str);
             }
             string handler_txt = String.Format(PacketFormat.Server_Packet_Handler, case_txt, impl_txt);
             System.IO.File.WriteAllText("./gen/server/GamePacketHandler.cs", handler_txt);
@@ -79,8 +79,78 @@ namespace DKU_PacketGenerator
             // implements
             foreach (string str in c_file_names)
             {
-                string handle_txt = String.Format(PacketFormat.Server_Packet_Handler_Handler, str);
+                string handle_txt = String.Format(PacketFormat.Server_Packet_Handler_Handle, str);
                 System.IO.File.WriteAllText("./gen/server/var/" + str + "_Handler.cs", handle_txt);
+            }
+        }
+
+        public static void Gen_DummyClient_Packets()
+        {
+            System.IO.Directory.CreateDirectory("./gen/client");
+            System.IO.Directory.CreateDirectory("./gen/client/var");
+
+            string case_txt = "";
+            string impl_txt = "";
+            foreach (string str in s_file_names)
+            {
+                case_txt += String.Format(PacketFormat.Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.Packet_Handler_Func, str);
+            }
+            string handler_txt = String.Format(PacketFormat.DummyClient_Packet_Handler, case_txt, impl_txt);
+            System.IO.File.WriteAllText("./gen/client/GamePacketHandler.cs", handler_txt);
+
+            // implements
+            foreach (string str in s_file_names)
+            {
+                string handle_txt = String.Format(PacketFormat.DummyClient_Packet_Handler_Handle, str);
+                System.IO.File.WriteAllText("./gen/client/var/" + str + "_Handler.cs", handle_txt);
+            }
+        }
+
+        public static void Copy()
+        {
+            // packet type force copy
+            string str = System.IO.File.ReadAllText("./gen/PacketType.cs");
+            System.IO.File.WriteAllText("../DKU_ServerCore/Packets/PacketType.cs", str);
+
+            // packet handler force copy (c/s)
+            str = System.IO.File.ReadAllText("./gen/server/GamePacketHandler.cs");
+            System.IO.File.WriteAllText("../DKU_Server/Packets/GamePacketHandler.cs", str);
+
+            str = System.IO.File.ReadAllText("./gen/client/GamePacketHandler.cs");
+            System.IO.File.WriteAllText("../DKU_DummyClient/Packets/GamePacketHandler.cs", str);
+
+            // packet handle no override copy (c/s)
+            FileInfo[] s_infos = new DirectoryInfo("../DKU_Server/Packets/var/").GetFiles();
+            FileInfo[] auto_infos = new DirectoryInfo("./gen/server/var/").GetFiles();
+            HashSet<string> list = new HashSet<string>();
+            foreach (FileInfo info in s_infos)
+            {
+                list.Add(info.Name);
+            }
+            foreach (FileInfo info in auto_infos)
+            {
+                if (list.Contains(info.Name) == false)
+                {
+                    str = System.IO.File.ReadAllText("./gen/server/var/" + info.Name);
+                    System.IO.File.WriteAllText("../DKU_Server/Packets/var/" + info.Name, str);
+                }
+            }
+
+            FileInfo[] c_infos = new DirectoryInfo("../DKU_DummyClient/Packets/var/").GetFiles();
+            auto_infos = new DirectoryInfo("./gen/client/var/").GetFiles();
+            list.Clear();
+            foreach (FileInfo info in c_infos)
+            {
+                list.Add(info.Name);
+            }
+            foreach (FileInfo info in auto_infos)
+            {
+                if (list.Contains(info.Name) == false)
+                {
+                    str = System.IO.File.ReadAllText("./gen/client/var/" + info.Name);
+                    System.IO.File.WriteAllText("../DKU_DummyClient/Packets/var/" + info.Name, str);
+                }
             }
         }
     }

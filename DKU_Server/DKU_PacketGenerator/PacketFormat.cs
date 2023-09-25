@@ -35,14 +35,14 @@ namespace DKU_ServerCore.Packets
 
 
         // {0}: type
-        public static string Server_Packet_Handler_Case =
+        public static string Packet_Handler_Case =
 @"
                 case PacketType.{0}:
                     {0}_Impl(packet);
                     break;
 ";
         // {0}: type
-        public static string Server_Packet_Handler_Func =
+        public static string Packet_Handler_Func =
 @"
         void {0}_Impl(Packet packet)
         {{
@@ -85,7 +85,7 @@ namespace DKU_Server.Packets
 ";
 
         // {0}: type
-        public static string Server_Packet_Handler_Handler =
+        public static string Server_Packet_Handler_Handle =
 @"
 using DKU_ServerCore.Packets;
 using System;
@@ -105,5 +105,56 @@ namespace DKU_Server.Packets.var
     }}
 }}
 ";
+        // {0}: case
+        // {1}: impl
+        public static string DummyClient_Packet_Handler =
+    @"
+using DKU_DummyClient.Packets.var;
+using DKU_ServerCore;
+using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var.server;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DKU_DummyClient.Packets
+{{
+    public class GamePacketHandler
+    {{
+        public void ParsePacket(Packet packet)
+        {{
+            switch ((PacketType)packet.m_type)
+            {{
+{0}
+            }}
+        }}
+{1}
+    }}
+}}
+";
+        // {0}: type
+        public static string DummyClient_Packet_Handler_Handle =
+@"
+using DKU_ServerCore.Packets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DKU_DummyClient.Packets.var
+{{
+    public class {0}_Handler
+    {{
+        public static void Method(Packet packet)
+        {{
+
+        }}
+    }}
+}}
+";
     }
+
 }

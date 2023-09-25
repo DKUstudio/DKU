@@ -6,5 +6,7 @@ class Program
     {
         PacketGenerator.Gen_ServerCore_PacketType();
         PacketGenerator.Gen_Server_Packets();
+        PacketGenerator.Gen_DummyClient_Packets();
+        PacketGenerator.Copy();
     }
 }

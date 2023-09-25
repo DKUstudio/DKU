@@ -23,7 +23,6 @@ namespace DKU_ServerCore.Packets
 		S_LoginRes,
 		S_LogoutRes,
 		S_RegisterRes,
-		S__Handler,
 
         PACKET_COUNT
     }

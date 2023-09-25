@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DKU_DummyClient.Packets;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var;
