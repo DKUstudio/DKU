@@ -6,7 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Packets\NewFolder\**" />
+    <EmbeddedResource Remove="Packets\NewFolder\**" />
+    <None Remove="Packets\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DKU_ServerCore\DKU_ServerCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Packets\var\" />
   </ItemGroup>
 
 </Project>
