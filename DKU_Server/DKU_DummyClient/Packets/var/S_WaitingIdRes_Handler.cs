@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DKU_DummyClient.Packets.var
 {
-    public class S_AcceptIdRes_Handler
+    public class S_WaitingIdRes_Handler
     {
         public static void Method(Packet packet)
         {
-            S_AcceptIdRes res = Data<S_AcceptIdRes>.Deserialize(packet.m_data);
-            //TODO
+            S_WaitingIdRes res = Data<S_WaitingIdRes>.Deserialize(packet.m_data);
+            Network.Instance.m_accept_id = res.waiting_id;
         }
     }
 }

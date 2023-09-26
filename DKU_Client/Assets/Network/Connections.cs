@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class Connections : MonoBehaviour
 {
@@ -16,17 +18,23 @@ public class Connections : MonoBehaviour
     MessageResolver m_message_resolver;
     GamePacketHandler m_game_packet_handler;
 
-    Action<bool> on_connection_completed;
+    public Action<bool> on_connection_completed;
+
+    private bool connected = false;
+    public bool Connected => connected;
+
+    [Sirenix.OdinInspector.ReadOnly]
+    public long accept_id;
+    [Sirenix.OdinInspector.ReadOnly]
+    public UserData udata;
 
     private void Update()
     {
         ProcessPackets();
     }
 
-    public void Init(Action<bool> complete_action)
+    public void Init()
     {
-        on_connection_completed = complete_action;
-
         m_recv_args = new SocketAsyncEventArgs();
         m_recv_args.Completed += onRecvCompleted;
         m_recv_args.UserToken = this;
@@ -77,13 +85,17 @@ public class Connections : MonoBehaviour
     {
         if (args.SocketError == SocketError.Success)
         {
+            Debug.Log("[Connections] Server connected");
+            connected = true;
             StartRecv();
             on_connection_completed.Invoke(true);
         }
         else
         {
+            Debug.Log("[Connections] Retry connection...");
             on_connection_completed.Invoke(false);
-            Connect();
+            if (m_socket != null)
+                Connect();
         }
     }
     #endregion
@@ -152,4 +164,9 @@ public class Connections : MonoBehaviour
         SocketAsyncEventArgsPool.Instance.Push(args);
     }
     #endregion
+
+    private void OnApplicationQuit()
+    {
+        m_socket = null;
+    }
 }

@@ -8,8 +8,8 @@ namespace DKU_ServerCore
 {
     public static class CommonDefine
     {
-        // 
-#if DEBUG
+        //
+#if !RELEASE
         public const string IPv4_ADDRESS = "172.30.1.9";
 #else
         public const string IPv4_ADDRESS = "52.149.182.41";

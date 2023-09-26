@@ -15,10 +15,6 @@ public class GamePacketHandler
         switch ((PacketType)packet.m_type)
         {
 
-            case PacketType.S_AcceptIdRes:
-                S_AcceptIdRes_Impl(packet);
-                break;
-
             case PacketType.S_GlobalChatRes:
                 S_GlobalChatRes_Impl(packet);
                 break;
@@ -39,12 +35,11 @@ public class GamePacketHandler
                 S_RegisterRes_Impl(packet);
                 break;
 
-        }
-    }
+            case PacketType.S_WaitingIdRes:
+                S_WaitingIdRes_Impl(packet);
+                break;
 
-    void S_AcceptIdRes_Impl(Packet packet)
-    {
-        S_AcceptIdRes_Handler.Method(packet);
+        }
     }
 
     void S_GlobalChatRes_Impl(Packet packet)
@@ -70,6 +65,11 @@ public class GamePacketHandler
     void S_RegisterRes_Impl(Packet packet)
     {
         S_RegisterRes_Handler.Method(packet);
+    }
+
+    void S_WaitingIdRes_Impl(Packet packet)
+    {
+        S_WaitingIdRes_Handler.Method(packet);
     }
 
 }

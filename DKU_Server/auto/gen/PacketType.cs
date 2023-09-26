@@ -19,12 +19,12 @@ namespace DKU_ServerCore.Packets
 		C_RegisterReq,
 
 
-		S_AcceptIdRes,
 		S_GlobalChatRes,
 		S_LoginRes,
 		S_LogoutRes,
 		S_PingRes,
 		S_RegisterRes,
+		S_WaitingIdRes,
 
         PACKET_COUNT
     }

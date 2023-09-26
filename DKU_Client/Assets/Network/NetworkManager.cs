@@ -8,43 +8,25 @@ using Sirenix.OdinInspector;
 public class NetworkManager : MonoBehaviour
 {
     private static NetworkManager instance;
-    public static NetworkManager Instance
-    {
-        get
-        {
-            if (instance == null)
-                instance = new NetworkManager();
-            return instance;
-        }
-    }
+    public static NetworkManager Instance => instance;
 
-    [ShowInInspector]
     private Connections connections;
     public Connections Connections => connections;
 
-    [ShowInInspector]
-    private MemberService memberService;
-    public MemberService MemberService => memberService;
+    // private MemberService memberService;
+    // public MemberService MemberService => memberService;
+
+    // private ChatService chatService;
+    // public ChatService ChatService => chatService;
 
     private void Awake()
     {
-        connections = new Connections();
-        memberService = new MemberService();
+        instance = this;
 
-        Init();
-    }
+        connections = GetComponent<Connections>();
 
-    void Init()
-    {
-        connections.Init(onConnectionCompleted);
+        connections.Init();
         connections.Connect();
     }
 
-    void onConnectionCompleted(bool val)
-    {
-        if (val == false)
-        {
-            Debug.Log("[Connections] Server Connection Failed...");
-        }
-    }
 }

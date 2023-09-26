@@ -7,12 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class S_LoginRes_Handler
+public class S_WaitingIdRes_Handler
 {
     public static void Method(Packet packet)
     {
-        S_LoginRes res = Data<S_LoginRes>.Deserialize(packet.m_data);
+        S_WaitingIdRes res = Data<S_WaitingIdRes>.Deserialize(packet.m_data);
         //TODO
-        NetworkManager.Instance.Connections.udata = res.udata;
     }
 }

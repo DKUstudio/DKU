@@ -34,8 +34,8 @@ namespace DKU_Server
 
         // before login
         public Dictionary<long, UserToken> m_waiting_list;
-        static long m_accept_id = 0;
-        Stack<long> m_accept_id_pool;
+        static long m_waiting_id = 0;
+        Stack<long> m_waiting_id_pool;
 
 
         public NetworkManager()
@@ -44,7 +44,7 @@ namespace DKU_Server
             m_game_packet_handler = new GamePacketHandler();
 
             m_waiting_list = new Dictionary<long, UserToken>();
-            m_accept_id_pool = new Stack<long>();
+            m_waiting_id_pool = new Stack<long>();
 
         }
 
@@ -67,33 +67,33 @@ namespace DKU_Server
             long gen_id = GenerateAcceptId();
             m_waiting_list.Add(gen_id, token);
 
-            S_AcceptIdRes res = new S_AcceptIdRes();
-            res.accept_id = gen_id;
+            S_WaitingIdRes res = new S_WaitingIdRes();
+            res.waiting_id = gen_id;
             byte[] serial = res.Serialize();
 
-            Packet packet = new Packet(PacketType.S_AcceptIdRes, serial, serial.Length);
+            Packet packet = new Packet(PacketType.S_WaitingIdRes, serial, serial.Length);
             token.Send(packet);
         }
 
         long GenerateAcceptId()
         {
-            lock (m_accept_id_pool)
+            lock (m_waiting_id_pool)
             {
-                if (m_accept_id_pool.Count > 0)
-                    return m_accept_id_pool.Pop();
+                if (m_waiting_id_pool.Count > 0)
+                    return m_waiting_id_pool.Pop();
             }
-            return m_accept_id++;
+            return m_waiting_id++;
         }
-        public void ReturnAcceptId(long id)
+        public void ReturnWaitingId(long id)
         {
             lock(m_waiting_list)
             {
                 if(m_waiting_list.ContainsKey(id))
                     m_waiting_list.Remove(id);
             }
-            lock (m_accept_id_pool)
+            lock (m_waiting_id_pool)
             {
-                m_accept_id_pool.Push(id);
+                m_waiting_id_pool.Push(id);
             }
         }
     }

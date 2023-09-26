@@ -19,6 +19,7 @@ namespace DKU_Server.Packets.var
         {
             // 로그인 성공시, 대기 리스트에서 월드방으로 이동
             C_LoginReq req = Data<C_LoginReq>.Deserialize(packet.m_data);
+            Console.WriteLine(req.accept_id + " login req");
             bool isTrue = NetworkManager.Instance.m_waiting_list.TryGetValue(req.accept_id, out UserToken token);
             if (isTrue == false)
                 return;
@@ -32,7 +33,7 @@ namespace DKU_Server.Packets.var
                 res.udata = udata;
 
                 LoginData ldata = new LoginData(token, udata);
-                NetworkManager.Instance.ReturnAcceptId(req.accept_id);
+                NetworkManager.Instance.ReturnWaitingId(req.accept_id);
                 TheWorld.Instance.AddUser(ldata);
             }
             else

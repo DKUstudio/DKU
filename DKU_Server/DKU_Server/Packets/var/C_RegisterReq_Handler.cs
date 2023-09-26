@@ -16,6 +16,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_RegisterReq req = Data<C_RegisterReq>.Deserialize(packet.m_data);
+            Console.WriteLine(req.accept_id + " register req");
             bool isTrue = NetworkManager.Instance.m_waiting_list.TryGetValue(req.accept_id, out UserToken token);
             if (isTrue == false)
                 return;
