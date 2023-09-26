@@ -159,6 +159,69 @@ namespace DKU_DummyClient.Packets.var
     }}
 }}
 ";
+        // {0}: case
+        // {1}: impl
+        public static string unity_Packet_Handler =
+    @"
+using DKU_ServerCore;
+using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var.server;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class GamePacketHandler
+{{
+    public void ParsePacket(Packet packet)
+    {{
+        switch ((PacketType)packet.m_type)
+        {{
+{0}
+        }}
+    }}
+{1}
+}}
+";
+        // {0}: type
+        public static string unity_Packet_Handler_Handle =
+@"
+using DKU_ServerCore.Packets.var.server;
+using DKU_ServerCore.Packets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public class {0}_Handler
+{{
+    public static void Method(Packet packet)
+    {{
+        {0} res = Data<{0}>.Deserialize(packet.m_data);
+        //TODO
+    }}
+}}
+";
+        // {0}: type
+        public static string unity_Packet_Handler_Case =
+@"
+            case PacketType.{0}:
+                {0}_Impl(packet);
+                break;
+";
+        // {0}: type
+        public static string unity_Packet_Handler_Func =
+@"
+    void {0}_Impl(Packet packet)
+    {{
+        {0}_Handler.Method(packet);
+    }}
+";
     }
+
+
+
 
 }

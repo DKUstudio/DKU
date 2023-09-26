@@ -107,6 +107,29 @@ namespace DKU_PacketGenerator
             }
         }
 
+        public static void Gen_Unity_Packets()
+        {
+            System.IO.Directory.CreateDirectory("./gen/unity");
+            System.IO.Directory.CreateDirectory("./gen/unity/var");
+
+            string case_txt = "";
+            string impl_txt = "";
+            foreach (string str in s_file_names)
+            {
+                case_txt += String.Format(PacketFormat.unity_Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.unity_Packet_Handler_Func, str);
+            }
+            string handler_txt = String.Format(PacketFormat.unity_Packet_Handler, case_txt, impl_txt);
+            System.IO.File.WriteAllText("./gen/unity/GamePacketHandler.cs", handler_txt);
+
+            // implements
+            foreach (string str in s_file_names)
+            {
+                string handle_txt = String.Format(PacketFormat.unity_Packet_Handler_Handle, str);
+                System.IO.File.WriteAllText("./gen/unity/var/" + str + "_Handler.cs", handle_txt);
+            }
+        }
+
         public static void Copy()
         {
             // packet type force copy
@@ -119,6 +142,9 @@ namespace DKU_PacketGenerator
 
             str = System.IO.File.ReadAllText("./gen/client/GamePacketHandler.cs");
             System.IO.File.WriteAllText("../DKU_DummyClient/Packets/GamePacketHandler.cs", str);
+
+            str = System.IO.File.ReadAllText("./gen/unity/GamePacketHandler.cs");
+            System.IO.File.WriteAllText("../../DKU_Client/Assets/Network/GamePacketHandler.cs", str);
 
             // packet handle no override copy (c/s)
             FileInfo[] s_infos = new DirectoryInfo("../DKU_Server/Packets/var/").GetFiles();
@@ -150,6 +176,23 @@ namespace DKU_PacketGenerator
                 {
                     str = System.IO.File.ReadAllText("./gen/client/var/" + info.Name);
                     System.IO.File.WriteAllText("../DKU_DummyClient/Packets/var/" + info.Name, str);
+                }
+            }
+
+
+            FileInfo[] u_infos = new DirectoryInfo("../../DKU_Client/Assets/Network/var/").GetFiles();
+            auto_infos = new DirectoryInfo("./gen/unity/var/").GetFiles();
+            list.Clear();
+            foreach (FileInfo info in u_infos)
+            {
+                list.Add(info.Name);
+            }
+            foreach (FileInfo info in auto_infos)
+            {
+                if (list.Contains(info.Name) == false)
+                {
+                    str = System.IO.File.ReadAllText("./gen/unity/var/" + info.Name);
+                    System.IO.File.WriteAllText("../../DKU_Client/Assets/Network/var/" + info.Name, str);
                 }
             }
         }
