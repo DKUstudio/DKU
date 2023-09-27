@@ -17,6 +17,7 @@ namespace DKU_Server.Packets.var
             if(NetworkManager.Instance.m_waiting_list.ContainsKey(req.waiting_id))
             {
                 NetworkManager.Instance.m_waiting_list.Remove(req.waiting_id);
+                NetworkManager.Instance.ReturnWaitingId(req.waiting_id);
             }
         }
     }

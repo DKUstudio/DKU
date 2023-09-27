@@ -24,7 +24,7 @@ public class MemberService : MonoBehaviour
     [ShowInInspector]
     public static void Login_Request(string id, string pw)
     {
-        if (NetworkManager.Instance.Connections.logged_in)
+        if (NetworkManager.Instance.Connections.logged_in == true)
         {
             Debug.Log("[Login_Request] Already Logged in...");
             return;
@@ -54,7 +54,6 @@ public class MemberService : MonoBehaviour
         Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(packet);
 
-        NetworkManager.Instance.Connections.logged_in = false;
-        NetworkManager.Instance.Connections.udata = null;
+        NetworkManager.Instance.Connections.SetLogin(false, null);
     }
 }

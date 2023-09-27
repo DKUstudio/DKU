@@ -103,7 +103,6 @@ public class Connections : MonoBehaviour
     }
     #endregion
 
-
     #region recv
     void StartRecv()
     {
@@ -180,10 +179,22 @@ public class Connections : MonoBehaviour
     }
     #endregion
 
+    public void SetWaiting(bool v_is_waiting, long v_waiting_id)
+    {
+        is_waiting = v_is_waiting;
+        waiting_id = v_is_waiting ? v_waiting_id : -1;
+    }
+
+    public void SetLogin(bool v_logged_in, UserData v_udata)
+    {
+        logged_in = v_logged_in;
+        udata = v_logged_in ? v_udata : null;
+    }
+
     private void OnApplicationQuit()
     {
         // 자동 로그아웃 및 대기열 탈출
-        if (logged_in)
+        if (logged_in == true)
         {
             C_LogoutReq req = new C_LogoutReq();
             req.uid = udata.uid;

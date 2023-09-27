@@ -11,9 +11,8 @@ public class S_LoginRes_Handler
         if (res.success)
         {
             Debug.Log("[S_LoginRes_Handler] Login Success");
-            NetworkManager.Instance.Connections.is_waiting = false;
-            NetworkManager.Instance.Connections.logged_in = true;
-            NetworkManager.Instance.Connections.udata = res.udata;
+            NetworkManager.Instance.Connections.SetWaiting(false, -1);
+            NetworkManager.Instance.Connections.SetLogin(true, res.udata);
         }
         else
         {
