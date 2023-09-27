@@ -9,6 +9,7 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using DKU_ServerCore.Packets.var.client;
 
 public class Connections : MonoBehaviour
 {
@@ -23,8 +24,10 @@ public class Connections : MonoBehaviour
     private bool connected = false;
     public bool Connected => connected;
 
+    public bool is_waiting = false;
     [Sirenix.OdinInspector.ReadOnly]
-    public long accept_id;
+    public long waiting_id;
+    public bool logged_in = false;
     [Sirenix.OdinInspector.ReadOnly]
     public UserData udata;
 
@@ -150,6 +153,18 @@ public class Connections : MonoBehaviour
         if (!pending)
             onSendCompleted(null, send_args);
     }
+
+    public void Send_Async(Packet packet)
+    {
+        if (m_socket == null || m_socket.Connected == false)
+            return;
+        SocketAsyncEventArgs send_args = SocketAsyncEventArgsPool.Instance.Pop();
+
+        byte[] send_data = packet.GetSendBytes();
+        send_args.SetBuffer(send_data, 0, send_data.Length);
+
+        m_socket.Send(send_data);
+    }
     void onSendCompleted(object sender, SocketAsyncEventArgs args)
     {
         if (args.SocketError == SocketError.Success)
@@ -167,6 +182,27 @@ public class Connections : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        // 자동 로그아웃 및 대기열 탈출
+        if (logged_in)
+        {
+            C_LogoutReq req = new C_LogoutReq();
+            req.uid = udata.uid;
+
+            byte[] body = req.Serialize();
+            Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
+            Send_Async(packet);
+        }
+
+        if (is_waiting)
+        {
+            C_StopWaitingReq req = new C_StopWaitingReq();
+            req.waiting_id = NetworkManager.Instance.Connections.waiting_id;
+            byte[] body = req.Serialize();
+
+            Packet packet = new Packet(PacketType.C_StopWaitingReq, body, body.Length);
+            NetworkManager.Instance.Connections.Send(packet);
+        }
+
         m_socket = null;
     }
 }

@@ -43,6 +43,10 @@ namespace DKU_Server.Packets
                     C_RegisterReq_Impl(packet);
                     break;
 
+                case PacketType.C_StopWaitingReq:
+                    C_StopWaitingReq_Impl(packet);
+                    break;
+
             }
         }
 
@@ -69,6 +73,11 @@ namespace DKU_Server.Packets
         void C_RegisterReq_Impl(Packet packet)
         {
             C_RegisterReq_Handler.Method(packet);
+        }
+
+        void C_StopWaitingReq_Impl(Packet packet)
+        {
+            C_StopWaitingReq_Handler.Method(packet);
         }
 
     }

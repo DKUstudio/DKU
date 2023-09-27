@@ -96,7 +96,7 @@ namespace DKU_DummyClient
         static void Register(string id, string pw)
         {
             C_RegisterReq req = new C_RegisterReq();
-            req.accept_id = Network.Instance.m_accept_id;
+            req.waiting_id = Network.Instance.m_accept_id;
             req.id = id;
             req.pw = pw;
             req.nickname = id;

@@ -64,7 +64,7 @@ namespace DKU_Server
             token.m_socket = client_socket;
             token.StartRecv();
 
-            long gen_id = GenerateAcceptId();
+            long gen_id = GetWaitingId();
             m_waiting_list.Add(gen_id, token);
 
             S_WaitingIdRes res = new S_WaitingIdRes();
@@ -75,7 +75,7 @@ namespace DKU_Server
             token.Send(packet);
         }
 
-        long GenerateAcceptId()
+        public long GetWaitingId()
         {
             lock (m_waiting_id_pool)
             {

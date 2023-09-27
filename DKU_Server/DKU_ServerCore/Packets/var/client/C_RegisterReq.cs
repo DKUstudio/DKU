@@ -11,7 +11,7 @@ namespace DKU_ServerCore.Packets.var.client
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
     public class C_RegisterReq : Data<C_RegisterReq>
     {
-        public long accept_id;
+        public long waiting_id;
 
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CommonDefine.MAX_PACKET_STRING_LENGTH)]
         public string id;

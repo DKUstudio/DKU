@@ -44,13 +44,15 @@ namespace DKU_Server.Worlds
         {
             lock (users)
             {
-                Console.WriteLine("[Logout] " + users[id].UserData.nickname);
-                Packet pkt = new Packet();
+                /*Packet pkt = new Packet();
                 pkt.m_type = (short)PacketType.S_LogoutRes;
                 pkt.SetData(new byte[] { }, 0);
-                users[id].UserToken.Send(pkt);
-
-                users.Remove(id);
+                users[id].UserToken.Send(pkt);*/
+                if (users.ContainsKey(id))
+                {
+                    Console.WriteLine("[Logout] " + users[id].UserData.nickname);
+                    users.Remove(id);
+                }
             }
         }
 

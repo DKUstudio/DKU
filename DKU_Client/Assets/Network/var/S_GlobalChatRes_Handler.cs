@@ -12,10 +12,7 @@ public class S_GlobalChatRes_Handler
 {
     public static void Method(Packet packet)
     {
-        UnityEngine.Debug.Log("chat");
-
         S_GlobalChatRes res = Data<S_GlobalChatRes>.Deserialize(packet.m_data);
-        //TODO
-        UnityEngine.Debug.Log(res.chat_message);
+        UnityEngine.Debug.Log("[S_GlobalChatRes_Handler]" + "[" + res.udata.nickname + "] " + res.chat_message);
     }
 }

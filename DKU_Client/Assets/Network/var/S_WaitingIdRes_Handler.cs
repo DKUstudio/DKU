@@ -12,6 +12,7 @@ public class S_WaitingIdRes_Handler
     public static void Method(Packet packet)
     {
         S_WaitingIdRes res = Data<S_WaitingIdRes>.Deserialize(packet.m_data);
-        //TODO
+        NetworkManager.Instance.Connections.is_waiting = true;
+        NetworkManager.Instance.Connections.waiting_id = res.waiting_id;
     }
 }

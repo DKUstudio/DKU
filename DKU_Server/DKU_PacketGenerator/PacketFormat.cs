@@ -102,7 +102,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {{
             {0} req = Data<{0}>.Deserialize(packet.m_data);
-            //TODO
+
         }}
     }}
 }}
@@ -154,7 +154,7 @@ namespace DKU_DummyClient.Packets.var
         public static void Method(Packet packet)
         {{
             {0} res = Data<{0}>.Deserialize(packet.m_data);
-            //TODO
+
         }}
     }}
 }}
@@ -189,18 +189,14 @@ public class GamePacketHandler
 @"
 using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 public class {0}_Handler
 {{
     public static void Method(Packet packet)
     {{
         {0} res = Data<{0}>.Deserialize(packet.m_data);
-        //TODO
+
     }}
 }}
 ";
