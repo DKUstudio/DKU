@@ -34,7 +34,7 @@ namespace DKU_Server.Packets.var
 
                 LoginData ldata = new LoginData(token, udata);
                 NetworkManager.Instance.ReturnWaitingId(req.accept_id);
-                TheWorld.Instance.AddUser(ldata);
+                TheWorld.Instance.LoginUser(ldata);
             }
             else
             {

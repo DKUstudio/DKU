@@ -7,17 +7,18 @@ using UnityEngine;
 
 public class ChatService : MonoBehaviour
 {
-    [ShowInInspector]
-    public static void GlobalChat(string message)
-    {
-        if (NetworkManager.Instance.Connections.logged_in == false)
-            return;
-        C_GlobalChatReq req = new C_GlobalChatReq();
-        req.chat_message = message;
-        req.udata = NetworkManager.Instance.Connections.udata;
-        byte[] body = req.Serialize();
+    // [ShowInInspector]
+    // public static void GlobalChat(string message)
+    // {
+    //     if (NetworkManager.Instance.Connections.logged_in == false)
+    //         return;
+    //     C_GlobalChatReq req = new C_GlobalChatReq();
+    //     // TODO
+    //     // req.chat_message = message;
+    //     // req.udata = NetworkManager.Instance.Connections.udata;
+    //     byte[] body = req.Serialize();
 
-        Packet packet = new Packet(PacketType.C_GlobalChatReq, body, body.Length);
-        NetworkManager.Instance.Connections.Send(packet);
-    }
+    //     // Packet packet = new Packet(PacketType.C_GlobalChatReq, body, body.Length);
+    //     // NetworkManager.Instance.Connections.Send(packet);
+    // }
 }

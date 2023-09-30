@@ -15,10 +15,6 @@ public class GamePacketHandler
         switch ((PacketType)packet.m_type)
         {
 
-            case PacketType.S_GlobalChatRes:
-                S_GlobalChatRes_Impl(packet);
-                break;
-
             case PacketType.S_LoginRes:
                 S_LoginRes_Impl(packet);
                 break;
@@ -40,11 +36,6 @@ public class GamePacketHandler
                 break;
 
         }
-    }
-
-    void S_GlobalChatRes_Impl(Packet packet)
-    {
-        S_GlobalChatRes_Handler.Method(packet);
     }
 
     void S_LoginRes_Impl(Packet packet)

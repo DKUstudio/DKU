@@ -18,10 +18,6 @@ namespace DKU_DummyClient.Packets
             switch ((PacketType)packet.m_type)
             {
 
-                case PacketType.S_GlobalChatRes:
-                    S_GlobalChatRes_Impl(packet);
-                    break;
-
                 case PacketType.S_LoginRes:
                     S_LoginRes_Impl(packet);
                     break;
@@ -43,11 +39,6 @@ namespace DKU_DummyClient.Packets
                     break;
 
             }
-        }
-
-        void S_GlobalChatRes_Impl(Packet packet)
-        {
-            S_GlobalChatRes_Handler.Method(packet);
         }
 
         void S_LoginRes_Impl(Packet packet)

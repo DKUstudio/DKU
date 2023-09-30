@@ -72,13 +72,14 @@ namespace DKU_DummyClient
                 return;
             }
 
-            C_GlobalChatReq req = new C_GlobalChatReq();
+            // TODO 새로운 챗 시스템 작업
+            /*C_GlobalChatReq req = new C_GlobalChatReq();
             req.udata = Network.Instance.m_user_data;
             req.chat_message = txt;
             byte[] serial = req.Serialize();
 
             Packet pkt = new Packet(PacketType.C_GlobalChatReq, serial, serial.Length);
-            Network.Instance.Send(pkt);
+            Network.Instance.Send(pkt);*/
         }
         static void Ping()
         {

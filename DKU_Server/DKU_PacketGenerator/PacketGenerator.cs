@@ -146,7 +146,7 @@ namespace DKU_PacketGenerator
             str = System.IO.File.ReadAllText("./gen/unity/GamePacketHandler.cs");
             System.IO.File.WriteAllText("../../DKU_Client/Assets/Network/GamePacketHandler.cs", str);
 
-            // packet handle no override copy (c/s)
+            // packet handle copy... no override (c/s)
             FileInfo[] s_infos = new DirectoryInfo("../DKU_Server/Packets/var/").GetFiles();
             FileInfo[] auto_infos = new DirectoryInfo("./gen/server/var/").GetFiles();
             HashSet<string> list = new HashSet<string>();

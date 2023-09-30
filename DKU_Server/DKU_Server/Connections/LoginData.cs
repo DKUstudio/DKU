@@ -16,6 +16,8 @@ namespace DKU_Server.Connections
         public UserToken UserToken => token;
         public UserData UserData => data;
 
+        public int world_block_number;  // 현재 위치한 월드타입 인덱스
+
         public LoginData() { }
         public LoginData(UserToken token, UserData data)
         {

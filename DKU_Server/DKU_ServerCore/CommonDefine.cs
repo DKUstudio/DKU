@@ -10,7 +10,7 @@ namespace DKU_ServerCore
     {
         //
 #if !RELEASE
-        public const string IPv4_ADDRESS = "172.30.1.9";
+        public const string IPv4_ADDRESS = "172.30.1.47";
 #else
         public const string IPv4_ADDRESS = "172.190.38.29";
 #endif

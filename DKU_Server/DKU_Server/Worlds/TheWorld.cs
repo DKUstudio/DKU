@@ -31,11 +31,13 @@ namespace DKU_Server.Worlds
         {
             users = new Dictionary<long, LoginData>();
         }
-        public void AddUser(LoginData data)
+
+        public void LoginUser(LoginData data)
         {
             lock (users)
             {
                 Console.WriteLine("[Login] " + data.UserData.nickname);
+                data.world_block_number = (int)WorldBlockType.Dankook_University;   // 시작은 학교배경
                 users.Add(data.UserData.uid, data);
             }
         }
@@ -44,35 +46,23 @@ namespace DKU_Server.Worlds
         {
             lock (users)
             {
-                /*Packet pkt = new Packet();
-                pkt.m_type = (short)PacketType.S_LogoutRes;
-                pkt.SetData(new byte[] { }, 0);
-                users[id].UserToken.Send(pkt);*/
                 if (users.ContainsKey(id))
                 {
                     Console.WriteLine("[Logout] " + users[id].UserData.nickname);
+                    // TODO 소속되어 있던 월드 블록에 등록된 uid 지우는 절차 필요
                     users.Remove(id);
                 }
             }
         }
 
-        public void GlobalChat(C_GlobalChatReq req)
+        /// <summary>
+        /// 특정 유저에게 귓속말
+        /// </summary>
+        /// <param name="v_msg">메시지</param>
+        /// <param name="v_udata">발신자</param>
+        public void ShootWhisperChat(string v_msg, UserData v_udata)
         {
-            // 현재 접속중인 아이디인지 확인하는 절차?
-            if (users.ContainsKey(req.udata.uid) == false)
-                return;
 
-            S_GlobalChatRes res = new S_GlobalChatRes();
-            res.udata = req.udata;
-            res.chat_message = req.chat_message;
-            byte[] serial = res.Serialize();
-
-            Packet pkt = new Packet(PacketType.S_GlobalChatRes, serial, serial.Length);
-
-            foreach (var user in users)
-            {
-                user.Value.UserToken.Send(pkt);
-            }
         }
     }
 }

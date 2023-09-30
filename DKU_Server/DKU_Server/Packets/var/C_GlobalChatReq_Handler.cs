@@ -1,7 +1,6 @@
 
-using DKU_Server.Worlds;
-using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_GlobalChatReq req = Data<C_GlobalChatReq>.Deserialize(packet.m_data);
-            TheWorld.Instance.GlobalChat(req);
+            //TODO
         }
     }
 }
