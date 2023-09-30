@@ -44,20 +44,24 @@ namespace DKU_Server.Worlds
             lock (users)
             {
                 Console.WriteLine("[Login] " + data.UserData.nickname);
-                data.cur_world_block = (int)WorldBlockType.Dankook_University;   // 시작은 학교배경
                 users.Add(data.UserData.uid, data);
+
+                data.cur_world_block = (int)WorldBlockType.Dankook_University;   // 시작은 학교배경
+                world_blocks[data.cur_world_block].EnterUser(data.UserData.uid);
             }
         }
 
-        public void RemoveUser(long id)
+        public void LogoutUser(long id)
         {
             lock (users)
             {
                 if (users.ContainsKey(id))
                 {
                     Console.WriteLine("[Logout] " + users[id].UserData.nickname);
-                    // TODO 소속되어 있던 월드 블록에서 등록된 uid 지우는 절차 필요
+
+                    short world_num = users[id].cur_world_block;
                     users.Remove(id);
+                    world_blocks[world_num].ExitUser(id);
                 }
             }
         }
@@ -86,7 +90,14 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootLocalChat(ChatData data)
         {
-            // TODO 해당 월드 유저들에게 채팅 패킷 보내는 작업 필요
+            bool user_find = users.TryGetValue(data.sender_uid, out var user);
+            if(user_find == false)
+            {
+                return;
+            }
+
+            short world_num = user.cur_world_block;
+            world_blocks[world_num].ShootLocalChat(data);
         }
 
         /// <summary>
@@ -95,6 +106,18 @@ namespace DKU_Server.Worlds
         public void ShootWhisperChat(ChatData data)
         {
             // TODO 특정 유저한테 귓속말 보내는 작업 필요
+            S_ChatRes res = new S_ChatRes();
+            res.chatData = data;
+            byte[] body = res.Serialize();
+
+            Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
+
+            bool find_user = users.TryGetValue(data.recver_uid,out var user);
+            if(find_user == false)
+            {
+                return;
+            }
+            user.UserToken.Send(packet);
         }
     }
 }

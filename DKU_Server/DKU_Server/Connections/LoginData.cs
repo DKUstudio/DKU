@@ -19,7 +19,7 @@ namespace DKU_Server.Connections
         /// <summary>
         /// 현재 위치한 월드의 인덱스
         /// </summary>
-        public int cur_world_block;
+        public short cur_world_block;
 
         public LoginData() { }
         public LoginData(UserToken token, UserData data)

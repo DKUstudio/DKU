@@ -1,4 +1,6 @@
-﻿using DKU_ServerCore.Packets;
+﻿using DKU_Server.Connections;
+using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var.server;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,9 +21,32 @@ namespace DKU_Server.Worlds
             users_uid = new List<long>();
         }
 
-        public virtual void EnterUser(long v_uid)
+        public void EnterUser(long v_uid)
         {
             users_uid.Add(v_uid);
+        }
+
+        public void ExitUser(long v_uid)
+        {
+            users_uid.Remove(v_uid);
+        }
+
+        public void ShootLocalChat(ChatData data)
+        {
+            S_ChatRes res = new S_ChatRes();
+            res.chatData = data;
+            byte[] body = res.Serialize();
+
+            Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
+            foreach (var user in users_uid)
+            {
+                bool find_user = the_world.users.TryGetValue(user, out LoginData ldata);
+                if(find_user == false)
+                {
+                    continue;
+                }
+                ldata.UserToken.Send(packet);
+            }
         }
     }
 }

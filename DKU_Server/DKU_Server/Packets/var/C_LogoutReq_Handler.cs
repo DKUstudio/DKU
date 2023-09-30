@@ -21,7 +21,7 @@ namespace DKU_Server.Packets.var
             TheWorld.Instance.users.TryGetValue(req.uid, out var user);
             if (user == null)   // no such data
                 return;
-            TheWorld.Instance.RemoveUser(req.uid);
+            TheWorld.Instance.LogoutUser(req.uid);
 
             // resend waiting id
             long waiting_id = NetworkManager.Instance.GetWaitingId();
