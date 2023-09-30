@@ -4,6 +4,7 @@ using UnityEngine;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -13,12 +14,6 @@ public class NetworkManager : MonoBehaviour
     private Connections connections;
     public Connections Connections => connections;
 
-    // private MemberService memberService;
-    // public MemberService MemberService => memberService;
-
-    // private ChatService chatService;
-    // public ChatService ChatService => chatService;
-
     private void Awake()
     {
         instance = this;
@@ -27,6 +22,14 @@ public class NetworkManager : MonoBehaviour
 
         connections.Init();
         connections.Connect();
+    }
+
+    [Button]
+    private void Add_Component()
+    {
+        this.AddComponent<Connections>();
+        this.AddComponent<MemberService>();
+        this.AddComponent<ChatService>();
     }
 
 }

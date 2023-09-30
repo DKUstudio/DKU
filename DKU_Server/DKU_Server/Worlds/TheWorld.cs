@@ -74,7 +74,6 @@ namespace DKU_Server.Worlds
         {
             foreach(var user in users)
             {
-                // TODO 모든 유저에게 채팅 패킷 보내는 작업 필요
                 S_ChatRes res = new S_ChatRes();
                 res.chatData = data;
                 byte[] body = res.Serialize();
@@ -105,7 +104,6 @@ namespace DKU_Server.Worlds
         /// </summary>
         public void ShootWhisperChat(ChatData data)
         {
-            // TODO 특정 유저한테 귓속말 보내는 작업 필요
             S_ChatRes res = new S_ChatRes();
             res.chatData = data;
             byte[] body = res.Serialize();

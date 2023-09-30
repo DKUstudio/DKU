@@ -17,6 +17,8 @@ namespace DKU_Server.Packets.var
     {
         public static void Method(Packet packet)
         {
+            // TODO 최대 동접자로 설정한 수에 맞게 atomic하게 처리할 수 있어야 함
+
             // 로그인 성공시, 대기 리스트에서 월드방으로 이동
             C_LoginReq req = Data<C_LoginReq>.Deserialize(packet.m_data);
             Console.WriteLine(req.accept_id + " login req");

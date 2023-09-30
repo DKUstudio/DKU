@@ -12,15 +12,15 @@ public class S_ChatRes_Handler
         switch ((ChatRecvType)res.chatData.recv_target_group)
         {
             case ChatRecvType.To_All:
-                opt += "[To_All] ";
+                opt += "<color=yellow>[To_All]</color> ";
                 break;
 
             case ChatRecvType.To_Local:
-                opt += "[To_Local] ";
+                opt += "<color=yellow>[To_Local]</color> ";
                 break;
 
             case ChatRecvType.To_Whisper:
-                opt += "[To_Whisper] ";
+                opt += "<color=yellow>[To_Whisper]</color> ";
                 break;
 
             default:

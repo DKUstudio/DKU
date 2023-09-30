@@ -19,7 +19,7 @@ public class Connections : MonoBehaviour
     MessageResolver m_message_resolver;
     GamePacketHandler m_game_packet_handler;
 
-    public Action<bool> on_connection_completed;
+    // public Action<bool> on_connection_completed;
 
     private bool connected = false;
     public bool Connected => connected;
@@ -70,6 +70,7 @@ public class Connections : MonoBehaviour
     {
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_socket.NoDelay = true;
+        Debug.Log("[Connections] Try connect server...");
 
         IPAddress target = IPAddress.Parse(CommonDefine.IPv4_ADDRESS);
         IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
@@ -88,17 +89,19 @@ public class Connections : MonoBehaviour
     {
         if (args.SocketError == SocketError.Success)
         {
-            Debug.Log("[Connections] Server connected");
+            Debug.Log("[Connections] Server <color=green>connected</color>");
             connected = true;
             StartRecv();
-            on_connection_completed.Invoke(true);
+            // on_connection_completed.Invoke(true);
         }
         else
         {
-            Debug.Log("[Connections] Retry connection...");
-            on_connection_completed.Invoke(false);
+            // on_connection_completed.Invoke(false);
+            Debug.Log("[Connections] Server connection <color=red>failed</color>... Retry connection");
             if (m_socket != null)
                 Connect();
+            else
+                Debug.Log("[Connnections] m_socket is <color=red>null</color>...");
         }
     }
     #endregion
