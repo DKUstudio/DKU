@@ -8,6 +8,26 @@ public class S_ChatRes_Handler
     public static void Method(Packet packet)
     {
         S_ChatRes res = Data<S_ChatRes>.Deserialize(packet.m_data);
+        string opt = "";
+        switch ((ChatRecvType)res.chatData.recv_target_group)
+        {
+            case ChatRecvType.To_All:
+                opt += "[To_All] ";
+                break;
 
+            case ChatRecvType.To_Local:
+                opt += "[To_Local] ";
+                break;
+
+            case ChatRecvType.To_Whisper:
+                opt += "[To_Whisper] ";
+                break;
+
+            default:
+                break;
+        }
+
+        opt += res.chatData.message;
+        Debug.Log(opt);
     }
 }

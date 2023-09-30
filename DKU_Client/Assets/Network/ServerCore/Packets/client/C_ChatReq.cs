@@ -12,5 +12,10 @@ namespace DKU_ServerCore.Packets.var.client
     public class C_ChatReq : Data<C_ChatReq>
     {
         public ChatData chatData;
+
+        public C_ChatReq()
+        {
+            chatData = new ChatData();
+        }
     }
 }

@@ -12,5 +12,10 @@ namespace DKU_ServerCore.Packets.var.server
     public class S_ChatRes : Data<S_ChatRes>
     {
         public ChatData chatData;
+
+        public S_ChatRes()
+        {
+            chatData = new ChatData();
+        }
     }
 }

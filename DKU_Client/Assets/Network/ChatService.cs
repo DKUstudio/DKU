@@ -21,4 +21,15 @@ public class ChatService : MonoBehaviour
     //     // Packet packet = new Packet(PacketType.C_GlobalChatReq, body, body.Length);
     //     // NetworkManager.Instance.Connections.Send(packet);
     // }
+
+    [ShowInInspector]
+    public static void Chat(ChatData data)
+    {
+        C_ChatReq req = new C_ChatReq();
+        req.chatData = data;
+        byte[] body = req.Serialize();
+
+        Packet packet = new Packet(PacketType.C_ChatReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(packet);
+    }
 }
