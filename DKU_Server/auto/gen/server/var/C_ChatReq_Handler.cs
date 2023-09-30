@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DKU_Server.Packets.var
 {
-    public class C_GlobalChatReq_Handler
+    public class C_ChatReq_Handler
     {
         public static void Method(Packet packet)
         {
-            C_GlobalChatReq req = Data<C_GlobalChatReq>.Deserialize(packet.m_data);
-            //TODO
+            C_ChatReq req = Data<C_ChatReq>.Deserialize(packet.m_data);
+
         }
     }
 }

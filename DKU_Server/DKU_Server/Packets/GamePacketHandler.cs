@@ -23,6 +23,10 @@ namespace DKU_Server.Packets
             switch ((PacketType)packet.m_type)
             {
 
+                case PacketType.C_ChatReq:
+                    C_ChatReq_Impl(packet);
+                    break;
+
                 case PacketType.C_LoginReq:
                     C_LoginReq_Impl(packet);
                     break;
@@ -44,6 +48,11 @@ namespace DKU_Server.Packets
                     break;
 
             }
+        }
+
+        void C_ChatReq_Impl(Packet packet)
+        {
+            C_ChatReq_Handler.Method(packet);
         }
 
         void C_LoginReq_Impl(Packet packet)

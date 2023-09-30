@@ -12,6 +12,7 @@ namespace DKU_ServerCore.Packets
     {
         TYPE_NONE = -1,
         
+		C_ChatReq,
 		C_LoginReq,
 		C_LogoutReq,
 		C_PingReq,
@@ -19,6 +20,7 @@ namespace DKU_ServerCore.Packets
 		C_StopWaitingReq,
 
 
+		S_ChatRes,
 		S_LoginRes,
 		S_LogoutRes,
 		S_PingRes,

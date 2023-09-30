@@ -14,7 +14,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_StopWaitingReq req = Data<C_StopWaitingReq>.Deserialize(packet.m_data);
-            //TODO
+
         }
     }
 }

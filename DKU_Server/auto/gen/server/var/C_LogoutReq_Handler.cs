@@ -14,7 +14,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_LogoutReq req = Data<C_LogoutReq>.Deserialize(packet.m_data);
-            //TODO
+
         }
     }
 }

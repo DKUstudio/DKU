@@ -14,7 +14,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_RegisterReq req = Data<C_RegisterReq>.Deserialize(packet.m_data);
-            //TODO
+
         }
     }
 }

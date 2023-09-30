@@ -3,11 +3,11 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
-public class S_LogoutRes_Handler
+public class S_ChatRes_Handler
 {
     public static void Method(Packet packet)
     {
-        S_LogoutRes res = Data<S_LogoutRes>.Deserialize(packet.m_data);
+        S_ChatRes res = Data<S_ChatRes>.Deserialize(packet.m_data);
 
     }
 }

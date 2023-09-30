@@ -1,5 +1,5 @@
 
-using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_Server.Packets.var
+namespace DKU_DummyClient.Packets.var
 {
-    public class C_GlobalChatReq_Handler
+    public class S_ChatRes_Handler
     {
         public static void Method(Packet packet)
         {
-            C_GlobalChatReq req = Data<C_GlobalChatReq>.Deserialize(packet.m_data);
-            //TODO
+            S_ChatRes res = Data<S_ChatRes>.Deserialize(packet.m_data);
+
         }
     }
 }

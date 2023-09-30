@@ -14,7 +14,7 @@ namespace DKU_DummyClient.Packets.var
         public static void Method(Packet packet)
         {
             S_WaitingIdRes res = Data<S_WaitingIdRes>.Deserialize(packet.m_data);
-            //TODO
+
         }
     }
 }

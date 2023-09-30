@@ -9,5 +9,9 @@ namespace DKU_Server.Worlds
     public enum WorldBlockType
     {
         Dankook_University,
+
+
+
+        Block_Count,
     }
 }

@@ -19,7 +19,12 @@ namespace DKU_ServerCore.Packets
         /// <summary>
         /// 채팅을 수신할 타겟 enum
         /// </summary>
-        public short recv_target;
+        public short recv_target_group;
+
+        /// <summary>
+        /// 귓속말 시, 수신자 uid
+        /// </summary>
+        public long recver_uid;
 
         /// <summary>
         /// 메세지 string
@@ -39,6 +44,7 @@ namespace DKU_ServerCore.Packets
 
         public ChatData()
         {
+            recv_target_group = 0;
             link_item = -1;
             link_emoticon = -1;
         }

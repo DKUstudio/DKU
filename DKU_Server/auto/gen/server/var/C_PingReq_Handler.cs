@@ -14,7 +14,7 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_PingReq req = Data<C_PingReq>.Deserialize(packet.m_data);
-            //TODO
+
         }
     }
 }

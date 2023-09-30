@@ -14,7 +14,7 @@ namespace DKU_DummyClient.Packets.var
         public static void Method(Packet packet)
         {
             S_LoginRes res = Data<S_LoginRes>.Deserialize(packet.m_data);
-            //TODO
+
         }
     }
 }
