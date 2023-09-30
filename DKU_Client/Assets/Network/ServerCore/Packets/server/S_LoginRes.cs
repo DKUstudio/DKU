@@ -9,10 +9,9 @@ namespace DKU_ServerCore.Packets.var.server
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
-    public class S_GlobalChatRes : Data<S_GlobalChatRes>
+    public class S_LoginRes : Data<S_LoginRes>
     {
+        public bool success;
         public UserData udata;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CommonDefine.MAX_PACKET_STRING_LENGTH)]
-        public string chat_message;
     }
 }

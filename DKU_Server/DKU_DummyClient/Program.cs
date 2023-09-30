@@ -39,9 +39,10 @@ namespace DKU_DummyClient
             Register(id, pw);
             Thread.Sleep(1000);
             Login(id, pw);
-            /*
-                        Task task = new Task(Ping);
-                        task.Start();*/
+
+            //Task task = new Task(Ping);
+            //task.Start();
+
             while (true)
             {
                 ConsoleJob();
@@ -60,7 +61,7 @@ namespace DKU_DummyClient
         static void ConsoleJob()
         {
             string txt = Console.ReadLine();
-            if(txt == "exit")
+            if (txt == "exit")
             {
                 C_LogoutReq outreq = new C_LogoutReq();
                 outreq.uid = Network.Instance.m_user_data.uid;
@@ -71,26 +72,31 @@ namespace DKU_DummyClient
                 return;
             }
 
-            C_GlobalChatReq req = new C_GlobalChatReq();
-            req.udata = Network.Instance.m_user_data;
-            req.chat_message = txt;
-            byte[] serial = req.Serialize();
+            C_ChatReq req = new C_ChatReq();
+            req.chatData.sender_uid = Network.Instance.m_user_data.uid;
+            req.chatData.message = txt;
+            byte[] body = req.Serialize();
 
-            Packet pkt = new Packet(PacketType.C_GlobalChatReq, serial, serial.Length);
-            Network.Instance.Send(pkt);
+            Packet packet = new Packet(PacketType.C_ChatReq, body, body.Length);
+            Network.Instance.Send(packet);
         }
         static void Ping()
         {
             while (true)
             {
+                C_PingReq req = new C_PingReq();
+                req.send_ms = DateTime.Now.Millisecond;
+                byte[] serial = req.Serialize();
 
+                Packet pkt = new Packet(PacketType.C_PingReq, serial, serial.Length);
+                Network.Instance.Send(pkt);
                 Thread.Sleep(1000);
             }
         }
         static void Register(string id, string pw)
         {
             C_RegisterReq req = new C_RegisterReq();
-            req.accept_id = Network.Instance.m_accept_id;
+            req.waiting_id = Network.Instance.m_accept_id;
             req.id = id;
             req.pw = pw;
             req.nickname = id;
