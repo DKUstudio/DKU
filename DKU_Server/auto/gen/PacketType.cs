@@ -18,6 +18,7 @@ namespace DKU_ServerCore.Packets
 		C_PingReq,
 		C_RegisterReq,
 		C_StopWaitingReq,
+		C_UserPosReq,
 
 
 		S_ChatRes,
@@ -25,6 +26,7 @@ namespace DKU_ServerCore.Packets
 		S_LogoutRes,
 		S_PingRes,
 		S_RegisterRes,
+		S_UserPosRes,
 		S_WaitingIdRes,
 
         PACKET_COUNT

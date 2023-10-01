@@ -43,6 +43,27 @@ namespace DKU_Server.Worlds
                 bool find_user = the_world.users.TryGetValue(user, out LoginData ldata);
                 if(find_user == false)
                 {
+                    // TODO 비유효 유저 검사
+                    continue;
+                }
+                ldata.UserToken.Send(packet);
+            }
+        }
+
+        public void ShootLocalUserPos(long uid, JVector3 pos)
+        {
+            S_UserPosRes res = new S_UserPosRes();
+            res.uid = uid;
+            res.v3 = pos;
+            byte[] body = res.Serialize();
+
+            Packet packet = new Packet(PacketType.S_UserPosRes, body, body.Length);
+            foreach (var user in users_uid)
+            {
+                bool find_user = the_world.users.TryGetValue(user, out LoginData ldata);
+                if (find_user == false)
+                {
+                    // TODO 비유효 유저 검사
                     continue;
                 }
                 ldata.UserToken.Send(packet);

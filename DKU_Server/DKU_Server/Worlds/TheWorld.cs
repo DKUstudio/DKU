@@ -72,7 +72,7 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootGlobalChat(ChatData data)
         {
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 S_ChatRes res = new S_ChatRes();
                 res.chatData = data;
@@ -90,7 +90,7 @@ namespace DKU_Server.Worlds
         public void ShootLocalChat(ChatData data)
         {
             bool user_find = users.TryGetValue(data.sender_uid, out var user);
-            if(user_find == false)
+            if (user_find == false)
             {
                 return;
             }
@@ -110,12 +110,24 @@ namespace DKU_Server.Worlds
 
             Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
 
-            bool find_user = users.TryGetValue(data.recver_uid,out var user);
-            if(find_user == false)
+            bool find_user = users.TryGetValue(data.recver_uid, out var user);
+            if (find_user == false)
             {
                 return;
             }
             user.UserToken.Send(packet);
+        }
+
+        public void ShootLocalUserPos(long uid, JVector3 pos)
+        {
+            bool user_find = users.TryGetValue(uid, out var user);
+            if (user_find == false)
+            {
+                return;
+            }
+
+            short world_num = user.cur_world_block;
+            world_blocks[world_num].ShootLocalUserPos(uid, pos);
         }
     }
 }

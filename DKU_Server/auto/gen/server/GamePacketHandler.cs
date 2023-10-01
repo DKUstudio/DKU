@@ -47,6 +47,10 @@ namespace DKU_Server.Packets
                     C_StopWaitingReq_Impl(packet);
                     break;
 
+                case PacketType.C_UserPosReq:
+                    C_UserPosReq_Impl(packet);
+                    break;
+
             }
         }
 
@@ -78,6 +82,11 @@ namespace DKU_Server.Packets
         void C_StopWaitingReq_Impl(Packet packet)
         {
             C_StopWaitingReq_Handler.Method(packet);
+        }
+
+        void C_UserPosReq_Impl(Packet packet)
+        {
+            C_UserPosReq_Handler.Method(packet);
         }
 
     }
