@@ -38,9 +38,11 @@ namespace DKU_Server
         Stack<long> m_waiting_id_pool;
 
 
-        public NetworkManager()
+        public void Init()
         {
-            m_database_manager = new MemoryDatabase();  // 메모리 저장, 휘발성
+            //m_database_manager = new MemoryDatabase();  // 메모리 저장, 휘발성
+            m_database_manager = new MySqlDatabase();
+            m_database_manager.Init();
             m_game_packet_handler = new GamePacketHandler();
 
             m_waiting_list = new Dictionary<long, UserToken>();

@@ -12,7 +12,7 @@ namespace DKU_ServerCore
 #if !RELEASE
         public const string IPv4_ADDRESS = "172.30.1.47";
 #else
-        public const string IPv4_ADDRESS = "172.190.38.29";
+        public const string IPv4_ADDRESS = "20.168.242.106";
 #endif
         public const int IP_PORT = 53;
 

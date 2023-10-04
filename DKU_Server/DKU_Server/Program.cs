@@ -16,6 +16,8 @@ namespace DKU_Server
             Console.WriteLine("         DKU Server         ");
             Console.WriteLine("============================");
 
+            NetworkManager.Instance.Init();
+
             ClientListener listener = new ClientListener();
 
             //string host = Dns.GetHostName();
