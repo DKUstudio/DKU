@@ -10,7 +10,7 @@ namespace DKU_Server.DBs
     public interface IDatabaseManager
     {
         public abstract void Init();
-        public abstract bool Register(string id, string pw, string nickname);
+        public abstract bool Register(string id, string salt, string pw, string nickname);
         public abstract UserData Login(string id, string pw);
     }
 }

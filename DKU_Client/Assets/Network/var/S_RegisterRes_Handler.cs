@@ -9,11 +9,11 @@ public class S_RegisterRes_Handler
         S_RegisterRes res = Data<S_RegisterRes>.Deserialize(packet.m_data);
         if (res.success)
         {
-            Debug.Log("[S_RegisterRes_Handler] Register Success");
+            Debug.Log("[S_RegisterRes_Handler] Register <color=green>Success</color>");
         }
         else
         {
-            Debug.Log("[S_RegisterRes_Handler] Register fail...");
+            Debug.Log("[S_RegisterRes_Handler] Register <color=red>fail</color>...");
         }
     }
 }

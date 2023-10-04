@@ -21,7 +21,7 @@ namespace DKU_Server.Packets.var
             if (isTrue == false)
                 return;
 
-            bool success = NetworkManager.Instance.m_database_manager.Register(req.id, req.pw, req.nickname);
+            bool success = NetworkManager.Instance.m_database_manager.Register(req.id, req.salt, req.pw, req.nickname);
 
             S_RegisterRes res = new S_RegisterRes();
             res.success = success;

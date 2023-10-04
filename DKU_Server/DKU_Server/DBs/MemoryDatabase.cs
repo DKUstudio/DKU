@@ -17,7 +17,7 @@ namespace DKU_Server.DBs
             repository = new Dictionary<string, MemoryLoginDataStruct>();
         }
 
-        public bool Register(string id, string pw, string nickname)
+        public bool Register(string id, string salt, string pw, string nickname)
         {
             if(repository.ContainsKey(id))
                 return false;

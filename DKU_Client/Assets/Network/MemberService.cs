@@ -10,10 +10,14 @@ public class MemberService : MonoBehaviour
     [ShowInInspector]
     public static void Register_Request(string id, string pw, string nickname)
     {
+        Crypto.SHA256_Generate(pw);
+        Debug.Log(Crypto.salt + " / " + Crypto.hashed_password);
+
         C_RegisterReq req = new C_RegisterReq();
         req.waiting_id = NetworkManager.Instance.Connections.waiting_id;
         req.id = id;
-        req.pw = pw;
+        req.salt = Crypto.salt;
+        req.pw = Crypto.hashed_password;
         req.nickname = nickname;
         byte[] body = req.Serialize();
 

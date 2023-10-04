@@ -16,6 +16,8 @@ namespace DKU_ServerCore
 #endif
         public const int IP_PORT = 53;
 
+        public const string MYSQL_IPv4_ADDRESS = "35.211.162.72";
+
         // 패킷에 담는 문자열의 최대 길이
         public const int MAX_PACKET_STRING_LENGTH = 100;
 

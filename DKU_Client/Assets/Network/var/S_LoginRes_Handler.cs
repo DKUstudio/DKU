@@ -10,13 +10,13 @@ public class S_LoginRes_Handler
         S_LoginRes res = Data<S_LoginRes>.Deserialize(packet.m_data);
         if (res.success)
         {
-            Debug.Log("[S_LoginRes_Handler] Login Success");
+            Debug.Log("[S_LoginRes_Handler] Login <color=green>Success</color>");
             NetworkManager.Instance.Connections.SetWaiting(false, -1);
             NetworkManager.Instance.Connections.SetLogin(true, res.udata);
         }
         else
         {
-            Debug.Log("[S_LoginRes_Handler] Login fail...");
+            Debug.Log("[S_LoginRes_Handler] Login <color=red>fail</color>...");
         }
     }
 }
