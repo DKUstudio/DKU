@@ -25,7 +25,7 @@ public class Crypto
 
     public static void SHA256_Generate(string str)
     {
-        CreateSalt(4);
+        CreateSalt(6);
         string salted_password = String.Concat(salt, str);
 
         Byte[] hash = _sha256.ComputeHash(Encoding.UTF8.GetBytes(salted_password));

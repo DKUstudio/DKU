@@ -37,46 +37,61 @@ namespace DKU_Server.DBs
 
         public UserData Login(string id, string pw)
         {
-            UserData udata = null;
+
             using (var conn = new MySqlConnection(connString))
             {
                 try
                 {
                     conn.Open();
-                    MySqlCommand cmd = new MySqlCommand($"select lsalt, lpw from userdb.login where lid = '{id}';", conn);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
-                    string db_pw = "", db_salt = "";
-                    while (rdr.Read())
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
-                        db_salt = rdr.GetString(0);
-                        db_pw = rdr.GetString(1);
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.login_get_salt;
+                        cmd.Parameters.AddWithValue("@ID", id);
+
+                        // get db pw
+                        string db_salt = "", db_pw = "";
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                db_salt = rdr.GetString(0);
+                                db_pw = rdr.GetString(1);
+                            }
+                        }
+                        string hash_pw = Crypto.SHA256_Generate(db_salt, pw);
+
+                        if (hash_pw != db_pw) // fail
+                        {
+                            Console.WriteLine($@"[Login] failed by different pw
+salt : {db_salt}
+hash_pw : {hash_pw}
+db_pw : {db_pw}");
+                            return null;
+                        }
                     }
-                    string hashed_pw = Crypto.SHA256_Generate(db_salt, pw);
-                    if (hashed_pw == db_pw)
+                    // get user data
+                    using (MySqlCommand cmd = new MySqlCommand())
                     {
-                        MySqlCommand cmd1 = new MySqlCommand($"select luid, lnickname from userdb.login where lid = '{id}';", conn);
-                        rdr.Close();
-                        MySqlDataReader rdr1 = cmd1.ExecuteReader();
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.login_get_user_data;
+                        cmd.Parameters.AddWithValue("@ID", id);
+
                         long db_uid = 0;
                         string db_nick = "";
-                        while (rdr1.Read())
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
                         {
-                            db_uid = rdr1.GetInt64(0);
-                            db_nick = rdr1.GetString(1);
+                            while (rdr.Read())
+                            {
+                                db_uid = rdr.GetInt64(0);
+                                db_nick = rdr.GetString(1);
+                            }
                         }
-
-                        udata = new UserData();
+                        UserData udata = new UserData();
                         udata.uid = db_uid;
                         udata.nickname = db_nick;
-
-                        rdr1.Close();
+                        return udata;
                     }
-                    else
-                    {
-                        Console.WriteLine(hashed_pw + " / db: " + db_pw);
-                    }
-                    rdr.Close();
-                    return udata;
                 }
                 catch (Exception e)
                 {
@@ -93,26 +108,44 @@ namespace DKU_Server.DBs
                 try
                 {
                     conn.Open();
-                    //Console.WriteLine($"select count(*) from userdb.login where id = '{id}';");
-                    MySqlCommand cmd = new MySqlCommand($"select count(*) from userdb.login where lid = '{id}';", conn);
-                    MySqlDataReader rdr = cmd.ExecuteReader();
-                    int cnt = 0;
-                    while (rdr.Read())
+
+                    using (MySqlTransaction tran = conn.BeginTransaction())
                     {
-                        cnt = rdr.GetInt32(0);
-                    }
-                    rdr.Close();
-                    if (cnt > 0)
-                    {
-                        Console.WriteLine($"{id} id exists");
-                        return false;
-                    }
-                    MySqlCommand cmd2 = new MySqlCommand($"insert into userdb.login(lid, lsalt, lpw, lnickname) values('{id}','{salt}','{pw}','{nickname}')", conn);
-                    int result = cmd2.ExecuteNonQuery();
-                    if (result < 0)
-                    {
-                        Console.WriteLine("not inserted");
-                        return false;
+                        try
+                        {
+                            using (MySqlCommand cmd = new MySqlCommand())
+                            {
+                                cmd.Connection = conn;
+                                cmd.Transaction = tran;
+
+                                cmd.CommandText = MySqlFormat.register_new_user;
+                                cmd.Parameters.AddWithValue("@ID", id);
+                                cmd.Parameters.AddWithValue ("@SALT", salt);
+                                cmd.Parameters.AddWithValue("@PW", pw);
+                                cmd.Parameters.AddWithValue("@NICKNAME", nickname);
+                                cmd.ExecuteNonQuery();
+
+                                cmd.Parameters.Clear();
+                                cmd.CommandText = MySqlFormat.register_get_user_count;
+                                cmd.Parameters.AddWithValue("@ID", id);
+                                using (MySqlDataReader rdr = cmd.ExecuteReader())
+                                {
+                                    rdr.Read();
+                                    int res = rdr.GetInt32(0);
+                                    if (res != 1)
+                                    {
+                                        throw new Exception($"[Register] '{id}' already exists.");
+                                    }
+                                }
+                                tran.Commit();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.ToString());
+                            tran.Rollback();
+                            return false;
+                        }
                     }
                     return true;
                 }
