@@ -2,6 +2,8 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
+// from C_RegisterReq
+// success : 회원가입 성공/ 실패 여부
 public class S_RegisterRes_Handler
 {
     public static void Method(Packet packet)

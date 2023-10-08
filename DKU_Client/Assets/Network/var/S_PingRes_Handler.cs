@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// from C_PingReq
 public class S_PingRes_Handler
 {
     public static void Method(Packet packet)
