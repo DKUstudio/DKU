@@ -3940,7 +3940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   is_waiting: 0
-  waiting_id: 0
+  waiting_id: -1
   logged_in: 0
   udata:
     uid: 0

@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DKU_Server.DBs;
 
 namespace DKU_Server.Packets.var
 {
-    public class C_RegisterReq_Handler
+    public class C_TryAuthReq_Handler
     {
         public static void Method(Packet packet)
         {
-            C_RegisterReq req = Data<C_RegisterReq>.Deserialize(packet.m_data);
-
+            C_TryAuthReq req = Data<C_TryAuthReq>.Deserialize(packet.m_data);
+            AuthManager.Instance.VerifyEmailCode(req.uid, req.code);
         }
     }
 }

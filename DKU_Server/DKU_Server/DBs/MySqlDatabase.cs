@@ -14,6 +14,9 @@ namespace DKU_Server.DBs
     public class MySqlDatabase : IDatabaseManager
     {
         static string connString;
+
+
+
         public void Init()
         {
             Console.WriteLine(CommonDefine.MYSQL_IPv4_ADDRESS);
@@ -120,7 +123,7 @@ db_pw : {db_pw}");
 
                                 cmd.CommandText = MySqlFormat.register_new_user;
                                 cmd.Parameters.AddWithValue("@ID", id);
-                                cmd.Parameters.AddWithValue ("@SALT", salt);
+                                cmd.Parameters.AddWithValue("@SALT", salt);
                                 cmd.Parameters.AddWithValue("@PW", pw);
                                 cmd.Parameters.AddWithValue("@NICKNAME", nickname);
                                 cmd.ExecuteNonQuery();
@@ -153,6 +156,51 @@ db_pw : {db_pw}");
                 {
                     Console.WriteLine(e.ToString());
                     return false;
+                }
+            }
+        }
+
+        public void Authentication(long uid, string email)
+        {
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        int res = 0;
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.auth_get_count;
+                        cmd.Parameters.AddWithValue("@UID", uid);
+
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            res = rdr.GetInt32(0);
+                        }
+
+                        cmd.Parameters.Clear();
+                        if (res > 0)
+                        {
+                            // update
+                            cmd.CommandText = MySqlFormat.auth_update_email;
+                        }
+                        else
+                        {
+                            // insert
+                            cmd.CommandText = MySqlFormat.auth_insert_email;
+                        }
+                        cmd.Parameters.AddWithValue("@UID", uid);
+                        cmd.Parameters.AddWithValue("@EMAIL", email);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
                 }
             }
         }

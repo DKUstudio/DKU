@@ -23,7 +23,7 @@ public class MemberService : MonoBehaviour
 
         Packet packet = new Packet(PacketType.C_RegisterReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(packet);
-    }
+    } // S_RegisterRes.cs
 
     [ShowInInspector]
     public static void Login_Request(string id, string pw)
@@ -41,7 +41,7 @@ public class MemberService : MonoBehaviour
 
         Packet packet = new Packet(PacketType.C_LoginReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(packet);
-    }
+    }   // S_LoginRes.cs
 
     [ShowInInspector]
     public static void Logout_Request()
@@ -59,5 +59,39 @@ public class MemberService : MonoBehaviour
         NetworkManager.Instance.Connections.Send(packet);
 
         NetworkManager.Instance.Connections.SetLogin(false, null);
+    }   // S_LogoutRes.cs
+
+    [ShowInInspector]
+    public static void StartAuth_Request(long uid, string email)
+    {
+        if (NetworkManager.Instance.Connections.logged_in == false)
+        {
+            Debug.Log("[Logout_Request] Not Logged in...");
+            return;
+        }
+        C_StartAuthReq req = new C_StartAuthReq();
+        req.uid = uid;
+        req.email = email;
+        byte[] body = req.Serialize();
+
+        Packet packet = new Packet(PacketType.C_StartAuthReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(packet);
+    }
+
+    [ShowInInspector]
+    public static void TryAuth_Request(long uid, string code)
+    {
+        if (NetworkManager.Instance.Connections.logged_in == false)
+        {
+            Debug.Log("[Logout_Request] Not Logged in...");
+            return;
+        }
+        C_TryAuthReq req = new C_TryAuthReq();
+        req.uid = uid;
+        req.code = code;
+        byte[] body = req.Serialize();
+
+        Packet packet = new Packet(PacketType.C_TryAuthReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(packet);
     }
 }

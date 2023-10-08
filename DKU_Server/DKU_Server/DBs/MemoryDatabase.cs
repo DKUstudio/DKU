@@ -48,6 +48,9 @@ namespace DKU_Server.DBs
             return userData.data;
         }
 
-        
+        public void Authentication(long uid, string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

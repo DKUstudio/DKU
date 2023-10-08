@@ -12,5 +12,7 @@ namespace DKU_Server.DBs
         public abstract void Init();
         public abstract bool Register(string id, string salt, string pw, string nickname);
         public abstract UserData Login(string id, string pw);
+
+        public abstract void Authentication(long uid, string email);
     }
 }

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DKU_DummyClient.Packets.var
 {
-    public class S_ChatRes_Handler
+    public class S_TryAuthRes_Handler
     {
         public static void Method(Packet packet)
         {
-            S_ChatRes res = Data<S_ChatRes>.Deserialize(packet.m_data);
+            S_TryAuthRes res = Data<S_TryAuthRes>.Deserialize(packet.m_data);
 
         }
     }
