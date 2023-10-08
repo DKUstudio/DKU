@@ -3,6 +3,7 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
+// from C_ChatReq
 public class S_ChatRes_Handler
 {
     public static void Method(Packet packet)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// from C_LogoutReq
 public class S_LogoutRes_Handler
 {
     public static void Method(Packet packet)
