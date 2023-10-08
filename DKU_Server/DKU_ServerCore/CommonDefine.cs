@@ -8,13 +8,15 @@ namespace DKU_ServerCore
 {
     public static class CommonDefine
     {
-        // 
-#if DEBUG
-        public const string IPv4_ADDRESS = "172.30.1.9";
+        //
+#if !RELEASE
+        public const string IPv4_ADDRESS = "172.30.1.47";
 #else
-        public const string IPv4_ADDRESS = "52.149.182.41";
+        public const string IPv4_ADDRESS = "20.168.242.106";
 #endif
         public const int IP_PORT = 53;
+
+        public const string MYSQL_IPv4_ADDRESS = "35.211.63.161";
 
         // 패킷에 담는 문자열의 최대 길이
         public const int MAX_PACKET_STRING_LENGTH = 100;

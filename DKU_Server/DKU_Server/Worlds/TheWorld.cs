@@ -26,51 +26,108 @@ namespace DKU_Server.Worlds
         }
 
         public Dictionary<long, LoginData> users;
+        public WorldBlock[] world_blocks = new WorldBlock[(int)WorldBlockType.Block_Count];
 
         public TheWorld()
         {
             users = new Dictionary<long, LoginData>();
+
+            // 모든 방 초기화
+            for (int i = 0; i < (int)WorldBlockType.Block_Count; i++)
+            {
+                world_blocks[i] = new WorldBlock(this);
+            }
         }
-        public void AddUser(LoginData data)
+
+        public void LoginUser(LoginData data)
         {
             lock (users)
             {
                 Console.WriteLine("[Login] " + data.UserData.nickname);
                 users.Add(data.UserData.uid, data);
+
+                data.cur_world_block = (int)WorldBlockType.Dankook_University;   // 시작은 학교배경
+                world_blocks[data.cur_world_block].EnterUser(data.UserData.uid);
             }
         }
 
-        public void RemoveUser(long id)
+        public void LogoutUser(long id)
         {
             lock (users)
             {
-                Console.WriteLine("[Logout] " + users[id].UserData.nickname);
-                Packet pkt = new Packet();
-                pkt.m_type = (short)PacketType.S_LogoutRes;
-                pkt.SetData(new byte[] { }, 0);
-                users[id].UserToken.Send(pkt);
+                if (users.ContainsKey(id))
+                {
+                    Console.WriteLine("[Logout] " + users[id].UserData.nickname);
 
-                users.Remove(id);
+                    short world_num = users[id].cur_world_block;
+                    users.Remove(id);
+                    world_blocks[world_num].ExitUser(id);
+                }
             }
         }
 
-        public void GlobalChat(C_GlobalChatReq req)
+        /// <summary>
+        /// 모든 유저에게 채팅
+        /// </summary>
+        /// <param name="data"></param>
+        public void ShootGlobalChat(ChatData data)
         {
-            // 현재 접속중인 아이디인지 확인하는 절차?
-            if (users.ContainsKey(req.udata.uid) == false)
-                return;
-
-            S_GlobalChatRes res = new S_GlobalChatRes();
-            res.udata = req.udata;
-            res.chat_message = req.chat_message;
-            byte[] serial = res.Serialize();
-
-            Packet pkt = new Packet(PacketType.S_GlobalChatRes, serial, serial.Length);
-
             foreach (var user in users)
             {
-                user.Value.UserToken.Send(pkt);
+                S_ChatRes res = new S_ChatRes();
+                res.chatData = data;
+                byte[] body = res.Serialize();
+
+                Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
+                user.Value.UserToken.Send(packet);
             }
+        }
+
+        /// <summary>
+        /// 소속 월드 유저에게 채팅
+        /// </summary>
+        /// <param name="data"></param>
+        public void ShootLocalChat(ChatData data)
+        {
+            bool user_find = users.TryGetValue(data.sender_uid, out var user);
+            if (user_find == false)
+            {
+                return;
+            }
+
+            short world_num = user.cur_world_block;
+            world_blocks[world_num].ShootLocalChat(data);
+        }
+
+        /// <summary>
+        /// 특정 유저에게 귓속말
+        /// </summary>
+        public void ShootWhisperChat(ChatData data)
+        {
+            S_ChatRes res = new S_ChatRes();
+            res.chatData = data;
+            byte[] body = res.Serialize();
+
+            Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
+
+            bool find_user = users.TryGetValue(data.recver_uid, out var user);
+            if (find_user == false)
+            {
+                return;
+            }
+            user.UserToken.Send(packet);
+        }
+
+        public void ShootLocalUserPos(long uid, JVector3 pos)
+        {
+            bool user_find = users.TryGetValue(uid, out var user);
+            if (user_find == false)
+            {
+                return;
+            }
+
+            short world_num = user.cur_world_block;
+            world_blocks[world_num].ShootLocalUserPos(uid, pos);
         }
     }
 }
