@@ -24,9 +24,11 @@ public class Connections : MonoBehaviour
     private bool connected = false;
     public bool Connected => connected;
 
+    [Sirenix.OdinInspector.ReadOnly]
     public bool is_waiting = false;
     [Sirenix.OdinInspector.ReadOnly]
     public long waiting_id = -1;
+    [Sirenix.OdinInspector.ReadOnly]
     public bool logged_in = false;
     [Sirenix.OdinInspector.ReadOnly]
     public UserData udata;
