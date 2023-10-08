@@ -17,7 +17,9 @@ namespace DKU_ServerCore.Packets
 		C_LogoutReq,
 		C_PingReq,
 		C_RegisterReq,
+		C_StartAuthReq,
 		C_StopWaitingReq,
+		C_TryAuthReq,
 		C_UserPosReq,
 
 
@@ -26,6 +28,8 @@ namespace DKU_ServerCore.Packets
 		S_LogoutRes,
 		S_PingRes,
 		S_RegisterRes,
+		S_StartAuthRes,
+		S_TryAuthRes,
 		S_UserPosRes,
 		S_WaitingIdRes,
 

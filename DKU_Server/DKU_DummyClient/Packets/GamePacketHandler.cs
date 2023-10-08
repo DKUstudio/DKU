@@ -38,6 +38,14 @@ namespace DKU_DummyClient.Packets
                     S_RegisterRes_Impl(packet);
                     break;
 
+                case PacketType.S_StartAuthRes:
+                    S_StartAuthRes_Impl(packet);
+                    break;
+
+                case PacketType.S_TryAuthRes:
+                    S_TryAuthRes_Impl(packet);
+                    break;
+
                 case PacketType.S_UserPosRes:
                     S_UserPosRes_Impl(packet);
                     break;
@@ -72,6 +80,16 @@ namespace DKU_DummyClient.Packets
         void S_RegisterRes_Impl(Packet packet)
         {
             S_RegisterRes_Handler.Method(packet);
+        }
+
+        void S_StartAuthRes_Impl(Packet packet)
+        {
+            S_StartAuthRes_Handler.Method(packet);
+        }
+
+        void S_TryAuthRes_Impl(Packet packet)
+        {
+            S_TryAuthRes_Handler.Method(packet);
         }
 
         void S_UserPosRes_Impl(Packet packet)

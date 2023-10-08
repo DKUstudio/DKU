@@ -26,7 +26,7 @@ public class Connections : MonoBehaviour
 
     public bool is_waiting = false;
     [Sirenix.OdinInspector.ReadOnly]
-    public long waiting_id;
+    public long waiting_id = -1;
     public bool logged_in = false;
     [Sirenix.OdinInspector.ReadOnly]
     public UserData udata;

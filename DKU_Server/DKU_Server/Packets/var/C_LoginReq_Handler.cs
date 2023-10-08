@@ -24,7 +24,10 @@ namespace DKU_Server.Packets.var
             Console.WriteLine(req.accept_id + " login req");
             bool isTrue = NetworkManager.Instance.m_waiting_list.TryGetValue(req.accept_id, out UserToken token);
             if (isTrue == false)
+            {
+                Console.WriteLine("[LoginReq] Not in waiting_list");
                 return;
+            }
 
             UserData udata = NetworkManager.Instance.m_database_manager.Login(req.id, req.pw);
             S_LoginRes res = new S_LoginRes();
@@ -37,6 +40,7 @@ namespace DKU_Server.Packets.var
                 LoginData ldata = new LoginData(token, udata);
                 NetworkManager.Instance.ReturnWaitingId(req.accept_id);
                 TheWorld.Instance.LoginUser(ldata);
+                Console.WriteLine("[LoginReq] login success");
             }
             else
             {

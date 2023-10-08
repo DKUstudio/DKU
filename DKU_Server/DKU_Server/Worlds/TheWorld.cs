@@ -1,4 +1,5 @@
 ﻿using DKU_Server.Connections;
+using DKU_Server.Connections.Tokens;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.client;
 using DKU_ServerCore.Packets.var.server;
@@ -37,6 +38,15 @@ namespace DKU_Server.Worlds
             {
                 world_blocks[i] = new WorldBlock(this);
             }
+        }
+
+        public UserToken FindUserToken(long uid)
+        {
+            if(users.ContainsKey(uid))
+            {
+                return users[uid].UserToken;
+            }
+            return null;
         }
 
         public void LoginUser(LoginData data)

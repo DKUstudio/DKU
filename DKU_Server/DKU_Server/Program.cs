@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using DKU_Server.Connections;
+using DKU_Server.DBs;
 using DKU_ServerCore;
 
 namespace DKU_Server
@@ -16,8 +17,8 @@ namespace DKU_Server
             Console.WriteLine("         DKU Server         ");
             Console.WriteLine("============================");
 
-            NetworkManager.Instance.Init();
 
+            NetworkManager.Instance.Init();
             ClientListener listener = new ClientListener();
 
             //string host = Dns.GetHostName();
@@ -31,17 +32,10 @@ namespace DKU_Server
                     break;
                 }
             }
-            //IPAddress ipAddr = entry.AddressList[0];
-            //Console.WriteLine(ipAddr);
-            //Console.WriteLine(ipAddr);
-            //listener.Start(ipAddr.ToString(), CommonDefine.IP_PORT, 10);
-            //listener.Start("192.168.0.4", CommonDefine.IP_PORT, 10);
 
             while (true) 
             { 
-                Thread.Sleep(1000);
-                //NetworkManager.Instance.TestPing();
-                //NetworkManager.Instance.TokensCount();
+                Thread.Sleep(100);
             }
         }
     }

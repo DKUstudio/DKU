@@ -75,6 +75,7 @@ namespace DKU_Server
 
             Packet packet = new Packet(PacketType.S_WaitingIdRes, serial, serial.Length);
             token.Send(packet);
+            Console.WriteLine("[OnNewClient] sent waiting_id");
         }
 
         public long GetWaitingId()
