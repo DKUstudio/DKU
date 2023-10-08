@@ -11,6 +11,6 @@ namespace DKU_ServerCore.Packets.var.server
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
     public class S_TryAuthRes : Data<S_TryAuthRes>
     {
-        public bool success;
+        public short success;
     }
 }
