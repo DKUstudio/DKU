@@ -19,6 +19,10 @@ namespace DKU_Server.Packets.var
         {
             C_StartAuthReq req = Data<C_StartAuthReq>.Deserialize(packet.m_data);
 
+            Console.WriteLine($"[C_StartAuthReq_Handler] recved {req.uid} {req.email}");
+
+            // TODO 이미 다른 유저가 인증한 email 인지 확인 필요함
+
             bool success = AuthManager.Instance.StartAuth(req.uid, req.email);
             S_StartAuthRes res = new S_StartAuthRes();
             res.success = success;

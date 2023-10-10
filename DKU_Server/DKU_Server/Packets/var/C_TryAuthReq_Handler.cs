@@ -15,7 +15,8 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_TryAuthReq req = Data<C_TryAuthReq>.Deserialize(packet.m_data);
-            AuthManager.Instance.VerifyEmailCode(req.uid, req.code);
+            AuthManager.Instance.PushVerifyQueue(req.uid, req.code);
+            Console.WriteLine($"[C_TryAuthReq_Handler] recved  {req.uid} {req.code}");
         }
     }
 }

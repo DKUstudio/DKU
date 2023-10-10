@@ -62,7 +62,7 @@ public class MemberService : MonoBehaviour
     }   // S_LogoutRes.cs
 
     [ShowInInspector]
-    public static void StartAuth_Request(long uid, string email)
+    public static void StartAuth_Request(string email)
     {
         if (NetworkManager.Instance.Connections.logged_in == false)
         {
@@ -70,7 +70,7 @@ public class MemberService : MonoBehaviour
             return;
         }
         C_StartAuthReq req = new C_StartAuthReq();
-        req.uid = uid;
+        req.uid = NetworkManager.Instance.Connections.udata.uid;
         req.email = email;
         byte[] body = req.Serialize();
 
@@ -79,7 +79,7 @@ public class MemberService : MonoBehaviour
     }
 
     [ShowInInspector]
-    public static void TryAuth_Request(long uid, string code)
+    public static void TryAuth_Request(string code)
     {
         if (NetworkManager.Instance.Connections.logged_in == false)
         {
@@ -87,7 +87,7 @@ public class MemberService : MonoBehaviour
             return;
         }
         C_TryAuthReq req = new C_TryAuthReq();
-        req.uid = uid;
+        req.uid = NetworkManager.Instance.Connections.udata.uid;
         req.code = code;
         byte[] body = req.Serialize();
 
