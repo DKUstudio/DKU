@@ -15,6 +15,7 @@ public class S_LoginRes_Handler
             Debug.Log("[S_LoginRes_Handler] Login <color=green>Success</color>");
             NetworkManager.Instance.Connections.SetWaiting(false, -1);
             NetworkManager.Instance.Connections.SetLogin(true, res.udata);
+            // 페이지 이동
         }
         else
         {

@@ -21,7 +21,9 @@ public class login_input : MonoBehaviour
         Debug.Log("Login");
         string id = Input_ID.text;
         string pw = Input_PWD.text;
+        
         MemberService.Login_Request(id,pw);
+        
     }
 
     public void Make_ID()
@@ -30,6 +32,11 @@ public class login_input : MonoBehaviour
         signincanvas.SetActive(true);
     }
 
+    public void back()
+    {
+        logincanvas.SetActive(true);
+        signincanvas.SetActive(false);
+    }
     public void ClickSignin()
     {
         MemberService.Register_Request(Signin_ID.text,Signin_PWD.text,Signin_NAME.text);
