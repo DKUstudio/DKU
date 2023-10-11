@@ -57,7 +57,6 @@ namespace DKU_Server
             UserToken token = new UserToken();
             token.Init();
 
-
             // UserToken을 set한다.
             //token.User = user;
             client_socket.NoDelay = true;
