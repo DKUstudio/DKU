@@ -222,9 +222,23 @@ public class {0}_Handler
         {0}_Handler.Method(packet);
     }}
 ";
+
+    // {0}: type
+    public static string q_Packet_Handler_Handle =
+@"
+using DKU_ServerCore.Packets.var.gserver;
+using DKU_ServerCore.Packets;
+
+public class {0}_Handler
+{{
+    public static void Method(Packet packet)
+    {{
+        {0} res = Data<{0}>.Deserialize(packet.m_data);
+
+    }}
+}}
+";
+
     }
-
-
-
 
 }

@@ -192,7 +192,7 @@ namespace DKU_PacketGenerator
             // implements
             foreach (string str in gs_file_names)
             {
-                string handle_txt = String.Format(PacketFormat.unity_Packet_Handler_Handle, str);
+                string handle_txt = String.Format(PacketFormat.q_Packet_Handler_Handle, str);
                 System.IO.File.WriteAllText("./gen/q/var/" + str + "_Handler.cs", handle_txt);
             }
         }

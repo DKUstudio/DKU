@@ -1,5 +1,6 @@
 
 using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
