@@ -35,6 +35,7 @@ namespace DKU_ServerCore.Packets
 
 
 		Q_QueueStartRes,
+		Q_YourWidRes,
 
 
 		GS_QueueStartReq,

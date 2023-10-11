@@ -63,6 +63,10 @@ namespace DKU_Server.Packets
                     Q_QueueStartRes_Impl(packet);
                     break;
 
+                case PacketType.Q_YourWidRes:
+                    Q_YourWidRes_Impl(packet);
+                    break;
+
             }
         }
 
@@ -114,6 +118,11 @@ namespace DKU_Server.Packets
         void Q_QueueStartRes_Impl(Packet packet)
         {
             Q_QueueStartRes_Handler.Method(packet);
+        }
+
+        void Q_YourWidRes_Impl(Packet packet)
+        {
+            Q_YourWidRes_Handler.Method(packet);
         }
 
     }

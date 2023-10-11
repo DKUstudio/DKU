@@ -31,6 +31,8 @@ namespace DKU_Server
         public IDatabaseManager m_database_manager;
         // 패킷 조립
         public GamePacketHandler m_game_packet_handler;
+        // 대기열 서버 연결
+        public LoginQueueConnector m_login_queue_connector;
 
         // before login
         public Dictionary<long, UserToken> m_waiting_list;
@@ -44,6 +46,8 @@ namespace DKU_Server
             m_database_manager = new MySqlDatabase();
             m_database_manager.Init();
             m_game_packet_handler = new GamePacketHandler();
+            m_login_queue_connector = new LoginQueueConnector();
+            m_login_queue_connector.Init();
 
             m_waiting_list = new Dictionary<long, UserToken>();
             m_waiting_id_pool = new Stack<long>();

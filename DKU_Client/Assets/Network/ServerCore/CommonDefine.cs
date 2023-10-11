@@ -18,6 +18,8 @@ namespace DKU_ServerCore
 
         public const string MYSQL_IPv4_ADDRESS = "35.211.63.161";
 
+        public const string LOGIN_QUEUE_IPv4_ADDRESS = "35.207.48.239";
+
         // 패킷에 담는 문자열의 최대 길이
         public const int MAX_PACKET_STRING_LENGTH = 100;
 

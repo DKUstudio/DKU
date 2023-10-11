@@ -78,6 +78,11 @@ namespace DKU_Server.Connections.Tokens
         #region receive
         public void StartRecv()
         {
+            if(m_socket == null)
+            {
+                Console.WriteLine("m_socket is null");
+                return;
+            }
             bool pending = m_socket.ReceiveAsync(m_recv_args);
             if (!pending)
                 onRecvCompleted(null, m_recv_args);

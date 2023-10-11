@@ -58,7 +58,7 @@ namespace DKU_LoginQueue
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.ToString());
             }
         }
 

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var.gserver;
+using DKU_ServerCore.Packets.var.queue;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -21,12 +24,48 @@ namespace DKU_LoginQueue
                 return instance;
             }
         }
-    
+
+        public UserToken? m_game_server;
+
         public GamePacketHandler m_game_packet_handler = new GamePacketHandler();
 
-        public void onNewClient(Socket socket, SocketAsyncEventArgs args )
-        {
+        public Dictionary<long, UserToken> m_wid_list = new Dictionary<long, UserToken>();
 
+        public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)
+        {
+            UserToken token = new UserToken();
+            token.Init();
+
+            client_socket.NoDelay = true;
+            client_socket.ReceiveTimeout = 60 * 1000;
+            client_socket.SendTimeout = 60 * 1000;
+            token.m_socket = client_socket;
+            token.StartRecv();
+
+            long wid = Getwid();
+            m_wid_list.Add(wid, token);
+
+            Q_YourWidRes res = new Q_YourWidRes();
+            res.wid = wid;
+            byte[] body = res.Serialize();
+
+            Packet packet  = new Packet(PacketType.Q_YourWidRes, body, body.Length);
+            token.Send(packet);
+
+            Console.WriteLine("[onNewClient] new client came");
+        }
+
+        Stack<long> m_wid_stack = new Stack<long>();
+        long wid_gen = 0;
+        long Getwid()
+        {
+            if (m_wid_stack.Count > 0)
+                return m_wid_stack.Pop();
+            return wid_gen++;
+        }
+        public void Returnwid(long wid)
+        {
+            m_wid_stack.Push(wid);
         }
     }
 }
