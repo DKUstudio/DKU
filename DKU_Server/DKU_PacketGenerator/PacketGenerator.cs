@@ -11,12 +11,18 @@ namespace DKU_PacketGenerator
     {
         public static string clientSrc = "../DKU_ServerCore/Packets/var/client";
         public static string serverSrc = "../DKU_ServerCore/Packets/var/server";
+        public static string queueSrc = "../DKU_ServerCore/Packets/var/queue";
+        public static string gServerSrc = "../DKU_ServerCore/Packets/var/gserver";
 
         static FileInfo[] c_file_infos;
         static FileInfo[] s_file_infos;
+        static FileInfo[] q_file_infos;
+        static FileInfo[] gs_file_infos;
 
         static string[] c_file_names;
         static string[] s_file_names;
+        static string[] q_file_names;
+        static string[] gs_file_names;
 
 
         static void ReadNames()
@@ -35,6 +41,22 @@ namespace DKU_PacketGenerator
             for (int i = 0; i < s_file_infos.Length; i++)
             {
                 s_file_names[i] = s_file_infos[i].Name.Replace(".cs", "");
+            }
+
+            System.IO.DirectoryInfo di3 = new System.IO.DirectoryInfo(queueSrc);
+            q_file_infos = di3.GetFiles();
+            q_file_names = new string[q_file_infos.Length];
+            for (int i = 0; i < q_file_infos.Length; i++)
+            {
+                q_file_names[i] = q_file_infos[i].Name.Replace(".cs", "");
+            }
+
+            System.IO.DirectoryInfo di4 = new System.IO.DirectoryInfo(gServerSrc);
+            gs_file_infos = di4.GetFiles();
+            gs_file_names = new string[gs_file_infos.Length];
+            for (int i = 0; i < gs_file_infos.Length; i++)
+            {
+                gs_file_names[i] = gs_file_infos[i].Name.Replace(".cs", "");
             }
         }
 
@@ -55,7 +77,19 @@ namespace DKU_PacketGenerator
                 server_txt += "\t\t" + s + ",\n";
             }
 
-            string packet_type = String.Format(PacketFormat.ServerCore_PacketType, client_txt, server_txt);
+            string queue_txt = "";
+            foreach (string q in q_file_names)
+            {
+                queue_txt += "\t\t" + q + ",\n";
+            }
+
+            string gs_txt = "";
+            foreach (string gs in gs_file_names)
+            {
+                gs_txt += "\t\t" + gs + ",\n";
+            }
+
+            string packet_type = String.Format(PacketFormat.ServerCore_PacketType, client_txt, server_txt, queue_txt, gs_txt);
             System.IO.File.WriteAllText("./gen/PacketType.cs", packet_type);
         }
 
@@ -72,12 +106,22 @@ namespace DKU_PacketGenerator
                 case_txt += String.Format(PacketFormat.Packet_Handler_Case, str);
                 impl_txt += String.Format(PacketFormat.Packet_Handler_Func, str);
             }
+            foreach (string str in q_file_names)
+            {
+                case_txt += String.Format(PacketFormat.Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.Packet_Handler_Func, str);
+            }
             string handler_txt = String.Format(PacketFormat.Server_Packet_Handler, case_txt, impl_txt);
             System.IO.File.WriteAllText("./gen/server/GamePacketHandler.cs", handler_txt);
 
 
             // implements
             foreach (string str in c_file_names)
+            {
+                string handle_txt = String.Format(PacketFormat.Server_Packet_Handler_Handle, str);
+                System.IO.File.WriteAllText("./gen/server/var/" + str + "_Handler.cs", handle_txt);
+            }
+            foreach (string str in q_file_names)
             {
                 string handle_txt = String.Format(PacketFormat.Server_Packet_Handler_Handle, str);
                 System.IO.File.WriteAllText("./gen/server/var/" + str + "_Handler.cs", handle_txt);
@@ -130,6 +174,29 @@ namespace DKU_PacketGenerator
             }
         }
 
+        public static void Gen_Queue_Packets()
+        {
+            System.IO.Directory.CreateDirectory("./gen/q");
+            System.IO.Directory.CreateDirectory("./gen/q/var");
+
+            string case_txt = "";
+            string impl_txt = "";
+            foreach (string str in gs_file_names)
+            {
+                case_txt += String.Format(PacketFormat.unity_Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.unity_Packet_Handler_Func, str);
+            }
+            string handler_txt = String.Format(PacketFormat.unity_Packet_Handler, case_txt, impl_txt);
+            System.IO.File.WriteAllText("./gen/q/GamePacketHandler.cs", handler_txt);
+
+            // implements
+            foreach (string str in gs_file_names)
+            {
+                string handle_txt = String.Format(PacketFormat.unity_Packet_Handler_Handle, str);
+                System.IO.File.WriteAllText("./gen/q/var/" + str + "_Handler.cs", handle_txt);
+            }
+        }
+
         public static void Copy()
         {
             // packet type force copy
@@ -145,6 +212,9 @@ namespace DKU_PacketGenerator
 
             str = System.IO.File.ReadAllText("./gen/unity/GamePacketHandler.cs");
             System.IO.File.WriteAllText("../../DKU_Client/Assets/Network/GamePacketHandler.cs", str);
+
+            str = System.IO.File.ReadAllText("./gen/q/GamePacketHandler.cs");
+            System.IO.File.WriteAllText("../DKU_LoginQueue/GamePacketHandler.cs", str);
 
             // packet handle copy... no override (c/s)
             FileInfo[] s_infos = new DirectoryInfo("../DKU_Server/Packets/var/").GetFiles();
@@ -193,6 +263,22 @@ namespace DKU_PacketGenerator
                 {
                     str = System.IO.File.ReadAllText("./gen/unity/var/" + info.Name);
                     System.IO.File.WriteAllText("../../DKU_Client/Assets/Network/var/" + info.Name, str);
+                }
+            }
+
+            FileInfo[] q_infos = new DirectoryInfo("../DKU_LoginQueue/var/").GetFiles();
+            auto_infos = new DirectoryInfo("./gen/q/var/").GetFiles();
+            list.Clear();
+            foreach (FileInfo info in q_infos)
+            {
+                list.Add(info.Name);
+            }
+            foreach (FileInfo info in auto_infos)
+            {
+                if (list.Contains(info.Name) == false)
+                {
+                    str = System.IO.File.ReadAllText("./gen/q/var/" + info.Name);
+                    System.IO.File.WriteAllText("../DKU_LoginQueue/var/" + info.Name, str);
                 }
             }
         }

@@ -33,6 +33,12 @@ namespace DKU_ServerCore.Packets
 		S_UserPosRes,
 		S_WaitingIdRes,
 
+
+		Q_QueueStartRes,
+
+
+		GS_QueueStartReq,
+
         PACKET_COUNT
     }
 }

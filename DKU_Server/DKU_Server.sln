@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DKU_PacketGenerator", "DKU_
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{89EF1088-7580-45E8-A50E-FAA8C7F0AF34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DKU_LoginQueue", "DKU_LoginQueue\DKU_LoginQueue.csproj", "{ECD84EBE-01A3-465B-9FBC-98223E0862E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{2020CC32-DAEB-4E0F-9239-DC72710F0775}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2020CC32-DAEB-4E0F-9239-DC72710F0775}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2020CC32-DAEB-4E0F-9239-DC72710F0775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD84EBE-01A3-465B-9FBC-98223E0862E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD84EBE-01A3-465B-9FBC-98223E0862E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD84EBE-01A3-465B-9FBC-98223E0862E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD84EBE-01A3-465B-9FBC-98223E0862E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

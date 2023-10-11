@@ -8,6 +8,8 @@ namespace DKU_PacketGenerator
 {
     // {0}: 클라이언트 패킷 타입
     // {1}: 서버 패킷 타입
+    // {2}: 대기열
+    // {3}: 본섭
     public class PacketFormat
     {
         public static string ServerCore_PacketType =
@@ -28,6 +30,10 @@ namespace DKU_ServerCore.Packets
 {0}
 
 {1}
+
+{2}
+
+{3}
         PACKET_COUNT
     }}
 }}
@@ -88,6 +94,7 @@ namespace DKU_Server.Packets
         public static string Server_Packet_Handler_Handle =
 @"
 using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
