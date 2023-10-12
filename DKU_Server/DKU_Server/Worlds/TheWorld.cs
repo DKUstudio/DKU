@@ -92,7 +92,7 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootGlobalChat(ChatData data)
         {
-            foreach (var user in sid_users)
+            foreach (var user in uid_users)
             {
                 S_ChatRes res = new S_ChatRes();
                 res.chatData = data;
