@@ -42,6 +42,8 @@ namespace DKU_DummyClient.Packets
                     S_UserPosRes_Impl(packet);
                     break;
 
+            default:
+                break;
             }
         }
 

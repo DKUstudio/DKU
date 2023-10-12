@@ -10,7 +10,7 @@ namespace DKU_LoginQueue
     // 예를 들어, [4,4,4,3]으로 들어온 패킷을 하나로 합쳐줌
     public class MessageResolver
     {
-        public Action<Packet> m_complete_callback;
+        public Action<Packet>? m_complete_callback;
 
         int m_message_size;
         byte[] m_message_buffer = new byte[1024 * 2000]; // 2000K

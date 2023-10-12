@@ -27,7 +27,8 @@ public class QC_LoginReq_Handler
             res.success = 0;
             res.udata = udata;
 
-            NetworkManager.Instance.Returnwid(req.wid);
+            //NetworkManager.Instance.Returnwid(req.wid);
+            NetworkManager.Instance.PushLoginAcceptList(req.wid, udata);
             Console.WriteLine("[LoginReq] login success");
         }
         else

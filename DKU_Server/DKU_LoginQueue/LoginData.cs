@@ -9,8 +9,8 @@ namespace DKU_LoginQueue
 {
     public class LoginData
     {
-        UserToken token;
-        UserData data;
+        UserToken? token;
+        UserData? data;
 
         public UserToken UserToken => token;
         public UserData UserData => data;

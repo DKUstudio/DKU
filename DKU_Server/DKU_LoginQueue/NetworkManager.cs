@@ -12,7 +12,7 @@ namespace DKU_LoginQueue
 {
     public class NetworkManager
     {
-        private static NetworkManager instance;
+        private static NetworkManager? instance;
         public static NetworkManager Instance
         {
             get
@@ -88,8 +88,19 @@ namespace DKU_LoginQueue
             {
                 m_game_server = m_wid_list[wid];
                 m_wid_list.Remove(wid);
+                Returnwid(wid);
             }
 
+        }
+
+        public void PushLoginAcceptList(long v_wid, UserData udata)
+        {
+            LoginData loginData = new LoginData(m_wid_list[v_wid], udata);
+            lock (m_wid_list)
+            {
+                m_wid_list.Remove(v_wid);
+            }
+            m_login_accept_list.Add(loginData);
         }
 
         void LoginAccept()
@@ -110,7 +121,7 @@ namespace DKU_LoginQueue
         }
 
 
-        Packet goto_packet;
+        Packet? goto_packet;
         Q_WaitForLoginRes wait_for_res = new Q_WaitForLoginRes();
         public void LoginUsers(int amount)
         {
@@ -124,6 +135,7 @@ namespace DKU_LoginQueue
             {
                 for (int i = 0; i < Math.Min(amount, m_login_accept_list.Count); i++)
                 {
+                    Console.WriteLine($"[Goto GameServer] hello, {m_login_accept_list.ElementAt(0).UserData.nickname}");
                     m_login_accept_list.ElementAt(0).UserToken.Send(goto_packet);
                     m_login_accept_list.RemoveAt(0);
                 }

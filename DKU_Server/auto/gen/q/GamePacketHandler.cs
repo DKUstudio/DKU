@@ -15,6 +15,10 @@ public class GamePacketHandler
         switch ((PacketType)packet.m_type)
         {
 
+            case PacketType.GS_CurUsersCountRes:
+                GS_CurUsersCountRes_Impl(packet);
+                break;
+
             case PacketType.GS_QueueStartReq:
                 GS_QueueStartReq_Impl(packet);
                 break;
@@ -27,7 +31,14 @@ public class GamePacketHandler
                 QC_RegisterReq_Impl(packet);
                 break;
 
+            default:
+                break;
         }
+    }
+
+    void GS_CurUsersCountRes_Impl(Packet packet)
+    {
+        GS_CurUsersCountRes_Handler.Method(packet);
     }
 
     void GS_QueueStartReq_Impl(Packet packet)

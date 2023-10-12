@@ -31,6 +31,8 @@ public class GamePacketHandler
                 QC_RegisterReq_Impl(packet);
                 break;
 
+            default:
+                break;
         }
     }
 

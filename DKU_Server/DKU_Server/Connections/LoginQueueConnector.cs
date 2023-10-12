@@ -51,6 +51,7 @@ namespace DKU_Server.Connections
                 token.Init();
                 token.StartRecv();
                 m_token = token;
+                Console.WriteLine("[LoginQueueConnector] connected");
             }
             else
             {

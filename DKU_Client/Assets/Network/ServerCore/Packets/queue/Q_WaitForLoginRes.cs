@@ -9,11 +9,8 @@ namespace DKU_ServerCore.Packets.var.queue
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
-    public class Q_LoginRes : Data<Q_LoginRes>
+    public class Q_WaitForLoginRes : Data<Q_WaitForLoginRes>
     {
-        // 0: 성공
-        // 1: 실패
-        public short success;
-        public UserData udata;
+        public int my_waiting_num;
     }
 }

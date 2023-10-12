@@ -10,10 +10,13 @@ using DKU_ServerCore.Packets;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DKU_ServerCore.Packets.var.client;
+using System.Threading.Tasks;
+using System.Threading;
 
 public class Connections : MonoBehaviour
 {
     Socket m_socket;
+    public Socket M_socket => m_socket;
     SocketAsyncEventArgs m_recv_args;
     LinkedList<Packet> m_recv_packet_list;
     MessageResolver m_message_resolver;
@@ -69,13 +72,31 @@ public class Connections : MonoBehaviour
         if (!pending)
             onConnected(null, args);
     }
+    public void Connect(string ip_address)
+    {
+        m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        m_socket.NoDelay = true;
+        Debug.Log($"[Connections] Try connect server...{ip_address}");
 
+        IPAddress target = IPAddress.Parse(CommonDefine.IPv4_ADDRESS);
+        IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
+
+        // 접속용 args
+        SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+        args.Completed += onConnected;
+        args.RemoteEndPoint = endPoint;
+
+        bool pending = m_socket.ConnectAsync(args);
+        if (!pending)
+            onConnected(null, args);
+    }
     void onConnected(object sender, SocketAsyncEventArgs args)
     {
         if (args.SocketError == SocketError.Success)
         {
             Debug.Log("[Connections] Server <color=green>connected</color>");
             connected = true;
+
             StartRecv();
             // on_connection_completed.Invoke(true);
         }
@@ -94,9 +115,16 @@ public class Connections : MonoBehaviour
     #region recv
     void StartRecv()
     {
-        bool pending = m_socket.ReceiveAsync(m_recv_args);
-        if (!pending)
-            onRecvCompleted(null, m_recv_args);
+        try
+        {
+            bool pending = m_socket.ReceiveAsync(m_recv_args);
+            if (!pending)
+                onRecvCompleted(null, m_recv_args);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
     void onRecvCompleted(object sender, SocketAsyncEventArgs args)
     {
@@ -177,6 +205,15 @@ public class Connections : MonoBehaviour
     {
         logged_in = v_logged_in;
         udata = v_logged_in ? v_udata : null;
+    }
+
+    public void CloseSocketConnection()
+    {
+        m_socket.Close();
+        m_socket = null;
+
+        m_recv_args = null;
+        m_recv_args = new SocketAsyncEventArgs();
     }
 
     private void OnApplicationQuit()

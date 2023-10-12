@@ -87,6 +87,8 @@ namespace DKU_Server.Packets
                     Q_YourWidRes_Impl(packet);
                     break;
 
+            default:
+                break;
             }
         }
 

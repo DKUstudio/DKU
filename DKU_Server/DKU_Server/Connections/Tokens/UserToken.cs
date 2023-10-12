@@ -17,7 +17,7 @@ namespace DKU_Server.Connections.Tokens
     public class UserToken
     {
         MessageResolver m_message_resolver; // 받은 데이터를 Packet 객체로 만들어줌
-        public Socket m_socket { get; set; } // 연결된 소켓
+        public Socket? m_socket { get; set; } // 연결된 소켓
 
         // 요청받은 패킷 리스트
         List<Packet> m_recv_packet_list;
@@ -66,7 +66,7 @@ namespace DKU_Server.Connections.Tokens
                     }
                     catch (Exception e)
                     {
-
+                        Console.WriteLine(e.ToString());
                     }
                 }
             }
@@ -85,7 +85,7 @@ namespace DKU_Server.Connections.Tokens
                 onRecvCompleted(null, m_recv_args);
         }
 
-        void onRecvCompleted(object sender, SocketAsyncEventArgs args)
+        void onRecvCompleted(object? sender, SocketAsyncEventArgs args)
         {
             if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
@@ -181,7 +181,7 @@ namespace DKU_Server.Connections.Tokens
             }
         }
 
-        void onSendCompleted(object sender, SocketAsyncEventArgs args)
+        void onSendCompleted(object? sender, SocketAsyncEventArgs args)
         {
             if (args.SocketError == SocketError.Success)
             {

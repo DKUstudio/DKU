@@ -9,7 +9,7 @@ namespace DKU_LoginQueue
 {
     public class SocketAsyncEventArgsPool
     {
-        private static SocketAsyncEventArgsPool instance;
+        private static SocketAsyncEventArgsPool? instance;
         public static SocketAsyncEventArgsPool Instance
         {
             get

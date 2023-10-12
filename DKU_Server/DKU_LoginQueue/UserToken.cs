@@ -10,16 +10,16 @@ namespace DKU_LoginQueue
 {
     public class UserToken
     {
-        MessageResolver m_message_resolver; // 받은 데이터를 Packet 객체로 만들어줌
-        public Socket m_socket { get; set; } // 연결된 소켓
+        MessageResolver? m_message_resolver; // 받은 데이터를 Packet 객체로 만들어줌
+        public Socket? m_socket { get; set; } // 연결된 소켓
 
         // 요청받은 패킷 리스트
-        List<Packet> m_recv_packet_list;
+        List<Packet>? m_recv_packet_list;
         // 보낼 패킷 리스트
-        Queue<Packet> m_send_packet_queue;
+        Queue<Packet>? m_send_packet_queue;
 
-        SocketAsyncEventArgs m_recv_args;   // 메시지 받을 때 사용
-        SocketAsyncEventArgs m_send_args;   // 메시지 보낼 때 사용
+        SocketAsyncEventArgs? m_recv_args;   // 메시지 받을 때 사용
+        SocketAsyncEventArgs? m_send_args;   // 메시지 보낼 때 사용
 
         public UserToken()
         {
@@ -76,7 +76,7 @@ namespace DKU_LoginQueue
                 onRecvCompleted(null, m_recv_args);
         }
 
-        void onRecvCompleted(object sender, SocketAsyncEventArgs args)
+        void onRecvCompleted(object? sender, SocketAsyncEventArgs args)
         {
             if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
             {
@@ -169,7 +169,7 @@ namespace DKU_LoginQueue
             }
         }
 
-        void onSendCompleted(object sender, SocketAsyncEventArgs args)
+        void onSendCompleted(object? sender, SocketAsyncEventArgs args)
         {
             if (args.SocketError == SocketError.Success)
             {
@@ -187,7 +187,7 @@ namespace DKU_LoginQueue
             }
         }
 
-        void onSendCompletedPooling(object sender, SocketAsyncEventArgs args)
+        void onSendCompletedPooling(object? sender, SocketAsyncEventArgs args)
         {
             if (args.BufferList != null)
                 args.BufferList = null;

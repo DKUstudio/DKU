@@ -11,6 +11,10 @@ namespace DKU_ServerCore.Packets.var.queue
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
     public class Q_RegisterRes : Data<Q_RegisterRes>
     {
-        public bool success;
+        // 0: 성공
+        // 1: id 중복
+        // 2: nick 중복
+        // 3: sql error
+        public short success;
     }
 }

@@ -31,14 +31,18 @@ namespace DKU_ServerCore.Packets
 		S_UserPosRes,
 
 
+		Q_CurUsersCountReq,
+		Q_GoToGameServerRes,
 		Q_LoginRes,
 		Q_QueueStartRes,
 		Q_RegisterRes,
+		Q_WaitForLoginRes,
 		Q_YourWidRes,
 		QC_LoginReq,
 		QC_RegisterReq,
 
 
+		GS_CurUsersCountRes,
 		GS_QueueStartReq,
 
         PACKET_COUNT

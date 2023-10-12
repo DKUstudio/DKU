@@ -62,7 +62,7 @@ namespace DKU_Server
             token.m_socket = client_socket;
             token.StartRecv();
 
-            Console.WriteLine("[OnNewClient] sent waiting_id");
+            Console.WriteLine($"[New Client] came");
         }
     }
 }

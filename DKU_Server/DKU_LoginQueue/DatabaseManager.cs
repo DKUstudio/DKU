@@ -12,7 +12,7 @@ namespace DKU_LoginQueue
 {
     public class DatabaseManager
     {
-        static string connString;
+        static string? connString;
 
         public void Init()
         {

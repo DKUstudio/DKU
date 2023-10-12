@@ -39,6 +39,14 @@ public class GamePacketHandler
                 S_UserPosRes_Impl(packet);
                 break;
 
+            case PacketType.Q_CurUsersCountReq:
+                Q_CurUsersCountReq_Impl(packet);
+                break;
+
+            case PacketType.Q_GoToGameServerRes:
+                Q_GoToGameServerRes_Impl(packet);
+                break;
+
             case PacketType.Q_LoginRes:
                 Q_LoginRes_Impl(packet);
                 break;
@@ -51,10 +59,16 @@ public class GamePacketHandler
                 Q_RegisterRes_Impl(packet);
                 break;
 
+            case PacketType.Q_WaitForLoginRes:
+                Q_WaitForLoginRes_Impl(packet);
+                break;
+
             case PacketType.Q_YourWidRes:
                 Q_YourWidRes_Impl(packet);
                 break;
 
+            default:
+                break;
         }
     }
 
@@ -88,6 +102,16 @@ public class GamePacketHandler
         S_UserPosRes_Handler.Method(packet);
     }
 
+    void Q_CurUsersCountReq_Impl(Packet packet)
+    {
+        Q_CurUsersCountReq_Handler.Method(packet);
+    }
+
+    void Q_GoToGameServerRes_Impl(Packet packet)
+    {
+        Q_GoToGameServerRes_Handler.Method(packet);
+    }
+
     void Q_LoginRes_Impl(Packet packet)
     {
         Q_LoginRes_Handler.Method(packet);
@@ -101,6 +125,11 @@ public class GamePacketHandler
     void Q_RegisterRes_Impl(Packet packet)
     {
         Q_RegisterRes_Handler.Method(packet);
+    }
+
+    void Q_WaitForLoginRes_Impl(Packet packet)
+    {
+        Q_WaitForLoginRes_Handler.Method(packet);
     }
 
     void Q_YourWidRes_Impl(Packet packet)

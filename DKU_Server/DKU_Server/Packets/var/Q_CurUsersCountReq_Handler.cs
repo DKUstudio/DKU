@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DKU_ServerCore.Packets.var.gserver;
+using DKU_ServerCore;
 
 namespace DKU_Server.Packets.var
 {
@@ -17,8 +18,11 @@ namespace DKU_Server.Packets.var
         {
             Q_CurUsersCountReq req = Data<Q_CurUsersCountReq>.Deserialize(packet.m_data);
 
+            int remained = CommonDefine.MAX_CONNECTION - NetworkManager.Instance.world.users_count;
             GS_CurUsersCountRes res = new GS_CurUsersCountRes();
-            res.cur_login_users_count = NetworkManager.Instance.world.users_count;
+            res.cur_login_users_count = remained;
+
+            Console.WriteLine($"[GameServer] available seats: {remained}");
             byte[] body = res.Serialize();
 
             Packet pkt = new Packet(PacketType.GS_CurUsersCountRes, body, body.Length);

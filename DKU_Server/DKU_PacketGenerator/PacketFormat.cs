@@ -83,6 +83,8 @@ namespace DKU_Server.Packets
             switch ((PacketType)packet.m_type)
             {{
 {0}
+            default:
+                break;
             }}
         }}
 {1}
@@ -137,6 +139,8 @@ namespace DKU_DummyClient.Packets
             switch ((PacketType)packet.m_type)
             {{
 {0}
+            default:
+                break;
             }}
         }}
 {1}
@@ -186,6 +190,8 @@ public class GamePacketHandler
         switch ((PacketType)packet.m_type)
         {{
 {0}
+            default:
+                break;
         }}
     }}
 {1}

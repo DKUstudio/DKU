@@ -9,11 +9,11 @@ public class Q_LoginRes_Handler
     public static void Method(Packet packet)
     {
         Q_LoginRes res = Data<Q_LoginRes>.Deserialize(packet.m_data);
-        if (res.success)
+        if (res.success == 0)
         {
             Debug.Log("[Login] <color=green>success</color>");
         }
-        else
+        else if (res.success == 1)
         {
             Debug.Log("[Login] <color=red>fail</color>");
         }

@@ -11,9 +11,9 @@ namespace DKU_ServerCore.Packets.var.queue
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
     public class Q_LoginRes : Data<Q_LoginRes>
     {
-        public bool success;
+        // 0: 성공
+        // 1: 실패
+        public short success;
         public UserData udata;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CommonDefine.MAX_PACKET_STRING_LENGTH)]
-        public string game_server_ipv4;
     }
 }
