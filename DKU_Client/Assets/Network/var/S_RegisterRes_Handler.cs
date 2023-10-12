@@ -12,10 +12,14 @@ public class S_RegisterRes_Handler
         if (res.success)
         {
             Debug.Log("[S_RegisterRes_Handler] Register <color=green>Success</color>");
+            login_input.instance.loadingcanvas.SetActive(false);
+            Debug.Log(login_input.instance.Signin_NAME.text);
         }
         else
         {
             Debug.Log("[S_RegisterRes_Handler] Register <color=red>fail</color>...");
+            login_input.instance.loadingcanvas.SetActive(false);
+            login_input.instance.registfail();
         }
     }
 }

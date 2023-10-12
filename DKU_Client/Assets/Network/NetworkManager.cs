@@ -19,7 +19,7 @@ public class NetworkManager : MonoBehaviour
         instance = this;
 
         connections = GetComponent<Connections>();
-
+        DontDestroyOnLoad(this);
         connections.Init();
         connections.Connect();
     }
