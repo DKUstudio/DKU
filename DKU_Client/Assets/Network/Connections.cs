@@ -51,30 +51,13 @@ public class Connections : MonoBehaviour
     }
 
     #region connect
-    // public void Connect(string address, int port)
-    // {
-    //     m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-    //     m_socket.NoDelay = true;
-
-    //     IPAddress target = IPAddress.Parse(address);
-    //     IPEndPoint endPoint = new IPEndPoint(target, port);
-
-    //     // 접속용 args
-    //     SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-    //     args.Completed += onConnected;
-    //     args.RemoteEndPoint = endPoint;
-
-    //     bool pending = m_socket.ConnectAsync(args);
-    //     if (!pending)
-    //         onConnected(null, args);
-    // }
     public void Connect()
     {
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_socket.NoDelay = true;
         Debug.Log("[Connections] Try connect server...");
 
-        IPAddress target = IPAddress.Parse(CommonDefine.IPv4_ADDRESS);
+        IPAddress target = IPAddress.Parse(CommonDefine.LOGIN_QUEUE_IPv4_ADDRESS);
         IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
 
         // 접속용 args

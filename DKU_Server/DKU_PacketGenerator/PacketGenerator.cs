@@ -13,16 +13,19 @@ namespace DKU_PacketGenerator
         public static string serverSrc = "../DKU_ServerCore/Packets/var/server";
         public static string queueSrc = "../DKU_ServerCore/Packets/var/queue";
         public static string gServerSrc = "../DKU_ServerCore/Packets/var/gserver";
+        public static string qClientSrc = "../DKU_ServerCore/Packets/var/qclient";
 
         static FileInfo[] c_file_infos;
         static FileInfo[] s_file_infos;
         static FileInfo[] q_file_infos;
         static FileInfo[] gs_file_infos;
+        static FileInfo[] qc_file_infos;
 
         static string[] c_file_names;
         static string[] s_file_names;
         static string[] q_file_names;
         static string[] gs_file_names;
+        static string[] qc_file_names;
 
 
         static void ReadNames()
@@ -58,6 +61,14 @@ namespace DKU_PacketGenerator
             {
                 gs_file_names[i] = gs_file_infos[i].Name.Replace(".cs", "");
             }
+
+            System.IO.DirectoryInfo di5 = new System.IO.DirectoryInfo(qClientSrc);
+            qc_file_infos = di5.GetFiles();
+            qc_file_names = new string[qc_file_infos.Length];
+            for (int i = 0; i < qc_file_infos.Length; i++)
+            {
+                qc_file_names[i] = qc_file_infos[i].Name.Replace(".cs", "");
+            }
         }
 
         public static void Gen_ServerCore_PacketType()
@@ -81,6 +92,10 @@ namespace DKU_PacketGenerator
             foreach (string q in q_file_names)
             {
                 queue_txt += "\t\t" + q + ",\n";
+            }
+            foreach (string qc in qc_file_names)
+            {
+                queue_txt += "\t\t" + qc + ",\n";
             }
 
             string gs_txt = "";
@@ -163,11 +178,21 @@ namespace DKU_PacketGenerator
                 case_txt += String.Format(PacketFormat.unity_Packet_Handler_Case, str);
                 impl_txt += String.Format(PacketFormat.unity_Packet_Handler_Func, str);
             }
+            foreach (string str in q_file_names)
+            {
+                case_txt += String.Format(PacketFormat.unity_Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.unity_Packet_Handler_Func, str);
+            }
             string handler_txt = String.Format(PacketFormat.unity_Packet_Handler, case_txt, impl_txt);
             System.IO.File.WriteAllText("./gen/unity/GamePacketHandler.cs", handler_txt);
 
             // implements
             foreach (string str in s_file_names)
+            {
+                string handle_txt = String.Format(PacketFormat.unity_Packet_Handler_Handle, str);
+                System.IO.File.WriteAllText("./gen/unity/var/" + str + "_Handler.cs", handle_txt);
+            }
+            foreach (string str in q_file_names)
             {
                 string handle_txt = String.Format(PacketFormat.unity_Packet_Handler_Handle, str);
                 System.IO.File.WriteAllText("./gen/unity/var/" + str + "_Handler.cs", handle_txt);
@@ -186,11 +211,21 @@ namespace DKU_PacketGenerator
                 case_txt += String.Format(PacketFormat.unity_Packet_Handler_Case, str);
                 impl_txt += String.Format(PacketFormat.unity_Packet_Handler_Func, str);
             }
+            foreach (string str in qc_file_names)
+            {
+                case_txt += String.Format(PacketFormat.unity_Packet_Handler_Case, str);
+                impl_txt += String.Format(PacketFormat.unity_Packet_Handler_Func, str);
+            }
             string handler_txt = String.Format(PacketFormat.unity_Packet_Handler, case_txt, impl_txt);
             System.IO.File.WriteAllText("./gen/q/GamePacketHandler.cs", handler_txt);
 
             // implements
             foreach (string str in gs_file_names)
+            {
+                string handle_txt = String.Format(PacketFormat.q_Packet_Handler_Handle, str);
+                System.IO.File.WriteAllText("./gen/q/var/" + str + "_Handler.cs", handle_txt);
+            }
+            foreach (string str in qc_file_names)
             {
                 string handle_txt = String.Format(PacketFormat.q_Packet_Handler_Handle, str);
                 System.IO.File.WriteAllText("./gen/q/var/" + str + "_Handler.cs", handle_txt);

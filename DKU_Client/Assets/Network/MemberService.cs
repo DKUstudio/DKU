@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets.var.qclient;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,15 +14,15 @@ public class MemberService : MonoBehaviour
         Crypto.SHA256_Generate(pw);
         Debug.Log(Crypto.salt + " / " + Crypto.hashed_password);
 
-        C_RegisterReq req = new C_RegisterReq();
-        req.waiting_id = NetworkManager.Instance.Connections.waiting_id;
+        QC_RegisterReq req = new QC_RegisterReq();
+        req.wid = NetworkManager.Instance.Connections.waiting_id;
         req.id = id;
         req.salt = Crypto.salt;
         req.pw = Crypto.hashed_password;
         req.nickname = nickname;
         byte[] body = req.Serialize();
 
-        Packet packet = new Packet(PacketType.C_RegisterReq, body, body.Length);
+        Packet packet = new Packet(PacketType.QC_RegisterReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(packet);
     } // S_RegisterRes.cs
 
@@ -33,13 +34,13 @@ public class MemberService : MonoBehaviour
             Debug.Log("[Login_Request] Already Logged in...");
             return;
         }
-        C_LoginReq req = new C_LoginReq();
-        req.accept_id = NetworkManager.Instance.Connections.waiting_id;
+        QC_LoginReq req = new QC_LoginReq();
+        req.wid = NetworkManager.Instance.Connections.waiting_id;
         req.id = id;
         req.pw = pw;
         byte[] body = req.Serialize();
 
-        Packet packet = new Packet(PacketType.C_LoginReq, body, body.Length);
+        Packet packet = new Packet(PacketType.QC_LoginReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(packet);
     }   // S_LoginRes.cs
 

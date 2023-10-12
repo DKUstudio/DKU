@@ -18,20 +18,6 @@ namespace DKU_Server.Packets.var
         {
             C_LogoutReq req = Data<C_LogoutReq>.Deserialize(packet.m_data);
 
-            TheWorld.Instance.users.TryGetValue(req.uid, out var user);
-            if (user == null)   // no such data
-                return;
-            TheWorld.Instance.LogoutUser(req.uid);
-
-            // resend waiting id
-            long waiting_id = NetworkManager.Instance.GetWaitingId();
-            NetworkManager.Instance.m_waiting_list.Add(waiting_id, user.UserToken);
-            S_WaitingIdRes res = new S_WaitingIdRes();
-            res.waiting_id = waiting_id;
-            byte[] body = res.Serialize();
-
-            Packet pkt = new Packet(PacketType.S_WaitingIdRes, body, body.Length);
-            user.UserToken.Send(pkt);
         }
     }
 }

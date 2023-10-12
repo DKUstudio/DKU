@@ -19,20 +19,12 @@ public class GamePacketHandler
                 S_ChatRes_Impl(packet);
                 break;
 
-            case PacketType.S_LoginRes:
-                S_LoginRes_Impl(packet);
-                break;
-
             case PacketType.S_LogoutRes:
                 S_LogoutRes_Impl(packet);
                 break;
 
             case PacketType.S_PingRes:
                 S_PingRes_Impl(packet);
-                break;
-
-            case PacketType.S_RegisterRes:
-                S_RegisterRes_Impl(packet);
                 break;
 
             case PacketType.S_StartAuthRes:
@@ -47,8 +39,20 @@ public class GamePacketHandler
                 S_UserPosRes_Impl(packet);
                 break;
 
-            case PacketType.S_WaitingIdRes:
-                S_WaitingIdRes_Impl(packet);
+            case PacketType.Q_LoginRes:
+                Q_LoginRes_Impl(packet);
+                break;
+
+            case PacketType.Q_QueueStartRes:
+                Q_QueueStartRes_Impl(packet);
+                break;
+
+            case PacketType.Q_RegisterRes:
+                Q_RegisterRes_Impl(packet);
+                break;
+
+            case PacketType.Q_YourWidRes:
+                Q_YourWidRes_Impl(packet);
                 break;
 
         }
@@ -59,11 +63,6 @@ public class GamePacketHandler
         S_ChatRes_Handler.Method(packet);
     }
 
-    void S_LoginRes_Impl(Packet packet)
-    {
-        S_LoginRes_Handler.Method(packet);
-    }
-
     void S_LogoutRes_Impl(Packet packet)
     {
         S_LogoutRes_Handler.Method(packet);
@@ -72,11 +71,6 @@ public class GamePacketHandler
     void S_PingRes_Impl(Packet packet)
     {
         S_PingRes_Handler.Method(packet);
-    }
-
-    void S_RegisterRes_Impl(Packet packet)
-    {
-        S_RegisterRes_Handler.Method(packet);
     }
 
     void S_StartAuthRes_Impl(Packet packet)
@@ -94,9 +88,24 @@ public class GamePacketHandler
         S_UserPosRes_Handler.Method(packet);
     }
 
-    void S_WaitingIdRes_Impl(Packet packet)
+    void Q_LoginRes_Impl(Packet packet)
     {
-        S_WaitingIdRes_Handler.Method(packet);
+        Q_LoginRes_Handler.Method(packet);
+    }
+
+    void Q_QueueStartRes_Impl(Packet packet)
+    {
+        Q_QueueStartRes_Handler.Method(packet);
+    }
+
+    void Q_RegisterRes_Impl(Packet packet)
+    {
+        Q_RegisterRes_Handler.Method(packet);
+    }
+
+    void Q_YourWidRes_Impl(Packet packet)
+    {
+        Q_YourWidRes_Handler.Method(packet);
     }
 
 }

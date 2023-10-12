@@ -30,6 +30,12 @@ namespace DKU_LoginQueue
         public GamePacketHandler m_game_packet_handler = new GamePacketHandler();
 
         public Dictionary<long, UserToken> m_wid_list = new Dictionary<long, UserToken>();
+        public DatabaseManager m_database_manager = new DatabaseManager();
+
+        public NetworkManager()
+        {
+            m_database_manager.Init();
+        }
 
         public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)
         {
@@ -43,6 +49,7 @@ namespace DKU_LoginQueue
             token.StartRecv();
 
             long wid = Getwid();
+            Console.WriteLine($"[waitingID] gave new wid {wid}");
             m_wid_list.Add(wid, token);
 
             Q_YourWidRes res = new Q_YourWidRes();
@@ -65,6 +72,9 @@ namespace DKU_LoginQueue
         }
         public void Returnwid(long wid)
         {
+            if(m_wid_list.ContainsKey(wid))
+                m_wid_list.Remove(wid);
+
             m_wid_pool.Push(wid);
         }
 

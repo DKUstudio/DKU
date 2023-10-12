@@ -3,11 +3,11 @@ using DKU_ServerCore.Packets.var.gserver;
 using DKU_ServerCore.Packets.var.qclient;
 using DKU_ServerCore.Packets;
 
-public class GS_QueueStartReq_Handler
+public class QC_RegisterReq_Handler
 {
     public static void Method(Packet packet)
     {
-        GS_QueueStartReq res = Data<GS_QueueStartReq>.Deserialize(packet.m_data);
+        QC_RegisterReq res = Data<QC_RegisterReq>.Deserialize(packet.m_data);
 
     }
 }

@@ -41,8 +41,8 @@ namespace DKU_LoginQueue
             m_send_args.UserToken = this;
 
             // 송수신용 객체 모두 버퍼매니저를 이용해 세팅
-            byte[] recv_buffer = new byte[CommonDefine.BUFFER_SIZE];
-            byte[] send_buffer = new byte[CommonDefine.BUFFER_SIZE];
+            byte[] recv_buffer = new byte[128];
+            byte[] send_buffer = new byte[128];
             m_recv_args.SetBuffer(recv_buffer, 0, recv_buffer.Length);
             m_send_args.SetBuffer(send_buffer, 0, send_buffer.Length);
             /*BufferManager.Instance.SetBuffer(m_recv_args);
@@ -135,7 +135,7 @@ namespace DKU_LoginQueue
 
             int data_len = send_data.Length;
 
-            if (data_len > CommonDefine.BUFFER_SIZE)
+            if (data_len > 128)
             {
                 // 버퍼 풀에서 설정한 크기가 충분하지 않은 경우 (4K 초과)
                 // SocketAsyncEventArgsPool에서 새 객체를 Pop해서 사용

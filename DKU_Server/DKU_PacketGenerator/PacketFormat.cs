@@ -195,6 +195,7 @@ public class GamePacketHandler
         public static string unity_Packet_Handler_Handle =
 @"
 using DKU_ServerCore.Packets.var.server;
+using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
@@ -227,6 +228,7 @@ public class {0}_Handler
     public static string q_Packet_Handler_Handle =
 @"
 using DKU_ServerCore.Packets.var.gserver;
+using DKU_ServerCore.Packets.var.qclient;
 using DKU_ServerCore.Packets;
 
 public class {0}_Handler

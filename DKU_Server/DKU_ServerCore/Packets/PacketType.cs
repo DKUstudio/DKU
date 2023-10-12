@@ -24,18 +24,19 @@ namespace DKU_ServerCore.Packets
 
 
 		S_ChatRes,
-		S_LoginRes,
 		S_LogoutRes,
 		S_PingRes,
-		S_RegisterRes,
 		S_StartAuthRes,
 		S_TryAuthRes,
 		S_UserPosRes,
-		S_WaitingIdRes,
 
 
+		Q_LoginRes,
 		Q_QueueStartRes,
+		Q_RegisterRes,
 		Q_YourWidRes,
+		QC_LoginReq,
+		QC_RegisterReq,
 
 
 		GS_QueueStartReq,

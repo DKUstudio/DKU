@@ -1,13 +1,14 @@
 
 using DKU_ServerCore.Packets.var.server;
+using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
-public class S_WaitingIdRes_Handler
+public class Q_RegisterRes_Handler
 {
     public static void Method(Packet packet)
     {
-        S_WaitingIdRes res = Data<S_WaitingIdRes>.Deserialize(packet.m_data);
+        Q_RegisterRes res = Data<Q_RegisterRes>.Deserialize(packet.m_data);
 
     }
 }

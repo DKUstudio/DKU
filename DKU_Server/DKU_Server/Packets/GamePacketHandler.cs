@@ -59,8 +59,16 @@ namespace DKU_Server.Packets
                     C_UserPosReq_Impl(packet);
                     break;
 
+                case PacketType.Q_LoginRes:
+                    Q_LoginRes_Impl(packet);
+                    break;
+
                 case PacketType.Q_QueueStartRes:
                     Q_QueueStartRes_Impl(packet);
+                    break;
+
+                case PacketType.Q_RegisterRes:
+                    Q_RegisterRes_Impl(packet);
                     break;
 
                 case PacketType.Q_YourWidRes:
@@ -115,9 +123,19 @@ namespace DKU_Server.Packets
             C_UserPosReq_Handler.Method(packet);
         }
 
+        void Q_LoginRes_Impl(Packet packet)
+        {
+            Q_LoginRes_Handler.Method(packet);
+        }
+
         void Q_QueueStartRes_Impl(Packet packet)
         {
             Q_QueueStartRes_Handler.Method(packet);
+        }
+
+        void Q_RegisterRes_Impl(Packet packet)
+        {
+            Q_RegisterRes_Handler.Method(packet);
         }
 
         void Q_YourWidRes_Impl(Packet packet)
