@@ -27,18 +27,10 @@ public class Connections : MonoBehaviour
     private bool connected = false;
     public bool Connected => connected;
 
-    [Sirenix.OdinInspector.ReadOnly]
-    public bool is_waiting = false;
-    [Sirenix.OdinInspector.ReadOnly]
-    public long waiting_id = -1;
-    [Sirenix.OdinInspector.ReadOnly]
-    public bool logged_in = false;
-    [Sirenix.OdinInspector.ReadOnly]
-    public UserData udata;
-
     private void Update()
     {
-        ProcessPackets();
+        if (connected)
+            ProcessPackets();
     }
 
     public void Init()
@@ -58,7 +50,7 @@ public class Connections : MonoBehaviour
     {
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_socket.NoDelay = true;
-        Debug.Log("[Connections] Try connect server...");
+        Debug.Log($"[Connections] Try connect server...{CommonDefine.LOGIN_QUEUE_IPv4_ADDRESS}");
 
         IPAddress target = IPAddress.Parse(CommonDefine.LOGIN_QUEUE_IPv4_ADDRESS);
         IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
@@ -72,13 +64,14 @@ public class Connections : MonoBehaviour
         if (!pending)
             onConnected(null, args);
     }
+
     public void Connect(string ip_address)
     {
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_socket.NoDelay = true;
-        Debug.Log($"[Connections] Try connect server...{ip_address}");
 
-        IPAddress target = IPAddress.Parse(CommonDefine.IPv4_ADDRESS);
+        Debug.Log($"[Connections] Try connect server...{ip_address}");
+        IPAddress target = IPAddress.Parse(ip_address);
         IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
 
         // 접속용 args
@@ -90,11 +83,13 @@ public class Connections : MonoBehaviour
         if (!pending)
             onConnected(null, args);
     }
+
     void onConnected(object sender, SocketAsyncEventArgs args)
     {
         if (args.SocketError == SocketError.Success)
         {
             Debug.Log("[Connections] Server <color=green>connected</color>");
+            Debug.Log(m_socket.RemoteEndPoint);
             connected = true;
 
             StartRecv();
@@ -117,6 +112,10 @@ public class Connections : MonoBehaviour
     {
         try
         {
+            if (m_socket.Connected == false)
+            {
+                return;
+            }
             bool pending = m_socket.ReceiveAsync(m_recv_args);
             if (!pending)
                 onRecvCompleted(null, m_recv_args);
@@ -197,14 +196,14 @@ public class Connections : MonoBehaviour
 
     public void SetWaiting(bool v_is_waiting, long v_waiting_id)
     {
-        is_waiting = v_is_waiting;
-        waiting_id = v_is_waiting ? v_waiting_id : -1;
+        NetworkManager.Instance.SetIsWaiting(v_is_waiting);
+        NetworkManager.Instance.SetWid(v_is_waiting ? v_waiting_id : 0);
     }
 
     public void SetLogin(bool v_logged_in, UserData v_udata)
     {
-        logged_in = v_logged_in;
-        udata = v_logged_in ? v_udata : null;
+        NetworkManager.Instance.SetIsLoggedIn(v_logged_in);
+        NetworkManager.Instance.SetUdata(v_logged_in ? v_udata : null);
     }
 
     public void CloseSocketConnection()
@@ -219,20 +218,20 @@ public class Connections : MonoBehaviour
     private void OnApplicationQuit()
     {
         // 자동 로그아웃 및 대기열 탈출
-        if (logged_in == true)
+        if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
             C_LogoutReq req = new C_LogoutReq();
-            req.uid = udata.uid;
+            req.uid = NetworkManager.Instance.UDATA.uid;
 
             byte[] body = req.Serialize();
             Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
             Send_Async(packet);
         }
 
-        if (is_waiting)
+        if (NetworkManager.Instance.IS_WAITING)
         {
             C_StopWaitingReq req = new C_StopWaitingReq();
-            req.waiting_id = NetworkManager.Instance.Connections.waiting_id;
+            req.waiting_id = NetworkManager.Instance.WID;
             byte[] body = req.Serialize();
 
             Packet packet = new Packet(PacketType.C_StopWaitingReq, body, body.Length);
