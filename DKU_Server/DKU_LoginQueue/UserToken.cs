@@ -45,8 +45,6 @@ namespace DKU_LoginQueue
             byte[] send_buffer = new byte[128];
             m_recv_args.SetBuffer(recv_buffer, 0, recv_buffer.Length);
             m_send_args.SetBuffer(send_buffer, 0, send_buffer.Length);
-            /*BufferManager.Instance.SetBuffer(m_recv_args);
-            BufferManager.Instance.SetBuffer(m_send_args);*/
         }
 
         public void Update()

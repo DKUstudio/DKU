@@ -16,36 +16,33 @@ namespace DKU_Server.Connections.Tokens
 {
     public class UserToken
     {
-        public UserData user { get; set; } // 유저 정보 저장
-
         MessageResolver m_message_resolver; // 받은 데이터를 Packet 객체로 만들어줌
         public Socket m_socket { get; set; } // 연결된 소켓
 
         // 요청받은 패킷 리스트
-        List<Packet> m_packet_list = new List<Packet>(5);
-        object m_mutex_packet_list = new object();
-        SocketAsyncEventArgs m_recv_args;   // 메시지 받을 때 사용
-
-
+        List<Packet> m_recv_packet_list;
         // 보낼 패킷 리스트
-        Queue<Packet> m_send_packet_queue = new Queue<Packet>(100);
-        object m_mutex_send_list = new object();
+        Queue<Packet> m_send_packet_queue;
+
+        SocketAsyncEventArgs m_recv_args;   // 메시지 받을 때 사용
         SocketAsyncEventArgs m_send_args;   // 메시지 보낼 때 사용
 
         public UserToken()
         {
             m_message_resolver = new MessageResolver();
+            m_recv_packet_list = new List<Packet>(10);
+            m_send_packet_queue = new Queue<Packet>(100);
+            m_recv_args = SocketAsyncEventArgsPool.Instance.Pop();
+            m_send_args = SocketAsyncEventArgsPool.Instance.Pop();
         }
 
         public void Init()
         {
             // 수신용 객체 설정
-            m_recv_args = SocketAsyncEventArgsPool.Instance.Pop();
             m_recv_args.Completed += onRecvCompleted;
             m_recv_args.UserToken = this;
 
             // 송신용 객체 설정
-            m_send_args = SocketAsyncEventArgsPool.Instance.Pop();
             m_send_args.Completed += onSendCompleted;
             m_send_args.UserToken = this;
 
@@ -56,16 +53,16 @@ namespace DKU_Server.Connections.Tokens
 
         public void Update()
         {
-            if (m_packet_list.Count > 0)
+            if (m_recv_packet_list.Count > 0)
             {
-                lock (m_mutex_packet_list)
+                lock (m_recv_packet_list)
                 {
                     try
                     {
                         // 수신 패킷 처리
                         /*foreach (Packet packet in m_packet_list)
                             user.ProcessPacket(packet);*/
-                        m_packet_list.Clear();
+                        m_recv_packet_list.Clear();
                     }
                     catch (Exception e)
                     {
@@ -118,7 +115,7 @@ namespace DKU_Server.Connections.Tokens
             if (m_socket == null)
                 return;
 
-            lock (m_mutex_send_list)
+            lock (m_send_packet_queue)
             {
                 // 수신 중인 패킷이 없으면, 바로 전송
                 if (m_send_packet_queue.Count < 1)
@@ -188,7 +185,7 @@ namespace DKU_Server.Connections.Tokens
         {
             if (args.SocketError == SocketError.Success)
             {
-                lock (m_mutex_send_list)
+                lock (m_send_packet_queue)
                 {
                     if (m_send_packet_queue.Count > 0)
                     {
@@ -214,7 +211,7 @@ namespace DKU_Server.Connections.Tokens
 
             if (args.SocketError == SocketError.Success)
             {
-                lock (m_mutex_send_list)
+                lock (m_send_packet_queue)
                 {
                     if (m_send_packet_queue.Count > 0)
                         m_send_packet_queue.Dequeue();
@@ -228,12 +225,21 @@ namespace DKU_Server.Connections.Tokens
 
         void AddPacket(Packet packet)
         {
-            lock (m_mutex_packet_list)
+            lock (m_recv_packet_list)
             {
-                m_packet_list.Add(packet);
+                m_recv_packet_list.Add(packet);
             }
         }
 
+        public void Close()
+        {
+            m_message_resolver = null;
+            m_recv_packet_list = null;
+            m_send_packet_queue = null;
+            m_socket = null;
 
+            SocketAsyncEventArgsPool.Instance.Push(m_recv_args);
+            SocketAsyncEventArgsPool.Instance.Push(m_send_args);
+        }
     }
 }
