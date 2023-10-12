@@ -49,23 +49,33 @@ namespace DKU_LoginQueue
             res.wid = wid;
             byte[] body = res.Serialize();
 
-            Packet packet  = new Packet(PacketType.Q_YourWidRes, body, body.Length);
+            Packet packet = new Packet(PacketType.Q_YourWidRes, body, body.Length);
             token.Send(packet);
 
             Console.WriteLine("[onNewClient] new client came");
         }
 
-        Stack<long> m_wid_stack = new Stack<long>();
+        Stack<long> m_wid_pool = new Stack<long>();
         long wid_gen = 0;
         long Getwid()
         {
-            if (m_wid_stack.Count > 0)
-                return m_wid_stack.Pop();
+            if (m_wid_pool.Count > 0)
+                return m_wid_pool.Pop();
             return wid_gen++;
         }
         public void Returnwid(long wid)
         {
-            m_wid_stack.Push(wid);
+            m_wid_pool.Push(wid);
+        }
+
+        public void NewGameServer(long wid)
+        {
+            if (m_wid_list.ContainsKey(wid))
+            {
+                m_game_server = m_wid_list[wid];
+                m_wid_list.Remove(wid);
+            }
+
         }
     }
 }

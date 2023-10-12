@@ -9,7 +9,8 @@ public class GS_QueueStartReq_Handler
     {
         GS_QueueStartReq res = Data<GS_QueueStartReq>.Deserialize(packet.m_data);
 
-        NetworkManager.Instance.m_game_server = NetworkManager.Instance.m_wid_list[res.wid];
+        //NetworkManager.Instance.m_game_server = NetworkManager.Instance.m_wid_list[res.wid];
+        NetworkManager.Instance.NewGameServer(res.wid);
         Console.WriteLine("Game Server Connected");
     }
 }
