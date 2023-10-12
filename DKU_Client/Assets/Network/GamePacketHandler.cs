@@ -39,6 +39,10 @@ public class GamePacketHandler
                 S_UserPosRes_Impl(packet);
                 break;
 
+            case PacketType.S_YourSidRes:
+                S_YourSidRes_Impl(packet);
+                break;
+
             case PacketType.Q_CurUsersCountReq:
                 Q_CurUsersCountReq_Impl(packet);
                 break;
@@ -100,6 +104,11 @@ public class GamePacketHandler
     void S_UserPosRes_Impl(Packet packet)
     {
         S_UserPosRes_Handler.Method(packet);
+    }
+
+    void S_YourSidRes_Impl(Packet packet)
+    {
+        S_YourSidRes_Handler.Method(packet);
     }
 
     void Q_CurUsersCountReq_Impl(Packet packet)

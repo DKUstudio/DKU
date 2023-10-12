@@ -22,7 +22,7 @@ namespace DKU_Server.Packets.var
             byte[] serial = res.Serialize();
 
             Packet pkt = new Packet(PacketType.S_PingRes, serial, serial.Length);
-            NetworkManager.Instance.world.users.TryGetValue(req.uid, out var user);
+            NetworkManager.Instance.world.uid_users.TryGetValue(req.uid, out var user);
             if (user != null)
             {
                 user.UserToken.Send(pkt);

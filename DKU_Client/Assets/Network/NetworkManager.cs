@@ -72,7 +72,23 @@ public class NetworkManager : MonoBehaviour
 
     public void StartConnection(string ip_address)
     {
+        // CloseConnection();
+        // this.AddComponent<Connections>();
+        // connections = this.GetComponent<Connections>();
+        // connections.Init();
+
+        // connections.Connect(ip_address);
+        StartCoroutine(RestartConnectionCoroutine(ip_address));
+    }
+
+    public IEnumerator RestartConnectionCoroutine(string ip_address)
+    {
         CloseConnection();
+
+        while (TryGetComponent<Connections>(out Connections c))
+        {
+            yield return null;
+        }
         this.AddComponent<Connections>();
         connections = this.GetComponent<Connections>();
         connections.Init();

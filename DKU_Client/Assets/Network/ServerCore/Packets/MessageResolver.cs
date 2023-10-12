@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -101,6 +102,7 @@ namespace DKU_ServerCore.Packets
             Packet packet = new Packet();
             packet.m_type = m_message_type;
             packet.SetData(m_message_buffer, m_message_size);
+            UnityEngine.Debug.Log((PacketType)packet.m_type);
 
             // 패킷이 완성되었음을 알린다.
             m_complete_callback.Invoke(packet);

@@ -10,9 +10,11 @@ namespace DKU_Server.Connections
 {
     public class LoginData
     {
+        int sid;
         UserToken token;
         UserData data;
 
+        public int SID => sid;
         public UserToken UserToken => token;
         public UserData UserData => data;
 
@@ -26,6 +28,18 @@ namespace DKU_Server.Connections
         {
             this.token = token;
             this.data = data;
+        }
+        public void SetSid(int v_sid)
+        {
+            sid = v_sid;
+        }
+        public void SetUserToken(UserToken v_token)
+        {
+            token = v_token;
+        }
+        public void SetUserData(UserData v_data)
+        {
+            data = v_data;
         }
     }
 }

@@ -27,6 +27,10 @@ public class GamePacketHandler
                 QC_LoginReq_Impl(packet);
                 break;
 
+            case PacketType.QC_LogoutReq:
+                QC_LogoutReq_Impl(packet);
+                break;
+
             case PacketType.QC_RegisterReq:
                 QC_RegisterReq_Impl(packet);
                 break;
@@ -49,6 +53,11 @@ public class GamePacketHandler
     void QC_LoginReq_Impl(Packet packet)
     {
         QC_LoginReq_Handler.Method(packet);
+    }
+
+    void QC_LogoutReq_Impl(Packet packet)
+    {
+        QC_LogoutReq_Handler.Method(packet);
     }
 
     void QC_RegisterReq_Impl(Packet packet)

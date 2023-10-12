@@ -12,6 +12,7 @@ using Sirenix.OdinInspector;
 using DKU_ServerCore.Packets.var.client;
 using System.Threading.Tasks;
 using System.Threading;
+using DKU_ServerCore.Packets.var.qclient;
 
 public class Connections : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Connections : MonoBehaviour
 
     // public Action<bool> on_connection_completed;
 
+    [Sirenix.OdinInspector.ReadOnly]
+    [ShowInInspector]
     private bool connected = false;
     public bool Connected => connected;
 
@@ -88,9 +91,11 @@ public class Connections : MonoBehaviour
     {
         if (args.SocketError == SocketError.Success)
         {
-            Debug.Log("[Connections] Server <color=green>connected</color>");
-            Debug.Log(m_socket.RemoteEndPoint);
-            connected = true;
+            Debug.Log($"[Connections] Server <color=green>connected</color> {m_socket.RemoteEndPoint}");
+            Debug.Log(connected);
+            this.connected = true;
+            Debug.Log(connected);
+
 
             StartRecv();
             // on_connection_completed.Invoke(true);
@@ -114,8 +119,10 @@ public class Connections : MonoBehaviour
         {
             if (m_socket.Connected == false)
             {
+                Debug.Log("[GameServer] socket disconnected");
                 return;
             }
+            Debug.Log($"start recv {m_socket.RemoteEndPoint}");
             bool pending = m_socket.ReceiveAsync(m_recv_args);
             if (!pending)
                 onRecvCompleted(null, m_recv_args);
@@ -136,6 +143,7 @@ public class Connections : MonoBehaviour
 
     void onMessageCompleted(Packet packet)
     {
+        Debug.Log($"[Packet] push packet {(PacketType)packet.m_type}");
         PushPacket(packet);
     }
 
@@ -147,7 +155,10 @@ public class Connections : MonoBehaviour
     void ProcessPackets()
     {
         for (int i = 0; i < m_recv_packet_list.Count; i++)
+        {
+            Debug.Log($"[Packet] process packet {(PacketType)m_recv_packet_list.ElementAt(0).m_type}");
             m_game_packet_handler.ParsePacket(m_recv_packet_list.ElementAt(i));
+        }
         m_recv_packet_list.Clear();
     }
     #endregion
@@ -168,7 +179,7 @@ public class Connections : MonoBehaviour
             onSendCompleted(null, send_args);
     }
 
-    public void Send_Async(Packet packet)
+    public void Send_Sync(Packet packet)
     {
         if (m_socket == null || m_socket.Connected == false)
             return;
@@ -217,7 +228,18 @@ public class Connections : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        // 자동 로그아웃 및 대기열 탈출
+        // 자동 대기열 탈출
+        if (NetworkManager.Instance.IS_WAITING == true)
+        {
+            QC_LogoutReq req = new QC_LogoutReq();
+            req.wid = NetworkManager.Instance.WID;
+            byte[] body = req.Serialize();
+
+            Packet packet = new Packet(PacketType.QC_LogoutReq, body, body.Length);
+            Send_Sync(packet);
+        }
+
+        // 자동 로그아웃
         if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
             C_LogoutReq req = new C_LogoutReq();
@@ -225,7 +247,7 @@ public class Connections : MonoBehaviour
 
             byte[] body = req.Serialize();
             Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
-            Send_Async(packet);
+            Send_Sync(packet);
         }
 
         if (NetworkManager.Instance.IS_WAITING)

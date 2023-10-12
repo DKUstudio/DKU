@@ -131,6 +131,7 @@ namespace DKU_Server.Connections.Tokens
                 {
                     m_send_packet_queue.Enqueue(packet);
                 }
+                Console.WriteLine($"[Send] packet counts {m_send_packet_queue.Count}");
             }
 
         }
@@ -138,7 +139,10 @@ namespace DKU_Server.Connections.Tokens
         void SendProcess()
         {
             if (m_socket == null)
+            {
+                Console.WriteLine("[Socket] m_socket is null");
                 return;
+            }
 
             Packet packet = m_send_packet_queue.Peek();
             byte[] send_data = packet.GetSendBytes();
@@ -183,6 +187,7 @@ namespace DKU_Server.Connections.Tokens
 
         void onSendCompleted(object? sender, SocketAsyncEventArgs args)
         {
+            Console.WriteLine($"send complete");
             if (args.SocketError == SocketError.Success)
             {
                 lock (m_send_packet_queue)

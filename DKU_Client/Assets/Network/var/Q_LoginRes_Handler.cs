@@ -12,6 +12,10 @@ public class Q_LoginRes_Handler
         if (res.success == 0)
         {
             Debug.Log("[Login] <color=green>success</color>");
+            NetworkManager.Instance.SetIsLoggedIn(true);
+            NetworkManager.Instance.SetUdata(res.udata);
+            NetworkManager.Instance.SetIsWaiting(false);
+            NetworkManager.Instance.SetWid(-1);
         }
         else if (res.success == 1)
         {

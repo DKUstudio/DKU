@@ -42,6 +42,10 @@ namespace DKU_DummyClient.Packets
                     S_UserPosRes_Impl(packet);
                     break;
 
+                case PacketType.S_YourSidRes:
+                    S_YourSidRes_Impl(packet);
+                    break;
+
             default:
                 break;
             }
@@ -75,6 +79,11 @@ namespace DKU_DummyClient.Packets
         void S_UserPosRes_Impl(Packet packet)
         {
             S_UserPosRes_Handler.Method(packet);
+        }
+
+        void S_YourSidRes_Impl(Packet packet)
+        {
+            S_YourSidRes_Handler.Method(packet);
         }
 
     }
