@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_ServerCore;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace DKU_LoginQueue
 {
@@ -100,7 +101,7 @@ db_pw : {db_pw}");
             }
         }
 
-        public bool Register(string id, string salt, string pw, string nickname)
+        public short Register(string id, string salt, string pw, string nickname)
         {
             using (var conn = new MySqlConnection(connString))
             {
@@ -133,7 +134,20 @@ db_pw : {db_pw}");
                                     int res = rdr.GetInt32(0);
                                     if (res != 1)
                                     {
-                                        throw new Exception($"[Register] '{id}' already exists.");
+                                        throw new DuplicateNameException($"[Register] '{id}' already exists.");
+                                    }
+                                }
+
+                                cmd.Parameters.Clear();
+                                cmd.CommandText = MySqlFormat.register_get_nick_count;
+                                cmd.Parameters.AddWithValue("@NICKNAME", nickname);
+                                using (MySqlDataReader rdr = cmd.ExecuteReader())
+                                {
+                                    rdr.Read();
+                                    int res = rdr.GetInt32(0);
+                                    if (res != 1)
+                                    {
+                                        throw new DuplicateWaitObjectException($"[Register] '{nickname}' already exists.");
                                     }
                                 }
                                 tran.Commit();
@@ -141,17 +155,25 @@ db_pw : {db_pw}");
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine(e.ToString());
+                                Console.WriteLine(e.ToString());
                             tran.Rollback();
-                            return false;
+                            if (e is DuplicateNameException)
+                            {
+
+                                return 1;
+                            }
+                            else
+                            {
+                                return 2;
+                            }
                         }
                     }
-                    return true;
+                    return 0;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
-                    return false;
+                    return 3;
                 }
             }
         }

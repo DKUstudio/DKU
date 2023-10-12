@@ -14,7 +14,7 @@ public class QC_RegisterReq_Handler
         if (isTrue == false)
             return;
 
-        bool success = NetworkManager.Instance.m_database_manager.Register(req.id, req.salt, req.pw, req.nickname);
+        short success = NetworkManager.Instance.m_database_manager.Register(req.id, req.salt, req.pw, req.nickname);
 
         Q_RegisterRes res = new Q_RegisterRes();
         res.success = success;

@@ -32,9 +32,13 @@ namespace DKU_LoginQueue
         public Dictionary<long, UserToken> m_wid_list = new Dictionary<long, UserToken>();
         public DatabaseManager m_database_manager = new DatabaseManager();
 
+        public List<LoginData> m_login_accept_list = new List<LoginData>();
+
         public NetworkManager()
         {
             m_database_manager.Init();
+            Task login_accept = new Task(LoginAccept);
+            login_accept.Start();
         }
 
         public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)
@@ -72,7 +76,7 @@ namespace DKU_LoginQueue
         }
         public void Returnwid(long wid)
         {
-            if(m_wid_list.ContainsKey(wid))
+            if (m_wid_list.ContainsKey(wid))
                 m_wid_list.Remove(wid);
 
             m_wid_pool.Push(wid);
@@ -86,6 +90,52 @@ namespace DKU_LoginQueue
                 m_wid_list.Remove(wid);
             }
 
+        }
+
+        void LoginAccept()
+        {
+            while (true)
+            {
+                Thread.Sleep(5000);
+                if (m_login_accept_list.Count > 0)
+                {
+                    Q_CurUsersCountReq req = new Q_CurUsersCountReq();
+                    req.login_accept_list_count = m_login_accept_list.Count;
+                    byte[] body = req.Serialize();
+
+                    Packet packet = new Packet(PacketType.Q_CurUsersCountReq, body, body.Length);
+                    m_game_server.Send(packet);
+                }
+            }
+        }
+
+
+        Packet goto_packet;
+        Q_WaitForLoginRes wait_for_res = new Q_WaitForLoginRes();
+        public void LoginUsers(int amount)
+        {
+            if (goto_packet == null)
+            {
+                Q_GoToGameServerRes goto_game_server = new Q_GoToGameServerRes();
+                byte[] goto_body = goto_game_server.Serialize();
+                goto_packet = new Packet(PacketType.Q_GoToGameServerRes, goto_body, goto_body.Length);
+            }
+            lock (m_login_accept_list)
+            {
+                for (int i = 0; i < Math.Min(amount, m_login_accept_list.Count); i++)
+                {
+                    m_login_accept_list.ElementAt(0).UserToken.Send(goto_packet);
+                    m_login_accept_list.RemoveAt(0);
+                }
+            }
+            for(int i = 0; i < m_login_accept_list.Count; i++)
+            {
+                wait_for_res.my_waiting_num = i;
+                byte[] body = wait_for_res.Serialize();
+
+                Packet wait_packet = new Packet(PacketType.Q_WaitForLoginRes, body, body.Length);
+                m_login_accept_list[i].UserToken.Send(wait_packet);
+            }
         }
     }
 }

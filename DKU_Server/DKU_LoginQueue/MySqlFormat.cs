@@ -16,6 +16,7 @@ namespace DKU_LoginQueue
         #region register
         public static string register_new_user = "insert into userdb.login(id, salt, pw, nickname) values(@ID, @SALT, @PW, @NICKNAME)";
         public static string register_get_user_count = "select count(*) from userdb.login where id = @ID";
+        public static string register_get_nick_count = "select count(*) from userdb.login where nickname = @NICKNAME";
         #endregion
 
         #region authentication

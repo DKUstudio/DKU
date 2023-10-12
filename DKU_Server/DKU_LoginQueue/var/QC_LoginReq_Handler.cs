@@ -24,9 +24,8 @@ public class QC_LoginReq_Handler
         if (udata != null)
         {
             // 성공
-            res.success = true;
+            res.success = 0;
             res.udata = udata;
-            res.game_server_ipv4 = CommonDefine.IPv4_ADDRESS;
 
             NetworkManager.Instance.Returnwid(req.wid);
             Console.WriteLine("[LoginReq] login success");
@@ -34,7 +33,7 @@ public class QC_LoginReq_Handler
         else
         {
             // 실패
-            res.success = false;
+            res.success = 1;
         }
         byte[] serial = res.Serialize();
 
