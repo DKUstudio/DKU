@@ -19,15 +19,15 @@ namespace DKU_Server.Packets.var
             switch((ChatRecvType)req.chatData.recv_target_group)
             {
                 case ChatRecvType.To_All:
-                    TheWorld.Instance.ShootGlobalChat(req.chatData);
+                    NetworkManager.Instance.world.ShootGlobalChat(req.chatData);
                     break;
 
                 case ChatRecvType.To_Local:
-                    TheWorld.Instance.ShootLocalChat(req.chatData);
+                    NetworkManager.Instance.world.ShootLocalChat(req.chatData);
                     break;
 
                 case ChatRecvType.To_Whisper:
-                    TheWorld.Instance.ShootWhisperChat(req.chatData);
+                    NetworkManager.Instance.world.ShootWhisperChat(req.chatData);
                     break;
 
                 default:

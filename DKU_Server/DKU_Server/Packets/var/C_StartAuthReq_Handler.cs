@@ -29,7 +29,7 @@ namespace DKU_Server.Packets.var
             byte[] body = res.Serialize();
 
             Packet packet1 = new Packet(PacketType.S_StartAuthRes, body, body.Length);
-            UserToken token = TheWorld.Instance.FindUserToken(req.uid);
+            UserToken token = NetworkManager.Instance.world.FindUserToken(req.uid);
             if(token != null)
                 token.Send(packet1);
         }

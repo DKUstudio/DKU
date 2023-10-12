@@ -10,10 +10,14 @@ using DKU_ServerCore.Packets;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DKU_ServerCore.Packets.var.client;
+using System.Threading.Tasks;
+using System.Threading;
+using DKU_ServerCore.Packets.var.qclient;
 
 public class Connections : MonoBehaviour
 {
     Socket m_socket;
+    public Socket M_socket => m_socket;
     SocketAsyncEventArgs m_recv_args;
     LinkedList<Packet> m_recv_packet_list;
     MessageResolver m_message_resolver;
@@ -21,21 +25,15 @@ public class Connections : MonoBehaviour
 
     // public Action<bool> on_connection_completed;
 
+    [Sirenix.OdinInspector.ReadOnly]
+    [ShowInInspector]
     private bool connected = false;
     public bool Connected => connected;
 
-    [Sirenix.OdinInspector.ReadOnly]
-    public bool is_waiting = false;
-    [Sirenix.OdinInspector.ReadOnly]
-    public long waiting_id = -1;
-    [Sirenix.OdinInspector.ReadOnly]
-    public bool logged_in = false;
-    [Sirenix.OdinInspector.ReadOnly]
-    public UserData udata;
-
     private void Update()
     {
-        ProcessPackets();
+        if (connected)
+            ProcessPackets();
     }
 
     public void Init()
@@ -51,30 +49,32 @@ public class Connections : MonoBehaviour
     }
 
     #region connect
-    // public void Connect(string address, int port)
-    // {
-    //     m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-    //     m_socket.NoDelay = true;
-
-    //     IPAddress target = IPAddress.Parse(address);
-    //     IPEndPoint endPoint = new IPEndPoint(target, port);
-
-    //     // 접속용 args
-    //     SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-    //     args.Completed += onConnected;
-    //     args.RemoteEndPoint = endPoint;
-
-    //     bool pending = m_socket.ConnectAsync(args);
-    //     if (!pending)
-    //         onConnected(null, args);
-    // }
     public void Connect()
     {
         m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         m_socket.NoDelay = true;
-        Debug.Log("[Connections] Try connect server...");
+        Debug.Log($"[Connections] Try connect server...{CommonDefine.LOGIN_QUEUE_IPv4_ADDRESS}");
 
-        IPAddress target = IPAddress.Parse(CommonDefine.IPv4_ADDRESS);
+        IPAddress target = IPAddress.Parse(CommonDefine.LOGIN_QUEUE_IPv4_ADDRESS);
+        IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
+
+        // 접속용 args
+        SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+        args.Completed += onConnected;
+        args.RemoteEndPoint = endPoint;
+
+        bool pending = m_socket.ConnectAsync(args);
+        if (!pending)
+            onConnected(null, args);
+    }
+
+    public void Connect(string ip_address)
+    {
+        m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        m_socket.NoDelay = true;
+
+        Debug.Log($"[Connections] Try connect server...{ip_address}");
+        IPAddress target = IPAddress.Parse(ip_address);
         IPEndPoint endPoint = new IPEndPoint(target, CommonDefine.IP_PORT);
 
         // 접속용 args
@@ -91,8 +91,12 @@ public class Connections : MonoBehaviour
     {
         if (args.SocketError == SocketError.Success)
         {
-            Debug.Log("[Connections] Server <color=green>connected</color>");
-            connected = true;
+            Debug.Log($"[Connections] Server <color=green>connected</color> {m_socket.RemoteEndPoint}");
+            Debug.Log(connected);
+            this.connected = true;
+            Debug.Log(connected);
+
+
             StartRecv();
             // on_connection_completed.Invoke(true);
         }
@@ -111,9 +115,22 @@ public class Connections : MonoBehaviour
     #region recv
     void StartRecv()
     {
-        bool pending = m_socket.ReceiveAsync(m_recv_args);
-        if (!pending)
-            onRecvCompleted(null, m_recv_args);
+        try
+        {
+            if (m_socket.Connected == false)
+            {
+                Debug.Log("[GameServer] socket disconnected");
+                return;
+            }
+            Debug.Log($"start recv {m_socket.RemoteEndPoint}");
+            bool pending = m_socket.ReceiveAsync(m_recv_args);
+            if (!pending)
+                onRecvCompleted(null, m_recv_args);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
     }
     void onRecvCompleted(object sender, SocketAsyncEventArgs args)
     {
@@ -126,6 +143,7 @@ public class Connections : MonoBehaviour
 
     void onMessageCompleted(Packet packet)
     {
+        Debug.Log($"[Packet] push packet {(PacketType)packet.m_type}");
         PushPacket(packet);
     }
 
@@ -137,7 +155,10 @@ public class Connections : MonoBehaviour
     void ProcessPackets()
     {
         for (int i = 0; i < m_recv_packet_list.Count; i++)
+        {
+            Debug.Log($"[Packet] process packet {(PacketType)m_recv_packet_list.ElementAt(0).m_type}");
             m_game_packet_handler.ParsePacket(m_recv_packet_list.ElementAt(i));
+        }
         m_recv_packet_list.Clear();
     }
     #endregion
@@ -158,7 +179,7 @@ public class Connections : MonoBehaviour
             onSendCompleted(null, send_args);
     }
 
-    public void Send_Async(Packet packet)
+    public void Send_Sync(Packet packet)
     {
         if (m_socket == null || m_socket.Connected == false)
             return;
@@ -186,33 +207,53 @@ public class Connections : MonoBehaviour
 
     public void SetWaiting(bool v_is_waiting, long v_waiting_id)
     {
-        is_waiting = v_is_waiting;
-        waiting_id = v_is_waiting ? v_waiting_id : -1;
+        NetworkManager.Instance.SetIsWaiting(v_is_waiting);
+        NetworkManager.Instance.SetWid(v_is_waiting ? v_waiting_id : 0);
     }
 
     public void SetLogin(bool v_logged_in, UserData v_udata)
     {
-        logged_in = v_logged_in;
-        udata = v_logged_in ? v_udata : null;
+        NetworkManager.Instance.SetIsLoggedIn(v_logged_in);
+        NetworkManager.Instance.SetUdata(v_logged_in ? v_udata : null);
+    }
+
+    public void CloseSocketConnection()
+    {
+        m_socket.Close();
+        m_socket = null;
+
+        m_recv_args = null;
+        m_recv_args = new SocketAsyncEventArgs();
     }
 
     private void OnApplicationQuit()
     {
-        // 자동 로그아웃 및 대기열 탈출
-        if (logged_in == true)
+        // 자동 대기열 탈출
+        if (NetworkManager.Instance.IS_WAITING == true)
+        {
+            QC_LogoutReq req = new QC_LogoutReq();
+            req.wid = NetworkManager.Instance.WID;
+            byte[] body = req.Serialize();
+
+            Packet packet = new Packet(PacketType.QC_LogoutReq, body, body.Length);
+            Send_Sync(packet);
+        }
+
+        // 자동 로그아웃
+        if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
             C_LogoutReq req = new C_LogoutReq();
-            req.uid = udata.uid;
+            req.uid = NetworkManager.Instance.UDATA.uid;
 
             byte[] body = req.Serialize();
             Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
-            Send_Async(packet);
+            Send_Sync(packet);
         }
 
-        if (is_waiting)
+        if (NetworkManager.Instance.IS_WAITING)
         {
             C_StopWaitingReq req = new C_StopWaitingReq();
-            req.waiting_id = NetworkManager.Instance.Connections.waiting_id;
+            req.waiting_id = NetworkManager.Instance.WID;
             byte[] body = req.Serialize();
 
             Packet packet = new Packet(PacketType.C_StopWaitingReq, body, body.Length);

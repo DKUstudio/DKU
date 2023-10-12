@@ -31,12 +31,10 @@ namespace DKU_Server
         public IDatabaseManager m_database_manager;
         // 패킷 조립
         public GamePacketHandler m_game_packet_handler;
+        // 대기열 서버 연결
+        public LoginQueueConnector m_login_queue_connector;
 
-        // before login
-        public Dictionary<long, UserToken> m_waiting_list;
-        static long m_waiting_id = 0;
-        Stack<long> m_waiting_id_pool;
-
+        public TheWorld world;
 
         public void Init()
         {
@@ -44,10 +42,9 @@ namespace DKU_Server
             m_database_manager = new MySqlDatabase();
             m_database_manager.Init();
             m_game_packet_handler = new GamePacketHandler();
-
-            m_waiting_list = new Dictionary<long, UserToken>();
-            m_waiting_id_pool = new Stack<long>();
-
+            m_login_queue_connector = new LoginQueueConnector();
+            m_login_queue_connector.Init();
+            world = new TheWorld();
         }
 
         public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)
@@ -57,7 +54,6 @@ namespace DKU_Server
             UserToken token = new UserToken();
             token.Init();
 
-
             // UserToken을 set한다.
             //token.User = user;
             client_socket.NoDelay = true;
@@ -66,38 +62,8 @@ namespace DKU_Server
             token.m_socket = client_socket;
             token.StartRecv();
 
-            long gen_id = GetWaitingId();
-            m_waiting_list.Add(gen_id, token);
-
-            S_WaitingIdRes res = new S_WaitingIdRes();
-            res.waiting_id = gen_id;
-            byte[] serial = res.Serialize();
-
-            Packet packet = new Packet(PacketType.S_WaitingIdRes, serial, serial.Length);
-            token.Send(packet);
-            Console.WriteLine("[OnNewClient] sent waiting_id");
-        }
-
-        public long GetWaitingId()
-        {
-            lock (m_waiting_id_pool)
-            {
-                if (m_waiting_id_pool.Count > 0)
-                    return m_waiting_id_pool.Pop();
-            }
-            return m_waiting_id++;
-        }
-        public void ReturnWaitingId(long id)
-        {
-            lock(m_waiting_list)
-            {
-                if(m_waiting_list.ContainsKey(id))
-                    m_waiting_list.Remove(id);
-            }
-            lock (m_waiting_id_pool)
-            {
-                m_waiting_id_pool.Push(id);
-            }
+            Console.WriteLine($"[New Client] came");
+            NetworkManager.Instance.world.AddSidUser(token);
         }
     }
 }

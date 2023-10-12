@@ -40,7 +40,7 @@ namespace DKU_Server.Worlds
             Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
             foreach (var user in users_uid)
             {
-                bool find_user = the_world.users.TryGetValue(user, out LoginData ldata);
+                bool find_user = the_world.uid_users.TryGetValue(user, out LoginData ldata);
                 if(find_user == false)
                 {
                     // TODO 비유효 유저 검사
@@ -60,7 +60,7 @@ namespace DKU_Server.Worlds
             Packet packet = new Packet(PacketType.S_UserPosRes, body, body.Length);
             foreach (var user in users_uid)
             {
-                bool find_user = the_world.users.TryGetValue(user, out LoginData ldata);
+                bool find_user = the_world.uid_users.TryGetValue(user, out LoginData ldata);
                 if (find_user == false)
                 {
                     // TODO 비유효 유저 검사

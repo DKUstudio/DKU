@@ -103,7 +103,6 @@ namespace DKU_Server.Connections
         {
             if (e.SocketError == SocketError.Success)
             {
-                Console.WriteLine("[Server] New Client Came");
 
                 // 새로운 유저가 접속 했을 때,
                 Socket client_socket = e.AcceptSocket;

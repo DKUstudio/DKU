@@ -13,25 +13,17 @@ namespace DKU_Server.Worlds
 {
     public class TheWorld
     {
-        private static TheWorld instance;
-        public static TheWorld Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new TheWorld();
-                }
-                return instance;
-            }
-        }
+        public Dictionary<int, LoginData> sid_users;
+        public Dictionary<long, LoginData> uid_users;
+        public int users_count => sid_users.Count + uid_users.Count;
 
-        public Dictionary<long, LoginData> users;
+
         public WorldBlock[] world_blocks = new WorldBlock[(int)WorldBlockType.Block_Count];
 
         public TheWorld()
         {
-            users = new Dictionary<long, LoginData>();
+            sid_users = new Dictionary<int, LoginData>();
+            uid_users = new Dictionary<long, LoginData>();
 
             // 모든 방 초기화
             for (int i = 0; i < (int)WorldBlockType.Block_Count; i++)
@@ -42,38 +34,56 @@ namespace DKU_Server.Worlds
 
         public UserToken FindUserToken(long uid)
         {
-            if(users.ContainsKey(uid))
+            if(uid_users.ContainsKey(uid))
             {
-                return users[uid].UserToken;
+                return uid_users[uid].UserToken;
             }
             return null;
         }
 
-        public void LoginUser(LoginData data)
+        public void AddSidUser(UserToken token)
         {
-            lock (users)
-            {
-                Console.WriteLine("[Login] " + data.UserData.nickname);
-                users.Add(data.UserData.uid, data);
+            int sid = GenSid();
+            LoginData ldata = new LoginData();
+            ldata.SetSid(sid);
+            ldata.SetUserToken(token);
+            sid_users.Add(sid, ldata);
 
-                data.cur_world_block = (int)WorldBlockType.Dankook_University;   // 시작은 학교배경
-                world_blocks[data.cur_world_block].EnterUser(data.UserData.uid);
+            S_YourSidRes res = new S_YourSidRes();
+            res.sid = sid;
+            byte[] body = res.Serialize();
+
+            Console.WriteLine($"[GameServer] your sid: {sid}");
+            if(token == null)
+            {
+                Console.WriteLine("[Connection] userToken is null");
             }
+            Packet pkt = new Packet(PacketType.S_YourSidRes, body, body.Length);
+            token.Send(pkt);
+        }
+        public void MoveSidToUidUsers(int sid, UserData v_udata)
+        {
+            sid_users[sid].SetUserData(v_udata);
+            LoginData ldata = sid_users[sid];
+            sid_users.Remove(sid);
+
+            uid_users.Add(ldata.UserData.uid, ldata);
+            Console.WriteLine("[Login] uid confirm success");
         }
 
-        public void LogoutUser(long id)
+        int sid_gen = 0;
+        Stack<int> sid_pool = new Stack<int>();
+        int GenSid()
         {
-            lock (users)
+            if(sid_pool.Count > 0)
             {
-                if (users.ContainsKey(id))
-                {
-                    Console.WriteLine("[Logout] " + users[id].UserData.nickname);
-
-                    short world_num = users[id].cur_world_block;
-                    users.Remove(id);
-                    world_blocks[world_num].ExitUser(id);
-                }
+                return sid_pool.Pop();
             }
+            return sid_gen++;
+        }
+        public void ReturnSid(int v_sid)
+        {
+            sid_pool.Push(v_sid);
         }
 
         /// <summary>
@@ -82,7 +92,7 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootGlobalChat(ChatData data)
         {
-            foreach (var user in users)
+            foreach (var user in sid_users)
             {
                 S_ChatRes res = new S_ChatRes();
                 res.chatData = data;
@@ -99,7 +109,7 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootLocalChat(ChatData data)
         {
-            bool user_find = users.TryGetValue(data.sender_uid, out var user);
+            bool user_find = uid_users.TryGetValue(data.sender_uid, out var user);
             if (user_find == false)
             {
                 return;
@@ -120,7 +130,7 @@ namespace DKU_Server.Worlds
 
             Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
 
-            bool find_user = users.TryGetValue(data.recver_uid, out var user);
+            bool find_user = uid_users.TryGetValue(data.recver_uid, out var user);
             if (find_user == false)
             {
                 return;
@@ -130,7 +140,7 @@ namespace DKU_Server.Worlds
 
         public void ShootLocalUserPos(long uid, JVector3 pos)
         {
-            bool user_find = users.TryGetValue(uid, out var user);
+            bool user_find = uid_users.TryGetValue(uid, out var user);
             if (user_find == false)
             {
                 return;

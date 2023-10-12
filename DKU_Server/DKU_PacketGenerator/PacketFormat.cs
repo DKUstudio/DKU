@@ -8,6 +8,8 @@ namespace DKU_PacketGenerator
 {
     // {0}: 클라이언트 패킷 타입
     // {1}: 서버 패킷 타입
+    // {2}: 대기열
+    // {3}: 본섭
     public class PacketFormat
     {
         public static string ServerCore_PacketType =
@@ -28,6 +30,10 @@ namespace DKU_ServerCore.Packets
 {0}
 
 {1}
+
+{2}
+
+{3}
         PACKET_COUNT
     }}
 }}
@@ -77,6 +83,8 @@ namespace DKU_Server.Packets
             switch ((PacketType)packet.m_type)
             {{
 {0}
+            default:
+                break;
             }}
         }}
 {1}
@@ -88,6 +96,7 @@ namespace DKU_Server.Packets
         public static string Server_Packet_Handler_Handle =
 @"
 using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
@@ -130,6 +139,8 @@ namespace DKU_DummyClient.Packets
             switch ((PacketType)packet.m_type)
             {{
 {0}
+            default:
+                break;
             }}
         }}
 {1}
@@ -179,6 +190,8 @@ public class GamePacketHandler
         switch ((PacketType)packet.m_type)
         {{
 {0}
+            default:
+                break;
         }}
     }}
 {1}
@@ -188,6 +201,7 @@ public class GamePacketHandler
         public static string unity_Packet_Handler_Handle =
 @"
 using DKU_ServerCore.Packets.var.server;
+using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
@@ -215,9 +229,24 @@ public class {0}_Handler
         {0}_Handler.Method(packet);
     }}
 ";
+
+    // {0}: type
+    public static string q_Packet_Handler_Handle =
+@"
+using DKU_ServerCore.Packets.var.gserver;
+using DKU_ServerCore.Packets.var.qclient;
+using DKU_ServerCore.Packets;
+
+public class {0}_Handler
+{{
+    public static void Method(Packet packet)
+    {{
+        {0} res = Data<{0}>.Deserialize(packet.m_data);
+
+    }}
+}}
+";
+
     }
-
-
-
 
 }

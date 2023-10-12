@@ -15,6 +15,7 @@ namespace DKU_ServerCore.Packets
 		C_ChatReq,
 		C_LoginReq,
 		C_LogoutReq,
+		C_MyUserDataReq,
 		C_PingReq,
 		C_RegisterReq,
 		C_StartAuthReq,
@@ -24,14 +25,28 @@ namespace DKU_ServerCore.Packets
 
 
 		S_ChatRes,
-		S_LoginRes,
 		S_LogoutRes,
 		S_PingRes,
-		S_RegisterRes,
 		S_StartAuthRes,
 		S_TryAuthRes,
 		S_UserPosRes,
-		S_WaitingIdRes,
+		S_YourSidRes,
+
+
+		Q_CurUsersCountReq,
+		Q_GoToGameServerRes,
+		Q_LoginRes,
+		Q_QueueStartRes,
+		Q_RegisterRes,
+		Q_WaitForLoginRes,
+		Q_YourWidRes,
+		QC_LoginReq,
+		QC_LogoutReq,
+		QC_RegisterReq,
+
+
+		GS_CurUsersCountRes,
+		GS_QueueStartReq,
 
         PACKET_COUNT
     }

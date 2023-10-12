@@ -45,6 +45,12 @@ namespace DKU_Server.Utils
                     item.Dispose();
                     return;
                 }
+                if (item.BufferList != null)
+                    item.BufferList = null;
+                item.SetBuffer(null, 0, 0);
+                item.UserToken = null;
+                item.RemoteEndPoint = null;
+
                 m_pool.Push(item);
             }
         }

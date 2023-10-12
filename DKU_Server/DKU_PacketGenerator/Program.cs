@@ -8,6 +8,7 @@ class Program
         PacketGenerator.Gen_Server_Packets();
         PacketGenerator.Gen_DummyClient_Packets();
         PacketGenerator.Gen_Unity_Packets();
+        PacketGenerator.Gen_Queue_Packets();
         PacketGenerator.Copy();
     }
 }
