@@ -13,20 +13,8 @@ namespace DKU_Server.Worlds
 {
     public class TheWorld
     {
-        private static TheWorld instance;
-        public static TheWorld Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new TheWorld();
-                }
-                return instance;
-            }
-        }
-
         public Dictionary<long, LoginData> users;
+        public int users_count => users.Count;
         public WorldBlock[] world_blocks = new WorldBlock[(int)WorldBlockType.Block_Count];
 
         public TheWorld()

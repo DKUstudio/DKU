@@ -136,7 +136,7 @@ namespace DKU_Server.DBs
             byte[] body = res.Serialize();
 
             Packet packet = new Packet(PacketType.S_TryAuthRes, body, body.Length);
-            UserToken token = TheWorld.Instance.FindUserToken(uid);
+            UserToken token = NetworkManager.Instance.world.FindUserToken(uid);
             if (token != null)
                 token.Send(packet);
             Console.WriteLine($"[VerifyEmailCode] dic count = {waiting_list.Count}");

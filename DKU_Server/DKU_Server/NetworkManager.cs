@@ -34,6 +34,8 @@ namespace DKU_Server
         // 대기열 서버 연결
         public LoginQueueConnector m_login_queue_connector;
 
+        public TheWorld world;
+
         public void Init()
         {
             //m_database_manager = new MemoryDatabase();  // 메모리 저장, 휘발성
@@ -42,6 +44,7 @@ namespace DKU_Server
             m_game_packet_handler = new GamePacketHandler();
             m_login_queue_connector = new LoginQueueConnector();
             m_login_queue_connector.Init();
+            world = new TheWorld();
         }
 
         public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)

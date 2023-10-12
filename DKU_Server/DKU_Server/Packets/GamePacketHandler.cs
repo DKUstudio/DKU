@@ -59,6 +59,14 @@ namespace DKU_Server.Packets
                     C_UserPosReq_Impl(packet);
                     break;
 
+                case PacketType.Q_CurUsersCountReq:
+                    Q_CurUsersCountReq_Impl(packet);
+                    break;
+
+                case PacketType.Q_GoToGameServerRes:
+                    Q_GoToGameServerRes_Impl(packet);
+                    break;
+
                 case PacketType.Q_LoginRes:
                     Q_LoginRes_Impl(packet);
                     break;
@@ -69,6 +77,10 @@ namespace DKU_Server.Packets
 
                 case PacketType.Q_RegisterRes:
                     Q_RegisterRes_Impl(packet);
+                    break;
+
+                case PacketType.Q_WaitForLoginRes:
+                    Q_WaitForLoginRes_Impl(packet);
                     break;
 
                 case PacketType.Q_YourWidRes:
@@ -123,6 +135,16 @@ namespace DKU_Server.Packets
             C_UserPosReq_Handler.Method(packet);
         }
 
+        void Q_CurUsersCountReq_Impl(Packet packet)
+        {
+            Q_CurUsersCountReq_Handler.Method(packet);
+        }
+
+        void Q_GoToGameServerRes_Impl(Packet packet)
+        {
+            Q_GoToGameServerRes_Handler.Method(packet);
+        }
+
         void Q_LoginRes_Impl(Packet packet)
         {
             Q_LoginRes_Handler.Method(packet);
@@ -136,6 +158,11 @@ namespace DKU_Server.Packets
         void Q_RegisterRes_Impl(Packet packet)
         {
             Q_RegisterRes_Handler.Method(packet);
+        }
+
+        void Q_WaitForLoginRes_Impl(Packet packet)
+        {
+            Q_WaitForLoginRes_Handler.Method(packet);
         }
 
         void Q_YourWidRes_Impl(Packet packet)
