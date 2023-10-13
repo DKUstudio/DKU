@@ -3,6 +3,7 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
+// 채팅 정보 수신
 // from C_ChatReq
 public class S_ChatRes_Handler
 {

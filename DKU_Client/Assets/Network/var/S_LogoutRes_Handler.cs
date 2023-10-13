@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 로그아웃 성공 여부
 // from C_LogoutReq
 public class S_LogoutRes_Handler
 {

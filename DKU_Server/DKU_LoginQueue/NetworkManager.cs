@@ -99,6 +99,7 @@ namespace DKU_LoginQueue
             lock (m_wid_list)
             {
                 m_wid_list.Remove(v_wid);
+                Returnwid(v_wid);
             }
             m_login_accept_list.Add(loginData);
         }

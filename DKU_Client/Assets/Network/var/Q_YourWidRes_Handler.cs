@@ -4,6 +4,7 @@ using DKU_ServerCore.Packets.var.queue;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
+// 로그인 서버 고유 id 수신
 public class Q_YourWidRes_Handler
 {
     public static void Method(Packet packet)

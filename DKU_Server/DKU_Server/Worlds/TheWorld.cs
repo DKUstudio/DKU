@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DKU_Server.Worlds
 {
@@ -34,13 +35,29 @@ namespace DKU_Server.Worlds
 
         public UserToken FindUserToken(long uid)
         {
-            if(uid_users.ContainsKey(uid))
+            if (uid_users.ContainsKey(uid))
             {
                 return uid_users[uid].UserToken;
             }
             return null;
         }
-
+        public void RemoveSidUser(int v_sid)
+        {
+            if (sid_users.ContainsKey(v_sid))
+            {
+                Console.WriteLine($"[Logout] {v_sid}");
+                sid_users.Remove(v_sid);
+                ReturnSid(v_sid);
+            }
+        }
+        public void RemoveUidUser(long v_uid)
+        {
+            if (uid_users.ContainsKey(v_uid))
+            {
+                Console.WriteLine($"[Logout] {uid_users[v_uid].UserData.nickname}");
+                uid_users.Remove(v_uid);
+            }
+        }
         public void AddSidUser(UserToken token)
         {
             int sid = GenSid();
@@ -54,7 +71,7 @@ namespace DKU_Server.Worlds
             byte[] body = res.Serialize();
 
             Console.WriteLine($"[GameServer] your sid: {sid}");
-            if(token == null)
+            if (token == null)
             {
                 Console.WriteLine("[Connection] userToken is null");
             }
@@ -66,16 +83,17 @@ namespace DKU_Server.Worlds
             sid_users[sid].SetUserData(v_udata);
             LoginData ldata = sid_users[sid];
             sid_users.Remove(sid);
+            ReturnSid(sid);
 
             uid_users.Add(ldata.UserData.uid, ldata);
-            Console.WriteLine("[Login] uid confirm success");
+            Console.WriteLine($"[Login] hello {ldata.UserData.nickname}");
         }
 
         int sid_gen = 0;
         Stack<int> sid_pool = new Stack<int>();
         int GenSid()
         {
-            if(sid_pool.Count > 0)
+            if (sid_pool.Count > 0)
             {
                 return sid_pool.Pop();
             }

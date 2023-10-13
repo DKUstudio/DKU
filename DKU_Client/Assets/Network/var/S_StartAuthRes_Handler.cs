@@ -3,6 +3,7 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
+// 이메일을 성공적으로 송신했는지 여부
 public class S_StartAuthRes_Handler
 {
     public static void Method(Packet packet)
