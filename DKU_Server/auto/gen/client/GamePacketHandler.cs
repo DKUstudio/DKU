@@ -22,6 +22,10 @@ namespace DKU_DummyClient.Packets
                     S_ChatRes_Impl(packet);
                     break;
 
+                case PacketType.S_FinallyLoggedInReq:
+                    S_FinallyLoggedInReq_Impl(packet);
+                    break;
+
                 case PacketType.S_LogoutRes:
                     S_LogoutRes_Impl(packet);
                     break;
@@ -54,6 +58,11 @@ namespace DKU_DummyClient.Packets
         void S_ChatRes_Impl(Packet packet)
         {
             S_ChatRes_Handler.Method(packet);
+        }
+
+        void S_FinallyLoggedInReq_Impl(Packet packet)
+        {
+            S_FinallyLoggedInReq_Handler.Method(packet);
         }
 
         void S_LogoutRes_Impl(Packet packet)

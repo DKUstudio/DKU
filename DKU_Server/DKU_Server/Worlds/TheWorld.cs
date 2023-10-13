@@ -80,13 +80,32 @@ namespace DKU_Server.Worlds
         }
         public void MoveSidToUidUsers(int sid, UserData v_udata)
         {
-            sid_users[sid].SetUserData(v_udata);
-            LoginData ldata = sid_users[sid];
-            sid_users.Remove(sid);
-            ReturnSid(sid);
+            S_FinallyLoggedInReq req = new S_FinallyLoggedInReq();
 
-            uid_users.Add(ldata.UserData.uid, ldata);
-            Console.WriteLine($"[Login] hello {ldata.UserData.nickname}");
+            try
+            {
+                sid_users[sid].SetUserData(v_udata);
+                LoginData ldata = sid_users[sid];
+                sid_users.Remove(sid);
+                ReturnSid(sid);
+
+                uid_users.Add(ldata.UserData.uid, ldata);
+                Console.WriteLine($"[Login] hello {ldata.UserData.nickname}");
+
+                req.success = 0;
+                byte[] body = req.Serialize();
+                Packet packet = new Packet(PacketType.S_FinallyLoggedInReq, body, body.Length);
+                uid_users[v_udata.uid].UserToken.Send(packet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                req.success = 1;
+                byte[] body = req.Serialize();
+                Packet packet = new Packet(PacketType.S_FinallyLoggedInReq, body, body.Length);
+                sid_users[sid].UserToken.Send(packet);
+            }
+
         }
 
         int sid_gen = 0;
