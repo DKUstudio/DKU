@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DKU_Server.Worlds
 {
@@ -34,13 +35,29 @@ namespace DKU_Server.Worlds
 
         public UserToken FindUserToken(long uid)
         {
-            if(uid_users.ContainsKey(uid))
+            if (uid_users.ContainsKey(uid))
             {
                 return uid_users[uid].UserToken;
             }
             return null;
         }
-
+        public void RemoveSidUser(int v_sid)
+        {
+            if (sid_users.ContainsKey(v_sid))
+            {
+                Console.WriteLine($"[Logout] {v_sid}");
+                sid_users.Remove(v_sid);
+                ReturnSid(v_sid);
+            }
+        }
+        public void RemoveUidUser(long v_uid)
+        {
+            if (uid_users.ContainsKey(v_uid))
+            {
+                Console.WriteLine($"[Logout] {uid_users[v_uid].UserData.nickname}");
+                uid_users.Remove(v_uid);
+            }
+        }
         public void AddSidUser(UserToken token)
         {
             int sid = GenSid();
@@ -54,7 +71,7 @@ namespace DKU_Server.Worlds
             byte[] body = res.Serialize();
 
             Console.WriteLine($"[GameServer] your sid: {sid}");
-            if(token == null)
+            if (token == null)
             {
                 Console.WriteLine("[Connection] userToken is null");
             }
@@ -63,19 +80,39 @@ namespace DKU_Server.Worlds
         }
         public void MoveSidToUidUsers(int sid, UserData v_udata)
         {
-            sid_users[sid].SetUserData(v_udata);
-            LoginData ldata = sid_users[sid];
-            sid_users.Remove(sid);
+            S_FinallyLoggedInReq req = new S_FinallyLoggedInReq();
 
-            uid_users.Add(ldata.UserData.uid, ldata);
-            Console.WriteLine("[Login] uid confirm success");
+            try
+            {
+                sid_users[sid].SetUserData(v_udata);
+                LoginData ldata = sid_users[sid];
+                sid_users.Remove(sid);
+                ReturnSid(sid);
+
+                uid_users.Add(ldata.UserData.uid, ldata);
+                Console.WriteLine($"[Login] hello {ldata.UserData.nickname}");
+
+                req.success = 0;
+                byte[] body = req.Serialize();
+                Packet packet = new Packet(PacketType.S_FinallyLoggedInReq, body, body.Length);
+                uid_users[v_udata.uid].UserToken.Send(packet);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                req.success = 1;
+                byte[] body = req.Serialize();
+                Packet packet = new Packet(PacketType.S_FinallyLoggedInReq, body, body.Length);
+                sid_users[sid].UserToken.Send(packet);
+            }
+
         }
 
         int sid_gen = 0;
         Stack<int> sid_pool = new Stack<int>();
         int GenSid()
         {
-            if(sid_pool.Count > 0)
+            if (sid_pool.Count > 0)
             {
                 return sid_pool.Pop();
             }
@@ -92,7 +129,7 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootGlobalChat(ChatData data)
         {
-            foreach (var user in sid_users)
+            foreach (var user in uid_users)
             {
                 S_ChatRes res = new S_ChatRes();
                 res.chatData = data;

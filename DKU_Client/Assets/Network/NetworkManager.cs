@@ -20,6 +20,8 @@ public class NetworkManager : MonoBehaviour
     [Sirenix.OdinInspector.ReadOnly]
     private long wid = 0;
     public long WID => wid;
+    private int sid = 0;
+    public int SID => sid;
     [Sirenix.OdinInspector.ReadOnly]
     private bool is_logged_in = false;
     public bool IS_LOGGED_IN => is_logged_in;
@@ -43,6 +45,10 @@ public class NetworkManager : MonoBehaviour
     {
         udata = v_udata;
     }
+    public void SetSid(int v_sid)
+    {
+        sid = v_sid;
+    }
 
     private void Awake()
     {
@@ -65,8 +71,8 @@ public class NetworkManager : MonoBehaviour
     void CloseConnection()
     {
         connections.CloseSocketConnection();
-        Destroy(this.GetComponent<Connections>());
         connections = null;
+        Destroy(this.GetComponent<Connections>());
         Debug.Log("[Connections] removed connection");
     }
 

@@ -5,13 +5,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DKU_ServerCore.Packets.var.client
+namespace DKU_ServerCore.Packets.var.server
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
-    public class C_LogoutReq : Data<C_LogoutReq>
+    public class S_FinallyLoggedInReq : Data<S_FinallyLoggedInReq>
     {
-        public long uid;
-        public int sid;
+        public short success;
     }
 }

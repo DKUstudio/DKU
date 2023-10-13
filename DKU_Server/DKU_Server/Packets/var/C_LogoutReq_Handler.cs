@@ -17,7 +17,14 @@ namespace DKU_Server.Packets.var
         public static void Method(Packet packet)
         {
             C_LogoutReq req = Data<C_LogoutReq>.Deserialize(packet.m_data);
-
+            if (NetworkManager.Instance.world.FindUserToken(req.uid) == null)  // sid
+            {
+                NetworkManager.Instance.world.RemoveSidUser(req.sid);
+            }
+            else
+            {
+                NetworkManager.Instance.world.RemoveUidUser(req.uid);
+            }
         }
     }
 }

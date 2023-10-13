@@ -3,6 +3,7 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 
+// 이메일 코드 인증이 성공했는지 여부
 public class S_TryAuthRes_Handler
 {
     public static void Method(Packet packet)

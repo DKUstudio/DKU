@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 핑 체크 반환
 // from C_PingReq
 public class S_PingRes_Handler
 {

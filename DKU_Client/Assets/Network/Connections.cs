@@ -92,9 +92,7 @@ public class Connections : MonoBehaviour
         if (args.SocketError == SocketError.Success)
         {
             Debug.Log($"[Connections] Server <color=green>connected</color> {m_socket.RemoteEndPoint}");
-            Debug.Log(connected);
             this.connected = true;
-            Debug.Log(connected);
 
 
             StartRecv();
@@ -122,7 +120,7 @@ public class Connections : MonoBehaviour
                 Debug.Log("[GameServer] socket disconnected");
                 return;
             }
-            Debug.Log($"start recv {m_socket.RemoteEndPoint}");
+            //Debug.Log($"start recv {m_socket.RemoteEndPoint}");
             bool pending = m_socket.ReceiveAsync(m_recv_args);
             if (!pending)
                 onRecvCompleted(null, m_recv_args);
@@ -143,7 +141,7 @@ public class Connections : MonoBehaviour
 
     void onMessageCompleted(Packet packet)
     {
-        Debug.Log($"[Packet] push packet {(PacketType)packet.m_type}");
+        //Debug.Log($"[Packet] push packet {(PacketType)packet.m_type}");
         PushPacket(packet);
     }
 
@@ -243,7 +241,11 @@ public class Connections : MonoBehaviour
         if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
             C_LogoutReq req = new C_LogoutReq();
-            req.uid = NetworkManager.Instance.UDATA.uid;
+            req.sid = NetworkManager.Instance.SID;
+            if (NetworkManager.Instance.UDATA != null)
+                req.uid = NetworkManager.Instance.UDATA.uid;
+            else
+                req.uid = -1;
 
             byte[] body = req.Serialize();
             Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
