@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_MyUserDataReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_MyUserDataReq req = Data<C_MyUserDataReq>.Deserialize(packet.m_data);
 

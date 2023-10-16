@@ -93,7 +93,18 @@ public class Connections : MonoBehaviour
         {
             Debug.Log($"[Connections] Server <color=green>connected</color> {m_socket.RemoteEndPoint}");
             this.connected = true;
+            if (NetworkManager.Instance.IS_LOGGED_IN)
+            {
+                C_MyUserDataReq req = new C_MyUserDataReq();
+                req.uid = NetworkManager.Instance.UDATA.uid;
+                req.udata = NetworkManager.Instance.UDATA;
+                byte[] body = req.Serialize();
 
+                Packet packet = new Packet(PacketType.C_MyUserDataReq, body, body.Length);
+                Send(packet);
+
+                Debug.Log("여기서 인게임 씬 전환");
+            }
 
             StartRecv();
             // on_connection_completed.Invoke(true);
@@ -154,7 +165,7 @@ public class Connections : MonoBehaviour
     {
         for (int i = 0; i < m_recv_packet_list.Count; i++)
         {
-            Debug.Log($"[Packet] process packet {(PacketType)m_recv_packet_list.ElementAt(0).m_type}");
+            //Debug.Log($"[Packet] process packet {(PacketType)m_recv_packet_list.ElementAt(0).m_type}");
             m_game_packet_handler.ParsePacket(m_recv_packet_list.ElementAt(i));
         }
         m_recv_packet_list.Clear();
@@ -241,7 +252,7 @@ public class Connections : MonoBehaviour
         if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
             C_LogoutReq req = new C_LogoutReq();
-            req.sid = NetworkManager.Instance.SID;
+            req.uid = NetworkManager.Instance.UDATA.uid;
             if (NetworkManager.Instance.UDATA != null)
                 req.uid = NetworkManager.Instance.UDATA.uid;
             else

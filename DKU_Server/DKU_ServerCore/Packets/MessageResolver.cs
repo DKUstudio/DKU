@@ -12,23 +12,23 @@ namespace DKU_ServerCore.Packets
     {
         public Action<Packet> m_complete_callback;
 
-        int m_message_size;
-        byte[] m_message_buffer = new byte[1024 * 2000]; // 2000K
-        byte[] m_header_buffer = new byte[4]; // 4byte
-        byte[] m_type_buffer = new byte[2]; // 2byte
+        protected int m_message_size;
+        protected byte[] m_message_buffer = new byte[1024 * 2000]; // 2000K
+        protected byte[] m_header_buffer = new byte[4]; // 4byte
+        protected byte[] m_type_buffer = new byte[2]; // 2byte
 
-        PacketType m_pre_type;
+        protected PacketType m_pre_type;
 
-        int m_head_position;
-        int m_type_position;
-        int m_current_position;
+        protected int m_head_position;
+        protected int m_type_position;
+        protected int m_current_position;
 
-        short m_message_type;
-        int m_remain_bytes;
+        protected short m_message_type;
+        protected int m_remain_bytes;
 
-        bool m_head_completed;
-        bool m_type_completed;
-        bool m_completed;
+        protected bool m_head_completed;
+        protected bool m_type_completed;
+        protected bool m_completed;
         public MessageResolver()
         {
             ClearBuffer();
@@ -110,7 +110,7 @@ namespace DKU_ServerCore.Packets
 
         }
 
-        void ClearBuffer()
+        protected void ClearBuffer()
         {
             Array.Clear(m_message_buffer, 0, m_message_buffer.Length);
             Array.Clear(m_header_buffer, 0, m_header_buffer.Length);
@@ -129,25 +129,25 @@ namespace DKU_ServerCore.Packets
         }
 
         // m_header_buffer로 데이터 크기 정보 복사함. (int)
-        bool readHead(byte[] buffer, ref int src_position)
+        protected bool readHead(byte[] buffer, ref int src_position)
         {
             return readUntil(buffer, ref src_position, m_header_buffer, ref m_head_position, 4);
         }
 
         // m_type_buffer로 클래스 타입 정보 복사함. (short)
-        bool readType(byte[] buffer, ref int src_position)
+        protected bool readType(byte[] buffer, ref int src_position)
         {
             return readUntil(buffer, ref src_position, m_type_buffer, ref m_type_position, 2);
         }
 
         // m_header_buffer로 읽어온 데이터의 크기만큼 복사함.
-        bool readBody(byte[] buffer, ref int src_position)
+        protected bool readBody(byte[] buffer, ref int src_position)
         {
             return readUntil(buffer, ref src_position, m_message_buffer, ref m_current_position, m_message_size);
         }
 
         // A 버퍼에서 B 버퍼로, 내용을 복사해줌
-        bool readUntil(byte[] buffer, ref int src_position, byte[] dest_buffer, ref int dest_position, int to_size)
+        protected bool readUntil(byte[] buffer, ref int src_position, byte[] dest_buffer, ref int dest_position, int to_size)
         {
             // 남은 데이터가 없다면, 리턴
             if (m_remain_bytes < 0)
@@ -167,7 +167,7 @@ namespace DKU_ServerCore.Packets
             return !(dest_position < to_size);
         }
 
-        int getBodySize()
+        protected int getBodySize()
         {
             Type type = CommonDefine.HEADER_SIZE.GetType();
             if (type.Equals(typeof(short)))

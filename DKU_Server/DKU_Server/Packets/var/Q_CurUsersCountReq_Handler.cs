@@ -9,12 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_ServerCore.Packets.var.gserver;
 using DKU_ServerCore;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {
     public class Q_CurUsersCountReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_CurUsersCountReq req = Data<Q_CurUsersCountReq>.Deserialize(packet.m_data);
 

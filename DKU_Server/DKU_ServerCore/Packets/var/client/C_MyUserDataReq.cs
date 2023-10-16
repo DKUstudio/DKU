@@ -11,7 +11,7 @@ namespace DKU_ServerCore.Packets.var.client
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
     public class C_MyUserDataReq : Data<C_MyUserDataReq>
     {
-        public int sid;
+        public long uid;
         public UserData udata;
     }
 }

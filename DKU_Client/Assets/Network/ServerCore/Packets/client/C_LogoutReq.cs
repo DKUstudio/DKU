@@ -12,6 +12,5 @@ namespace DKU_ServerCore.Packets.var.client
     public class C_LogoutReq : Data<C_LogoutReq>
     {
         public long uid;
-        public int sid;
     }
 }

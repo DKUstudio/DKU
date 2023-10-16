@@ -50,7 +50,7 @@ namespace DKU_ServerCore.Packets
         // {0}: type
         public static string Packet_Handler_Func =
 @"
-        void {0}_Impl(Packet packet)
+        void {0}_Impl(SPacket packet)
         {{
             {0}_Handler.Method(packet);
         }}
@@ -78,7 +78,7 @@ namespace DKU_Server.Packets
 {{
     public class GamePacketHandler
     {{
-        public void ParsePacket(Packet packet)
+        public void ParsePacket(SPacket packet)
         {{
             switch ((PacketType)packet.m_type)
             {{
@@ -103,12 +103,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {{
     public class {0}_Handler
     {{
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {{
             {0} req = Data<{0}>.Deserialize(packet.m_data);
 

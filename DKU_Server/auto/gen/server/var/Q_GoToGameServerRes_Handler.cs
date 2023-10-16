@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class Q_GoToGameServerRes_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_GoToGameServerRes req = Data<Q_GoToGameServerRes>.Deserialize(packet.m_data);
 

@@ -5,6 +5,7 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
+using UnityEditor.MemoryProfiler;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -20,8 +21,6 @@ public class NetworkManager : MonoBehaviour
     [Sirenix.OdinInspector.ReadOnly]
     private long wid = 0;
     public long WID => wid;
-    private int sid = 0;
-    public int SID => sid;
     [Sirenix.OdinInspector.ReadOnly]
     private bool is_logged_in = false;
     public bool IS_LOGGED_IN => is_logged_in;
@@ -45,25 +44,21 @@ public class NetworkManager : MonoBehaviour
     {
         udata = v_udata;
     }
-    public void SetSid(int v_sid)
-    {
-        sid = v_sid;
-    }
 
     private void Awake()
     {
         instance = this;
 
-        connections = GetComponent<Connections>();
+        connections = this.AddComponent<Connections>();
+        //connections = GetComponent<Connections>();
         DontDestroyOnLoad(this);
         connections.Init();
         connections.Connect();
     }
 
     [Button]
-    private void Add_Component()
+    private void Add_Test_Components()
     {
-        this.AddComponent<Connections>();
         this.AddComponent<MemberService>();
         this.AddComponent<ChatService>();
     }
@@ -76,14 +71,8 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("[Connections] removed connection");
     }
 
-    public void StartConnection(string ip_address)
+    public void RestartConnection(string ip_address)
     {
-        // CloseConnection();
-        // this.AddComponent<Connections>();
-        // connections = this.GetComponent<Connections>();
-        // connections.Init();
-
-        // connections.Connect(ip_address);
         StartCoroutine(RestartConnectionCoroutine(ip_address));
     }
 

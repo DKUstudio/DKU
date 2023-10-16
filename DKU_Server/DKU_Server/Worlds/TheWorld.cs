@@ -14,16 +14,14 @@ namespace DKU_Server.Worlds
 {
     public class TheWorld
     {
-        public Dictionary<int, LoginData> sid_users;
         public Dictionary<long, LoginData> uid_users;
-        public int users_count => sid_users.Count + uid_users.Count;
+        public int users_count => uid_users.Count;
 
 
         public WorldBlock[] world_blocks = new WorldBlock[(int)WorldBlockType.Block_Count];
 
         public TheWorld()
         {
-            sid_users = new Dictionary<int, LoginData>();
             uid_users = new Dictionary<long, LoginData>();
 
             // 모든 방 초기화
@@ -41,13 +39,15 @@ namespace DKU_Server.Worlds
             }
             return null;
         }
-        public void RemoveSidUser(int v_sid)
+        public void AddUidUser(long v_uid, LoginData v_data)
         {
-            if (sid_users.ContainsKey(v_sid))
+            try
             {
-                Console.WriteLine($"[Logout] {v_sid}");
-                sid_users.Remove(v_sid);
-                ReturnSid(v_sid);
+                uid_users.Add(v_uid, v_data);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
             }
         }
         public void RemoveUidUser(long v_uid)
@@ -58,70 +58,7 @@ namespace DKU_Server.Worlds
                 uid_users.Remove(v_uid);
             }
         }
-        public void AddSidUser(UserToken token)
-        {
-            int sid = GenSid();
-            LoginData ldata = new LoginData();
-            ldata.SetSid(sid);
-            ldata.SetUserToken(token);
-            sid_users.Add(sid, ldata);
 
-            S_YourSidRes res = new S_YourSidRes();
-            res.sid = sid;
-            byte[] body = res.Serialize();
-
-            Console.WriteLine($"[GameServer] your sid: {sid}");
-            if (token == null)
-            {
-                Console.WriteLine("[Connection] userToken is null");
-            }
-            Packet pkt = new Packet(PacketType.S_YourSidRes, body, body.Length);
-            token.Send(pkt);
-        }
-        public void MoveSidToUidUsers(int sid, UserData v_udata)
-        {
-            S_FinallyLoggedInReq req = new S_FinallyLoggedInReq();
-
-            try
-            {
-                sid_users[sid].SetUserData(v_udata);
-                LoginData ldata = sid_users[sid];
-                sid_users.Remove(sid);
-                ReturnSid(sid);
-
-                uid_users.Add(ldata.UserData.uid, ldata);
-                Console.WriteLine($"[Login] hello {ldata.UserData.nickname}");
-
-                req.success = 0;
-                byte[] body = req.Serialize();
-                Packet packet = new Packet(PacketType.S_FinallyLoggedInReq, body, body.Length);
-                uid_users[v_udata.uid].UserToken.Send(packet);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                req.success = 1;
-                byte[] body = req.Serialize();
-                Packet packet = new Packet(PacketType.S_FinallyLoggedInReq, body, body.Length);
-                sid_users[sid].UserToken.Send(packet);
-            }
-
-        }
-
-        int sid_gen = 0;
-        Stack<int> sid_pool = new Stack<int>();
-        int GenSid()
-        {
-            if (sid_pool.Count > 0)
-            {
-                return sid_pool.Pop();
-            }
-            return sid_gen++;
-        }
-        public void ReturnSid(int v_sid)
-        {
-            sid_pool.Push(v_sid);
-        }
 
         /// <summary>
         /// 모든 유저에게 채팅

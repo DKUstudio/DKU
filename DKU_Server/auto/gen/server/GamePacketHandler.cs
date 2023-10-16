@@ -18,7 +18,7 @@ namespace DKU_Server.Packets
 {
     public class GamePacketHandler
     {
-        public void ParsePacket(Packet packet)
+        public void ParsePacket(SPacket packet)
         {
             switch ((PacketType)packet.m_type)
             {
@@ -96,87 +96,87 @@ namespace DKU_Server.Packets
             }
         }
 
-        void C_ChatReq_Impl(Packet packet)
+        void C_ChatReq_Impl(SPacket packet)
         {
             C_ChatReq_Handler.Method(packet);
         }
 
-        void C_LoginReq_Impl(Packet packet)
+        void C_LoginReq_Impl(SPacket packet)
         {
             C_LoginReq_Handler.Method(packet);
         }
 
-        void C_LogoutReq_Impl(Packet packet)
+        void C_LogoutReq_Impl(SPacket packet)
         {
             C_LogoutReq_Handler.Method(packet);
         }
 
-        void C_MyUserDataReq_Impl(Packet packet)
+        void C_MyUserDataReq_Impl(SPacket packet)
         {
             C_MyUserDataReq_Handler.Method(packet);
         }
 
-        void C_PingReq_Impl(Packet packet)
+        void C_PingReq_Impl(SPacket packet)
         {
             C_PingReq_Handler.Method(packet);
         }
 
-        void C_RegisterReq_Impl(Packet packet)
+        void C_RegisterReq_Impl(SPacket packet)
         {
             C_RegisterReq_Handler.Method(packet);
         }
 
-        void C_StartAuthReq_Impl(Packet packet)
+        void C_StartAuthReq_Impl(SPacket packet)
         {
             C_StartAuthReq_Handler.Method(packet);
         }
 
-        void C_StopWaitingReq_Impl(Packet packet)
+        void C_StopWaitingReq_Impl(SPacket packet)
         {
             C_StopWaitingReq_Handler.Method(packet);
         }
 
-        void C_TryAuthReq_Impl(Packet packet)
+        void C_TryAuthReq_Impl(SPacket packet)
         {
             C_TryAuthReq_Handler.Method(packet);
         }
 
-        void C_UserPosReq_Impl(Packet packet)
+        void C_UserPosReq_Impl(SPacket packet)
         {
             C_UserPosReq_Handler.Method(packet);
         }
 
-        void Q_CurUsersCountReq_Impl(Packet packet)
+        void Q_CurUsersCountReq_Impl(SPacket packet)
         {
             Q_CurUsersCountReq_Handler.Method(packet);
         }
 
-        void Q_GoToGameServerRes_Impl(Packet packet)
+        void Q_GoToGameServerRes_Impl(SPacket packet)
         {
             Q_GoToGameServerRes_Handler.Method(packet);
         }
 
-        void Q_LoginRes_Impl(Packet packet)
+        void Q_LoginRes_Impl(SPacket packet)
         {
             Q_LoginRes_Handler.Method(packet);
         }
 
-        void Q_QueueStartRes_Impl(Packet packet)
+        void Q_QueueStartRes_Impl(SPacket packet)
         {
             Q_QueueStartRes_Handler.Method(packet);
         }
 
-        void Q_RegisterRes_Impl(Packet packet)
+        void Q_RegisterRes_Impl(SPacket packet)
         {
             Q_RegisterRes_Handler.Method(packet);
         }
 
-        void Q_WaitForLoginRes_Impl(Packet packet)
+        void Q_WaitForLoginRes_Impl(SPacket packet)
         {
             Q_WaitForLoginRes_Handler.Method(packet);
         }
 
-        void Q_YourWidRes_Impl(Packet packet)
+        void Q_YourWidRes_Impl(SPacket packet)
         {
             Q_YourWidRes_Handler.Method(packet);
         }

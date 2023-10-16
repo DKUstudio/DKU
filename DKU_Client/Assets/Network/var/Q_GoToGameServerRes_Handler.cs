@@ -14,7 +14,7 @@ public class Q_GoToGameServerRes_Handler
     {
         Q_GoToGameServerRes res = Data<Q_GoToGameServerRes>.Deserialize(packet.m_data);
 
-        NetworkManager.Instance.StartConnection(res.game_server_ipv4);
+        NetworkManager.Instance.RestartConnection(res.game_server_ipv4);
     }
 
 }

@@ -16,11 +16,11 @@ namespace DKU_Server.Connections.Tokens
 {
     public class UserToken
     {
-        MessageResolver m_message_resolver; // 받은 데이터를 Packet 객체로 만들어줌
+        SMessageResolver m_message_resolver; // 받은 데이터를 Packet 객체로 만들어줌
         public Socket? m_socket { get; set; } // 연결된 소켓
 
         // 요청받은 패킷 리스트
-        List<Packet> m_recv_packet_list;
+        List<SPacket> m_recv_packet_list;
         // 보낼 패킷 리스트
         Queue<Packet> m_send_packet_queue;
 
@@ -29,8 +29,8 @@ namespace DKU_Server.Connections.Tokens
 
         public UserToken()
         {
-            m_message_resolver = new MessageResolver();
-            m_recv_packet_list = new List<Packet>(10);
+            m_message_resolver = new SMessageResolver();
+            m_recv_packet_list = new List<SPacket>(10);
             m_send_packet_queue = new Queue<Packet>(100);
             m_recv_args = SocketAsyncEventArgsPool.Instance.Pop();
             m_send_args = SocketAsyncEventArgsPool.Instance.Pop();
@@ -100,11 +100,12 @@ namespace DKU_Server.Connections.Tokens
             }
         }
 
-        void onMessageCompleted(Packet packet)
+        void onMessageCompleted(SPacket packet)
         {
             /*string str = Encoding.Unicode.GetString(packet.m_data);
             Console.WriteLine(str);*/
             //Console.WriteLine((PacketType)packet.m_type);
+            packet.SetUserToken(this);
             NetworkManager.Instance.m_game_packet_handler.ParsePacket(packet);
         }
         #endregion
@@ -228,7 +229,7 @@ namespace DKU_Server.Connections.Tokens
         }
         #endregion
 
-        void AddPacket(Packet packet)
+        void AddPacket(SPacket packet)
         {
             lock (m_recv_packet_list)
             {

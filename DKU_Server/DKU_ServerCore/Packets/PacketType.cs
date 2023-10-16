@@ -25,13 +25,10 @@ namespace DKU_ServerCore.Packets
 
 
 		S_ChatRes,
-		S_FinallyLoggedInReq,
-		S_LogoutRes,
 		S_PingRes,
 		S_StartAuthRes,
 		S_TryAuthRes,
 		S_UserPosRes,
-		S_YourSidRes,
 
 
 		Q_CurUsersCountReq,

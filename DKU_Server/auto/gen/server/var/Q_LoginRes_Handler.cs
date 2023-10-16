@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class Q_LoginRes_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_LoginRes req = Data<Q_LoginRes>.Deserialize(packet.m_data);
 

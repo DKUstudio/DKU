@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_RegisterReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_RegisterReq req = Data<C_RegisterReq>.Deserialize(packet.m_data);
 

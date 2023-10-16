@@ -15,7 +15,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_LoginReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             // TODO 최대 동접자로 설정한 수에 맞게 atomic하게 처리할 수 있어야 함
 

@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class Q_WaitForLoginRes_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_WaitForLoginRes req = Data<Q_WaitForLoginRes>.Deserialize(packet.m_data);
 

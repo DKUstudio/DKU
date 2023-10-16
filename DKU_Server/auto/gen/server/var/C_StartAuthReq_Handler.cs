@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_StartAuthReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_StartAuthReq req = Data<C_StartAuthReq>.Deserialize(packet.m_data);
 

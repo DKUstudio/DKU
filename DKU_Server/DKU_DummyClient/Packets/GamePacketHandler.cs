@@ -22,14 +22,6 @@ namespace DKU_DummyClient.Packets
                     S_ChatRes_Impl(packet);
                     break;
 
-                case PacketType.S_FinallyLoggedInReq:
-                    S_FinallyLoggedInReq_Impl(packet);
-                    break;
-
-                case PacketType.S_LogoutRes:
-                    S_LogoutRes_Impl(packet);
-                    break;
-
                 case PacketType.S_PingRes:
                     S_PingRes_Impl(packet);
                     break;
@@ -46,53 +38,34 @@ namespace DKU_DummyClient.Packets
                     S_UserPosRes_Impl(packet);
                     break;
 
-                case PacketType.S_YourSidRes:
-                    S_YourSidRes_Impl(packet);
-                    break;
-
             default:
                 break;
             }
         }
 
-        void S_ChatRes_Impl(Packet packet)
+        void S_ChatRes_Impl(SPacket packet)
         {
             S_ChatRes_Handler.Method(packet);
         }
 
-        void S_FinallyLoggedInReq_Impl(Packet packet)
-        {
-            S_FinallyLoggedInReq_Handler.Method(packet);
-        }
-
-        void S_LogoutRes_Impl(Packet packet)
-        {
-            S_LogoutRes_Handler.Method(packet);
-        }
-
-        void S_PingRes_Impl(Packet packet)
+        void S_PingRes_Impl(SPacket packet)
         {
             S_PingRes_Handler.Method(packet);
         }
 
-        void S_StartAuthRes_Impl(Packet packet)
+        void S_StartAuthRes_Impl(SPacket packet)
         {
             S_StartAuthRes_Handler.Method(packet);
         }
 
-        void S_TryAuthRes_Impl(Packet packet)
+        void S_TryAuthRes_Impl(SPacket packet)
         {
             S_TryAuthRes_Handler.Method(packet);
         }
 
-        void S_UserPosRes_Impl(Packet packet)
+        void S_UserPosRes_Impl(SPacket packet)
         {
             S_UserPosRes_Handler.Method(packet);
-        }
-
-        void S_YourSidRes_Impl(Packet packet)
-        {
-            S_YourSidRes_Handler.Method(packet);
         }
 
     }

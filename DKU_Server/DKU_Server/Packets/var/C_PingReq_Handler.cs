@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Worlds;
 using DKU_ServerCore.Packets.var.server;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {
     public class C_PingReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_PingReq req = Data<C_PingReq>.Deserialize(packet.m_data);
 

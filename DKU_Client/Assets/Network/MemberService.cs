@@ -12,7 +12,7 @@ public class MemberService : MonoBehaviour
     public static void Register_Request(string id, string pw, string nickname)
     {
         Crypto.SHA256_Generate(pw);
-        Debug.Log(Crypto.salt + " / " + Crypto.hashed_password);
+        //Debug.Log(Crypto.salt + " / " + Crypto.hashed_password);
 
         QC_RegisterReq req = new QC_RegisterReq();
         req.wid = NetworkManager.Instance.WID;

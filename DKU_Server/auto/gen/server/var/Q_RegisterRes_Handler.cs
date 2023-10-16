@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class Q_RegisterRes_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_RegisterRes req = Data<Q_RegisterRes>.Deserialize(packet.m_data);
 

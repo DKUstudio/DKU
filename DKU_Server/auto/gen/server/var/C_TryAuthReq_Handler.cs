@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_TryAuthReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_TryAuthReq req = Data<C_TryAuthReq>.Deserialize(packet.m_data);
 

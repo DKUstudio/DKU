@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Worlds;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {
     public class C_ChatReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_ChatReq req = Data<C_ChatReq>.Deserialize(packet.m_data);
 

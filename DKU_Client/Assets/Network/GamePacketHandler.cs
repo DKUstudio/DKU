@@ -19,14 +19,6 @@ public class GamePacketHandler
                 S_ChatRes_Impl(packet);
                 break;
 
-            case PacketType.S_FinallyLoggedInReq:
-                S_FinallyLoggedInReq_Impl(packet);
-                break;
-
-            case PacketType.S_LogoutRes:
-                S_LogoutRes_Impl(packet);
-                break;
-
             case PacketType.S_PingRes:
                 S_PingRes_Impl(packet);
                 break;
@@ -41,10 +33,6 @@ public class GamePacketHandler
 
             case PacketType.S_UserPosRes:
                 S_UserPosRes_Impl(packet);
-                break;
-
-            case PacketType.S_YourSidRes:
-                S_YourSidRes_Impl(packet);
                 break;
 
             case PacketType.Q_CurUsersCountReq:
@@ -85,16 +73,6 @@ public class GamePacketHandler
         S_ChatRes_Handler.Method(packet);
     }
 
-    void S_FinallyLoggedInReq_Impl(Packet packet)
-    {
-        S_FinallyLoggedInReq_Handler.Method(packet);
-    }
-
-    void S_LogoutRes_Impl(Packet packet)
-    {
-        S_LogoutRes_Handler.Method(packet);
-    }
-
     void S_PingRes_Impl(Packet packet)
     {
         S_PingRes_Handler.Method(packet);
@@ -113,11 +91,6 @@ public class GamePacketHandler
     void S_UserPosRes_Impl(Packet packet)
     {
         S_UserPosRes_Handler.Method(packet);
-    }
-
-    void S_YourSidRes_Impl(Packet packet)
-    {
-        S_YourSidRes_Handler.Method(packet);
     }
 
     void Q_CurUsersCountReq_Impl(Packet packet)

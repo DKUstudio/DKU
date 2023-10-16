@@ -1,4 +1,5 @@
 
+using DKU_Server.Connections;
 using DKU_Server.Connections.Tokens;
 using DKU_Server.Worlds;
 using DKU_ServerCore.Packets;
@@ -14,17 +15,10 @@ namespace DKU_Server.Packets.var
 {
     public class C_LogoutReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_LogoutReq req = Data<C_LogoutReq>.Deserialize(packet.m_data);
-            if (NetworkManager.Instance.world.FindUserToken(req.uid) == null)  // sid
-            {
-                NetworkManager.Instance.world.RemoveSidUser(req.sid);
-            }
-            else
-            {
-                NetworkManager.Instance.world.RemoveUidUser(req.uid);
-            }
+            NetworkManager.Instance.world.RemoveUidUser(req.uid);
         }
     }
 }

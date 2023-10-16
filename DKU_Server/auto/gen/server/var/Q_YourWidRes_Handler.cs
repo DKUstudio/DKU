@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class Q_YourWidRes_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_YourWidRes req = Data<Q_YourWidRes>.Deserialize(packet.m_data);
 

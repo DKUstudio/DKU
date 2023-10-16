@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.DBs;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {
     public class C_TryAuthReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_TryAuthReq req = Data<C_TryAuthReq>.Deserialize(packet.m_data);
             AuthManager.Instance.PushVerifyQueue(req.uid, req.code);

@@ -63,7 +63,6 @@ namespace DKU_Server
             token.StartRecv();
 
             Console.WriteLine($"[New Client] came");
-            NetworkManager.Instance.world.AddSidUser(token);
         }
     }
 }

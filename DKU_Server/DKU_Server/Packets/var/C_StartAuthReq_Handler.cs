@@ -10,12 +10,13 @@ using DKU_Server.DBs;
 using DKU_ServerCore.Packets.var.server;
 using DKU_Server.Connections.Tokens;
 using DKU_Server.Worlds;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {
     public class C_StartAuthReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_StartAuthReq req = Data<C_StartAuthReq>.Deserialize(packet.m_data);
 

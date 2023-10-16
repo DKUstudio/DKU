@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class Q_QueueStartRes_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             Q_QueueStartRes req = Data<Q_QueueStartRes>.Deserialize(packet.m_data);
 

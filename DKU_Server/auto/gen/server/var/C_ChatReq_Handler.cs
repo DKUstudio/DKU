@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_ChatReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_ChatReq req = Data<C_ChatReq>.Deserialize(packet.m_data);
 

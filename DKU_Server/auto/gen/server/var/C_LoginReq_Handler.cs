@@ -12,7 +12,7 @@ namespace DKU_Server.Packets.var
 {
     public class C_LoginReq_Handler
     {
-        public static void Method(Packet packet)
+        public static void Method(SPacket packet)
         {
             C_LoginReq req = Data<C_LoginReq>.Deserialize(packet.m_data);
 
