@@ -38,8 +38,8 @@ namespace DKU_LoginQueue
         public NetworkManager()
         {
             m_database_manager.Init();
-            Task login_accept = new Task(LoginAccept);
-            login_accept.Start();
+            /*Task login_accept = new Task(LoginAccept);
+            login_accept.Start();*/
         }
 
         public void onNewClient(Socket client_socket, SocketAsyncEventArgs args)
@@ -91,7 +91,6 @@ namespace DKU_LoginQueue
                 m_wid_list.Remove(wid);
                 Returnwid(wid);
             }
-
         }
 
         public void PushLoginAcceptList(long v_wid, UserData udata)
@@ -105,7 +104,7 @@ namespace DKU_LoginQueue
             m_login_accept_list.Add(loginData);
         }
 
-        void LoginAccept()
+        /*void LoginAccept()
         {
             while (true)
             {
@@ -126,7 +125,7 @@ namespace DKU_LoginQueue
                         LogManager.Log("[GameServer] is null");
                 }
             }
-        }
+        }*/
 
 
         Packet? goto_packet;

@@ -1,4 +1,5 @@
 ﻿using DKU_Server.Connections.Tokens;
+using DKU_Server.Utils;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.gserver;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DKU_Server.Connections
@@ -52,10 +54,31 @@ namespace DKU_Server.Connections
                 token.StartRecv();
                 m_token = token;
                 LogManager.Log("[LoginQueueConnector] connected");
+
+                Task hb = new Task(HeartBeat);
+                hb.Start();
             }
             else
             {
                 Connect();
+            }
+        }
+
+        void HeartBeat()
+        {
+            while (true)
+            {
+                Thread.Sleep(4000);
+                //접속 가능한 명수 전송
+                int remained = BufferManager.Instance.GetRemained();
+                GS_CurUsersCountRes res = new GS_CurUsersCountRes();
+                res.cur_login_users_count = remained;
+
+                LogManager.Log($"[GameServer] available seats: {remained}");
+                byte[] body = res.Serialize();
+
+                Packet pkt = new Packet(PacketType.GS_CurUsersCountRes, body, body.Length);
+                NetworkManager.Instance.m_login_queue_connector.m_token.Send(pkt);
             }
         }
     }
