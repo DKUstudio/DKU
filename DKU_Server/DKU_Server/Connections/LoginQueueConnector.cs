@@ -46,12 +46,12 @@ namespace DKU_Server.Connections
         {
             if (args.SocketError == SocketError.Success)
             {
-                UserToken token = new UserToken();
+                UserToken token = new UserToken(false);
                 token.m_socket = m_socket;
                 token.Init();
                 token.StartRecv();
                 m_token = token;
-                Console.WriteLine("[LoginQueueConnector] connected");
+                LogManager.Log("[LoginQueueConnector] connected");
             }
             else
             {

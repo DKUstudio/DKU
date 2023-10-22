@@ -15,15 +15,19 @@ public class NetworkManager : MonoBehaviour
     private Connections connections;
     public Connections Connections => connections;
 
+    [ShowInInspector]
     [Sirenix.OdinInspector.ReadOnly]
     private bool is_waiting = false;
     public bool IS_WAITING => is_waiting;
+    [ShowInInspector]
     [Sirenix.OdinInspector.ReadOnly]
     private long wid = 0;
     public long WID => wid;
+    [ShowInInspector]
     [Sirenix.OdinInspector.ReadOnly]
     private bool is_logged_in = false;
     public bool IS_LOGGED_IN => is_logged_in;
+    [ShowInInspector]
     [Sirenix.OdinInspector.ReadOnly]
     private UserData udata;
     public UserData UDATA => udata;

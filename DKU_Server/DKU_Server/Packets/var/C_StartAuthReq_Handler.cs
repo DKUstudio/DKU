@@ -11,6 +11,7 @@ using DKU_ServerCore.Packets.var.server;
 using DKU_Server.Connections.Tokens;
 using DKU_Server.Worlds;
 using DKU_Server.Connections;
+using DKU_ServerCore;
 
 namespace DKU_Server.Packets.var
 {
@@ -20,7 +21,7 @@ namespace DKU_Server.Packets.var
         {
             C_StartAuthReq req = Data<C_StartAuthReq>.Deserialize(packet.m_data);
 
-            Console.WriteLine($"[C_StartAuthReq_Handler] recved {req.uid} {req.email}");
+            LogManager.Log($"[C_StartAuthReq_Handler] recved {req.uid} {req.email}");
 
             // TODO 이미 다른 유저가 인증한 email 인지 확인 필요함
 

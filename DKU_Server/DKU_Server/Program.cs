@@ -27,7 +27,7 @@ namespace DKU_Server
             {
                 if(val.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    Console.WriteLine(val);
+                    LogManager.Log(val.ToString());
                     listener.Start(val.ToString(), CommonDefine.IP_PORT, CommonDefine.MAX_CONNECTION);
                     break;
                 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Worlds;
 using DKU_Server.Connections;
+using DKU_ServerCore;
 
 namespace DKU_Server.Packets.var
 {
@@ -32,7 +33,7 @@ namespace DKU_Server.Packets.var
                     break;
 
                 default:
-                    Console.WriteLine("[Chat] Invalid recv target");
+                    LogManager.Log("[Chat] Invalid recv target");
                     break;
             }
         }

@@ -19,12 +19,12 @@ namespace DKU_ServerCore.Packets
 		C_PingReq,
 		C_RegisterReq,
 		C_StartAuthReq,
-		C_StopWaitingReq,
 		C_TryAuthReq,
 		C_UserPosReq,
 
 
 		S_ChatRes,
+		S_ConnectionTimeoutRes,
 		S_PingRes,
 		S_StartAuthRes,
 		S_TryAuthRes,

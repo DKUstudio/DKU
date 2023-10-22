@@ -18,22 +18,22 @@ namespace DKU_Server.DBs
 
 
         public void Init()
-        {
-            Console.WriteLine(CommonDefine.MYSQL_IPv4_ADDRESS);
+        {   
+            LogManager.Log(CommonDefine.MYSQL_IPv4_ADDRESS);
 #if RELEASE
             string mysql_id = "dkuserver";
 #else
             string mysql_id = "dku";
 #endif
             string mysql_pw = "z1x2c3v4b5n6m7!!";
-            Console.WriteLine($"using mysql id: {mysql_id}");
+            LogManager.Log($"using mysql id: {mysql_id}");
 
             connString = $"Server={CommonDefine.MYSQL_IPv4_ADDRESS};Database=userdb;User ID={mysql_id};Password={mysql_pw}";
 
             using (var connection = new MySqlConnection(connString))
             {
                 connection.Open();
-                Console.WriteLine("[Database] MySql connected");
+                LogManager.Log("[Database] MySql connected");
             }
 
         }
@@ -66,7 +66,7 @@ namespace DKU_Server.DBs
 
                         if (hash_pw != db_pw) // fail
                         {
-                            Console.WriteLine($@"[Login] failed by different pw
+                            LogManager.Log($@"[Login] failed by different pw
 salt : {db_salt}
 hash_pw : {hash_pw}
 db_pw : {db_pw}");
@@ -98,7 +98,7 @@ db_pw : {db_pw}");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    LogManager.Log(e.ToString());
                     return null;
                 }
             }
@@ -145,7 +145,7 @@ db_pw : {db_pw}");
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine(e.ToString());
+                            LogManager.Log(e.ToString());
                             tran.Rollback();
                             return false;
                         }
@@ -154,7 +154,7 @@ db_pw : {db_pw}");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    LogManager.Log(e.ToString());
                     return false;
                 }
             }
@@ -200,7 +200,7 @@ db_pw : {db_pw}");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.ToString());
+                    LogManager.Log(e.ToString());
                 }
             }
         }

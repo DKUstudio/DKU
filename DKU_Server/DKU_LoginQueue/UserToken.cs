@@ -1,4 +1,5 @@
-﻿using DKU_ServerCore.Packets;
+﻿using DKU_ServerCore;
+using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,7 +143,7 @@ namespace DKU_LoginQueue
                 SocketAsyncEventArgs send_event_args = SocketAsyncEventArgsPool.Instance.Pop();
                 if (send_event_args == null)
                 {
-                    Console.WriteLine("SocketAsyncEventArgsPool::Pop() result is null");
+                    LogManager.Log("SocketAsyncEventArgsPool::Pop() result is null");
                     return;
                 }
                 send_event_args.Completed += onSendCompletedPooling;

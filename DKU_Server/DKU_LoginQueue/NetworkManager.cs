@@ -1,4 +1,5 @@
-﻿using DKU_ServerCore.Packets;
+﻿using DKU_ServerCore;
+using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.gserver;
 using DKU_ServerCore.Packets.var.queue;
 using System;
@@ -53,7 +54,7 @@ namespace DKU_LoginQueue
             token.StartRecv();
 
             long wid = Getwid();
-            Console.WriteLine($"[waitingID] gave new wid {wid}");
+            LogManager.Log($"[waitingID] gave new wid {wid}");
             m_wid_list.Add(wid, token);
 
             Q_YourWidRes res = new Q_YourWidRes();
@@ -63,7 +64,7 @@ namespace DKU_LoginQueue
             Packet packet = new Packet(PacketType.Q_YourWidRes, body, body.Length);
             token.Send(packet);
 
-            Console.WriteLine("[onNewClient] new client came");
+            LogManager.Log($"[onNewClient] came {client_socket.RemoteEndPoint.ToString()}");
         }
 
         Stack<long> m_wid_pool = new Stack<long>();
@@ -116,7 +117,13 @@ namespace DKU_LoginQueue
                     byte[] body = req.Serialize();
 
                     Packet packet = new Packet(PacketType.Q_CurUsersCountReq, body, body.Length);
-                    m_game_server.Send(packet);
+                    if(m_game_server != null)
+                    {
+                        m_game_server.Send(packet);
+                        LogManager.Log("[GameServer] check available seat");
+                    }
+                    else
+                        LogManager.Log("[GameServer] is null");
                 }
             }
         }
@@ -136,11 +143,13 @@ namespace DKU_LoginQueue
             {
                 for (int i = 0; i < Math.Min(amount, m_login_accept_list.Count); i++)
                 {
-                    Console.WriteLine($"[Goto GameServer] hello, {m_login_accept_list.ElementAt(0).UserData.nickname}");
-                    m_login_accept_list.ElementAt(0).UserToken.Send(goto_packet);
+                    LogManager.Log($"[Goto GameServer] hello, {m_login_accept_list.ElementAt(0).UserData.nickname}");
+                    if(m_login_accept_list.ElementAt(0).UserToken.m_socket.Connected)
+                        m_login_accept_list.ElementAt(0).UserToken.Send(goto_packet);
                     m_login_accept_list.RemoveAt(0);
                 }
             }
+            // 남은 유저들에게 대기 순번 쏴줌
             for(int i = 0; i < m_login_accept_list.Count; i++)
             {
                 wait_for_res.my_waiting_num = i;

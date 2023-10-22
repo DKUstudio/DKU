@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.Connections;
+using DKU_ServerCore;
 
 namespace DKU_Server.Packets.var
 {
@@ -16,8 +17,9 @@ namespace DKU_Server.Packets.var
         public static void Method(SPacket packet)
         {
             C_MyUserDataReq req = Data<C_MyUserDataReq>.Deserialize(packet.m_data);
-            NetworkManager.Instance.world.AddUidUser(req.uid, new LoginData(packet.USER_TOKEN, req.udata));
-            Console.WriteLine($"[Login] Hello, {req.udata.nickname}");
+            packet.USER_TOKEN.udata = req.udata;
+            NetworkManager.Instance.world.AddUidUser(req.uid, packet.USER_TOKEN);
+            LogManager.Log($"[Login] Hello, {req.udata.nickname}");
         }
     }
 }

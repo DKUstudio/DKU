@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DKU_Server.DBs;
 using DKU_Server.Connections;
+using DKU_ServerCore;
 
 namespace DKU_Server.Packets.var
 {
@@ -17,7 +18,7 @@ namespace DKU_Server.Packets.var
         {
             C_TryAuthReq req = Data<C_TryAuthReq>.Deserialize(packet.m_data);
             AuthManager.Instance.PushVerifyQueue(req.uid, req.code);
-            Console.WriteLine($"[C_TryAuthReq_Handler] recved  {req.uid} {req.code}");
+            LogManager.Log($"[C_TryAuthReq_Handler] recved  {req.uid} {req.code}");
         }
     }
 }

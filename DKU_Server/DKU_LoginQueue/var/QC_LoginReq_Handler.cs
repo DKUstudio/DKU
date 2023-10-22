@@ -15,7 +15,7 @@ public class QC_LoginReq_Handler
         bool isTrue = NetworkManager.Instance.m_wid_list.TryGetValue(req.wid, out UserToken token);
         if (isTrue == false)
         {
-            Console.WriteLine("[LoginReq] Not in waiting_list");
+            LogManager.Log("[LoginReq] Not in waiting_list");
             return;
         }
 
@@ -29,7 +29,7 @@ public class QC_LoginReq_Handler
 
             //NetworkManager.Instance.Returnwid(req.wid);
             NetworkManager.Instance.PushLoginAcceptList(req.wid, udata);
-            Console.WriteLine("[LoginReq] login success");
+            LogManager.Log("[LoginReq] login success");
         }
         else
         {

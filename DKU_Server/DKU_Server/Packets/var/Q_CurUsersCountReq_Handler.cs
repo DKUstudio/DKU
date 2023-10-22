@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DKU_ServerCore.Packets.var.gserver;
 using DKU_ServerCore;
 using DKU_Server.Connections;
+using DKU_Server.Utils;
 
 namespace DKU_Server.Packets.var
 {
@@ -19,11 +20,12 @@ namespace DKU_Server.Packets.var
         {
             Q_CurUsersCountReq req = Data<Q_CurUsersCountReq>.Deserialize(packet.m_data);
 
-            int remained = CommonDefine.MAX_CONNECTION - NetworkManager.Instance.world.users_count;
+            //접속 가능한 명수 반환
+            int remained = BufferManager.Instance.REMAINED;
             GS_CurUsersCountRes res = new GS_CurUsersCountRes();
             res.cur_login_users_count = remained;
 
-            Console.WriteLine($"[GameServer] available seats: {remained}");
+            LogManager.Log($"[GameServer] available seats: {remained}");
             byte[] body = res.Serialize();
 
             Packet pkt = new Packet(PacketType.GS_CurUsersCountRes, body, body.Length);

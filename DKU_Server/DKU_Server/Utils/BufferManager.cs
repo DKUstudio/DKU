@@ -29,13 +29,14 @@ namespace DKU_Server.Utils
         Stack<int> m_freeIndexPool;
         int m_currentIndex;             // 
         int m_bufferSize;               // 나눠가질 버퍼의 단위 크기
+        public int REMAINED => (CommonDefine.MAX_CONNECTION - (int)(m_currentIndex / (2 * m_bufferSize))) + m_freeIndexPool.Count;
 
         public BufferManager()
         {
             // (recv, send) 2개
+            m_bufferSize = CommonDefine.SOCKET_BUFFER_SIZE;
             m_numBytes = CommonDefine.MAX_CONNECTION * 2 * CommonDefine.SOCKET_BUFFER_SIZE;
             m_currentIndex = 0;
-            m_bufferSize = CommonDefine.SOCKET_BUFFER_SIZE;
             m_freeIndexPool = new Stack<int>();
 
             m_buffer = new byte[m_numBytes];
@@ -66,7 +67,7 @@ namespace DKU_Server.Utils
             if (args == null)
                 return;
             m_freeIndexPool.Push(args.Offset);
-            args.SetBuffer(null, 0, 0);
+            SocketAsyncEventArgsPool.Instance.Push(args);
         }
     }
 }

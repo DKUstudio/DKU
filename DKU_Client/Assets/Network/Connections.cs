@@ -198,6 +198,7 @@ public class Connections : MonoBehaviour
         send_args.SetBuffer(send_data, 0, send_data.Length);
 
         m_socket.Send(send_data);
+        Debug.Log("[Send_sync] complete");
     }
     void onSendCompleted(object sender, SocketAsyncEventArgs args)
     {
@@ -237,6 +238,7 @@ public class Connections : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        Debug.Log("OnAppQuit");
         // 자동 대기열 탈출
         if (NetworkManager.Instance.IS_WAITING == true)
         {
@@ -251,6 +253,7 @@ public class Connections : MonoBehaviour
         // 자동 로그아웃
         if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
+            Debug.Log("[Logout] GS");
             C_LogoutReq req = new C_LogoutReq();
             req.uid = NetworkManager.Instance.UDATA.uid;
             if (NetworkManager.Instance.UDATA != null)
@@ -259,18 +262,10 @@ public class Connections : MonoBehaviour
                 req.uid = -1;
 
             byte[] body = req.Serialize();
+
             Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
             Send_Sync(packet);
-        }
-
-        if (NetworkManager.Instance.IS_WAITING)
-        {
-            C_StopWaitingReq req = new C_StopWaitingReq();
-            req.waiting_id = NetworkManager.Instance.WID;
-            byte[] body = req.Serialize();
-
-            Packet packet = new Packet(PacketType.C_StopWaitingReq, body, body.Length);
-            NetworkManager.Instance.Connections.Send(packet);
+            Debug.Log("[Logout] send complete");
         }
 
         m_socket = null;

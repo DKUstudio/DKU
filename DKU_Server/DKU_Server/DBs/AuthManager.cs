@@ -13,6 +13,7 @@ using DKU_ServerCore.Packets;
 using DKU_Server.Worlds;
 using DKU_Server.Connections.Tokens;
 using DKU_Server.Connections;
+using DKU_ServerCore;
 
 namespace DKU_Server.DBs
 {
@@ -52,7 +53,7 @@ namespace DKU_Server.DBs
 
         public AuthManager()
         {
-            Console.WriteLine("[AuthManager] Start AuthManager");
+            LogManager.Log("[AuthManager] Start AuthManager");
             Task t1 = new Task(CheckTimeElapsed);
             t1.Start();
 
@@ -118,20 +119,20 @@ namespace DKU_Server.DBs
                         res.success = 0;
                         NetworkManager.Instance.m_database_manager.Authentication(uid, correct_code.email);
                         waiting_list.Remove(uid);
-                        Console.WriteLine("[VerifyEmailCode] success");
+                        LogManager.Log("[VerifyEmailCode] success");
                     }
                     else
                     {
                         // incorrect code
                         res.success = 1;
-                        Console.WriteLine($"[VerifyEmailCode] incorrect code / server:{correct_code.code} != client:{get_code}");
+                        LogManager.Log($"[VerifyEmailCode] incorrect code / server:{correct_code.code} != client:{get_code}");
                     }
                 }
                 else
                 {
                     // time limit
                     res.success = 2;
-                    Console.WriteLine("[VerifyEmailCode] time limit");
+                    LogManager.Log("[VerifyEmailCode] time limit");
                 }
             }
             byte[] body = res.Serialize();
@@ -140,7 +141,7 @@ namespace DKU_Server.DBs
             UserToken token = NetworkManager.Instance.world.FindUserToken(uid);
             if (token != null)
                 token.Send(packet);
-            Console.WriteLine($"[VerifyEmailCode] dic count = {waiting_list.Count}");
+            LogManager.Log($"[VerifyEmailCode] dic count = {waiting_list.Count}");
         }
 
 
@@ -160,19 +161,19 @@ namespace DKU_Server.DBs
                         {
                             if (waiting_list.ContainsKey(pre_q.First().uid))
                             {
-                                Console.WriteLine("[CheckTimeElapsed] erase data dur to time over: " + pre_q.First().uid);
+                                LogManager.Log("[CheckTimeElapsed] erase data dur to time over: " + pre_q.First().uid);
                                 waiting_list.Remove(pre_q.First().uid);
                             }
                             else
                             {
-                                Console.WriteLine("[CheckTimeElapsed] pass");
+                                LogManager.Log("[CheckTimeElapsed] pass");
                             }
                         }
                         lock (pre_q)
                         {
                             pre_q.RemoveAt(0);
                         }
-                        Console.WriteLine($"[CheckTimeElapsed] dic count = {waiting_list.Count}");
+                        LogManager.Log($"[CheckTimeElapsed] dic count = {waiting_list.Count}");
                     }
                     else
                     {
@@ -189,7 +190,7 @@ namespace DKU_Server.DBs
             {
                 while (income_q.Count > 0)
                 {
-                    Console.WriteLine($"[CheckIncomePackets] {income_q.First().uid} {income_q.First().code}");
+                    LogManager.Log($"[CheckIncomePackets] {income_q.First().uid} {income_q.First().code}");
                     VerifyEmailCode(income_q.First().uid, income_q.First().code);
                     lock (income_q)
                     {
@@ -252,7 +253,7 @@ $"{pin_num}";
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                LogManager.Log(e.ToString());
                 return false;
             }
             return true;

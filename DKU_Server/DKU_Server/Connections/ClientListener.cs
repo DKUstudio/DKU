@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DKU_ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -42,7 +43,7 @@ namespace DKU_Server.Connections
                 address = IPAddress.Parse(host);
             }
             IPEndPoint endPoint = new IPEndPoint(address, port);
-            Console.WriteLine(endPoint);
+            LogManager.Log(endPoint.ToString());
 
             try
             {
@@ -60,13 +61,13 @@ namespace DKU_Server.Connections
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                LogManager.Log(e.Message);
             }
         }
 
         void doListen()
         {
-            Console.WriteLine("listen ready...");
+            LogManager.Log("listen ready...");
             // 하나의 유저를 받고 처리를 기다리도록 하기 위해 사용
             m_flow_control_event = new AutoResetEvent(false);
 
@@ -84,7 +85,7 @@ namespace DKU_Server.Connections
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    LogManager.Log(e.Message);
                     continue;
                 }
 
@@ -113,7 +114,7 @@ namespace DKU_Server.Connections
             else
             {
                 // 실패
-                Console.WriteLine("[server] failed new client");
+                LogManager.Log("[server] failed new client");
             }
 
             // 위의 스레드를 재개시켜, 다음 유저의 접속을 기다린다.

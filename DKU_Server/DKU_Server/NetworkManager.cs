@@ -9,6 +9,7 @@ using DKU_Server.Connections.Tokens;
 using DKU_Server.DBs;
 using DKU_Server.Packets;
 using DKU_Server.Worlds;
+using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.server;
 
@@ -62,7 +63,7 @@ namespace DKU_Server
             token.m_socket = client_socket;
             token.StartRecv();
 
-            Console.WriteLine($"[New Client] came");
+            LogManager.Log($"[New Client] came {client_socket.RemoteEndPoint.ToString()}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DKU_Server.Connections;
 using DKU_Server.Connections.Tokens;
+using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.client;
 using DKU_ServerCore.Packets.var.server;
@@ -14,7 +15,7 @@ namespace DKU_Server.Worlds
 {
     public class TheWorld
     {
-        public Dictionary<long, LoginData> uid_users;
+        public Dictionary<long, UserToken> uid_users;
         public int users_count => uid_users.Count;
 
 
@@ -22,7 +23,7 @@ namespace DKU_Server.Worlds
 
         public TheWorld()
         {
-            uid_users = new Dictionary<long, LoginData>();
+            uid_users = new Dictionary<long, UserToken>();
 
             // 모든 방 초기화
             for (int i = 0; i < (int)WorldBlockType.Block_Count; i++)
@@ -35,11 +36,11 @@ namespace DKU_Server.Worlds
         {
             if (uid_users.ContainsKey(uid))
             {
-                return uid_users[uid].UserToken;
+                return uid_users[uid];
             }
             return null;
         }
-        public void AddUidUser(long v_uid, LoginData v_data)
+        public void AddUidUser(long v_uid, UserToken v_data)
         {
             try
             {
@@ -47,16 +48,23 @@ namespace DKU_Server.Worlds
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.ToString());
+                LogManager.Log(e.ToString());
             }
         }
         public void RemoveUidUser(long v_uid)
         {
             if (uid_users.ContainsKey(v_uid))
             {
-                Console.WriteLine($"[Logout] {uid_users[v_uid].UserData.nickname}");
-                uid_users.Remove(v_uid);
+                LogManager.Log($"[Logout] {uid_users[v_uid].udata.nickname}");
+                CloseUser(v_uid);
             }
+        }
+
+        void CloseUser(long v_uid)
+        {
+            UserToken e_token = uid_users[v_uid];
+            uid_users.Remove(v_uid);
+            e_token.Close();
         }
 
 
@@ -73,7 +81,7 @@ namespace DKU_Server.Worlds
                 byte[] body = res.Serialize();
 
                 Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
-                user.Value.UserToken.Send(packet);
+                user.Value.Send(packet);
             }
         }
 
@@ -89,7 +97,7 @@ namespace DKU_Server.Worlds
                 return;
             }
 
-            short world_num = user.cur_world_block;
+            short world_num = user.ldata.cur_world_block;
             world_blocks[world_num].ShootLocalChat(data);
         }
 
@@ -109,7 +117,7 @@ namespace DKU_Server.Worlds
             {
                 return;
             }
-            user.UserToken.Send(packet);
+            user.Send(packet);
         }
 
         public void ShootLocalUserPos(long uid, JVector3 pos)
@@ -120,7 +128,7 @@ namespace DKU_Server.Worlds
                 return;
             }
 
-            short world_num = user.cur_world_block;
+            short world_num = user.ldata.cur_world_block;
             world_blocks[world_num].ShootLocalUserPos(uid, pos);
         }
     }

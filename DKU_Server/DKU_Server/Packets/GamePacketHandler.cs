@@ -51,10 +51,6 @@ namespace DKU_Server.Packets
                     C_StartAuthReq_Impl(packet);
                     break;
 
-                case PacketType.C_StopWaitingReq:
-                    C_StopWaitingReq_Impl(packet);
-                    break;
-
                 case PacketType.C_TryAuthReq:
                     C_TryAuthReq_Impl(packet);
                     break;
@@ -129,11 +125,6 @@ namespace DKU_Server.Packets
         void C_StartAuthReq_Impl(SPacket packet)
         {
             C_StartAuthReq_Handler.Method(packet);
-        }
-
-        void C_StopWaitingReq_Impl(SPacket packet)
-        {
-            C_StopWaitingReq_Handler.Method(packet);
         }
 
         void C_TryAuthReq_Impl(SPacket packet)

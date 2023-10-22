@@ -26,7 +26,7 @@ namespace DKU_Server.Packets.var
             NetworkManager.Instance.world.uid_users.TryGetValue(req.uid, out var user);
             if (user != null)
             {
-                user.UserToken.Send(pkt);
+                user.Send(pkt);
             }
         }
     }
