@@ -31,7 +31,7 @@ namespace DKU_Server.Utils
         int m_bufferSize;               // 나눠가질 버퍼의 단위 크기
         public int GetRemained()
         {
-            LogManager.Log($"numBytes: {m_numBytes}, m_curIdx: {m_currentIndex}, m_bufSize: {m_bufferSize}, m_freePool: {m_freeIndexPool.Count}");
+            //LogManager.Log($"numBytes: {m_numBytes}, m_curIdx: {m_currentIndex}, m_bufSize: {m_bufferSize}, m_freePool: {m_freeIndexPool.Count}");
             return ((m_numBytes - m_currentIndex) / m_bufferSize) / 2 + m_freeIndexPool.Count / 2;
         }
 
@@ -71,8 +71,15 @@ namespace DKU_Server.Utils
             if (args == null)
                 return;
             m_freeIndexPool.Push(args.Offset);
-            SocketAsyncEventArgsPool.Instance.Push(args);
-            //args.Dispose();
+            try
+            {
+                SocketAsyncEventArgsPool.Instance.Push(args);
+            }
+            catch (Exception e)
+            {
+                LogManager.Log("[SocketAsyncEventArgs] Disposed: " + e.Message);
+                args.Dispose();
+            }
         }
     }
 }

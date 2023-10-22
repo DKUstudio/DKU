@@ -74,7 +74,7 @@ namespace DKU_Server.Connections
                 GS_CurUsersCountRes res = new GS_CurUsersCountRes();
                 res.cur_login_users_count = remained;
 
-                LogManager.Log($"[GameServer] available seats: {remained}");
+                //LogManager.Log($"[GameServer] available seats: {remained}");
                 byte[] body = res.Serialize();
 
                 Packet pkt = new Packet(PacketType.GS_CurUsersCountRes, body, body.Length);

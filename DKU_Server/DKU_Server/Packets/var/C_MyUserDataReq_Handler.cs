@@ -18,8 +18,7 @@ namespace DKU_Server.Packets.var
         {
             C_MyUserDataReq req = Data<C_MyUserDataReq>.Deserialize(packet.m_data);
             packet.USER_TOKEN.udata = req.udata;
-            NetworkManager.Instance.world.AddUidUser(req.uid, packet.USER_TOKEN);
-            LogManager.Log($"[Login] Hello, {req.udata.nickname}");
+            NetworkManager.Instance.world.AddNewUidUser(req.uid, packet.USER_TOKEN);
         }
     }
 }

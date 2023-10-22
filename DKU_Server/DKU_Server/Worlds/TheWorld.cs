@@ -4,6 +4,7 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.client;
 using DKU_ServerCore.Packets.var.server;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +41,15 @@ namespace DKU_Server.Worlds
             }
             return null;
         }
-        public void AddUidUser(long v_uid, UserToken v_data)
+        public void AddNewUidUser(long v_uid, UserToken v_data)
         {
             try
             {
                 uid_users.Add(v_uid, v_data);
+                world_blocks[0].EnterUser(v_uid);
+                LogManager.Log($"[Login] Hello, {v_data.udata.nickname}");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogManager.Log(e.ToString());
             }
@@ -68,13 +71,13 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootGlobalChat(ChatData data)
         {
+            S_ChatRes res = new S_ChatRes();
+            res.chatData = data;
+            byte[] body = res.Serialize();
+
+            Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
             foreach (var user in uid_users)
             {
-                S_ChatRes res = new S_ChatRes();
-                res.chatData = data;
-                byte[] body = res.Serialize();
-
-                Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
                 user.Value.Send(packet);
             }
         }
@@ -88,10 +91,12 @@ namespace DKU_Server.Worlds
             bool user_find = uid_users.TryGetValue(data.sender_uid, out var user);
             if (user_find == false)
             {
+                LogManager.Log($"[LocalChat] found no sender user {data.sender_uid}");
                 return;
             }
 
             short world_num = user.ldata.cur_world_block;
+            //LogManager.Log($"[LocalChat] shoot local chat at {world_num}");
             world_blocks[world_num].ShootLocalChat(data);
         }
 

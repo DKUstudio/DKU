@@ -31,7 +31,6 @@ namespace DKU_ServerCore.Packets
 		S_UserPosRes,
 
 
-		Q_CurUsersCountReq,
 		Q_GoToGameServerRes,
 		Q_LoginRes,
 		Q_QueueStartRes,

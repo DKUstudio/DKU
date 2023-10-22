@@ -17,7 +17,7 @@ namespace DKU_Server.Packets.var
         public static void Method(SPacket packet)
         {
             C_ChatReq req = Data<C_ChatReq>.Deserialize(packet.m_data);
-
+            //LogManager.Log($"{(ChatRecvType)req.chatData.recv_target_group}");
             switch((ChatRecvType)req.chatData.recv_target_group)
             {
                 case ChatRecvType.To_All:

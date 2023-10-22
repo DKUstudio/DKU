@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviour
     public bool IS_WAITING => is_waiting;
     [ShowInInspector]
     [Sirenix.OdinInspector.ReadOnly]
-    private long wid = 0;
+    private long wid = -1;
     public long WID => wid;
     [ShowInInspector]
     [Sirenix.OdinInspector.ReadOnly]
