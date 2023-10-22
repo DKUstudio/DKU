@@ -56,15 +56,9 @@ namespace DKU_Server.Worlds
             if (uid_users.ContainsKey(v_uid))
             {
                 LogManager.Log($"[Logout] {uid_users[v_uid].udata.nickname}");
-                CloseUser(v_uid);
+                UserToken e_token = uid_users[v_uid];
+                uid_users.Remove(v_uid);
             }
-        }
-
-        void CloseUser(long v_uid)
-        {
-            UserToken e_token = uid_users[v_uid];
-            uid_users.Remove(v_uid);
-            e_token.Close();
         }
 
 

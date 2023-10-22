@@ -21,7 +21,7 @@ namespace DKU_Server.Packets.var
             Q_CurUsersCountReq req = Data<Q_CurUsersCountReq>.Deserialize(packet.m_data);
 
             //접속 가능한 명수 반환
-            int remained = BufferManager.Instance.REMAINED;
+            int remained = BufferManager.Instance.GetRemained();
             GS_CurUsersCountRes res = new GS_CurUsersCountRes();
             res.cur_login_users_count = remained;
 

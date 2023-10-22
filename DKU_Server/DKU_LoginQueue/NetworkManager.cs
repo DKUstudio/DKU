@@ -48,8 +48,8 @@ namespace DKU_LoginQueue
             token.Init();
 
             client_socket.NoDelay = true;
-            client_socket.ReceiveTimeout = 60 * 1000;
-            client_socket.SendTimeout = 60 * 1000;
+            /*client_socket.ReceiveTimeout = 60 * 1000;
+            client_socket.SendTimeout = 60 * 1000;*/
             token.m_socket = client_socket;
             token.StartRecv();
 

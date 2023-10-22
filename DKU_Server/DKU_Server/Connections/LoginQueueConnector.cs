@@ -48,7 +48,7 @@ namespace DKU_Server.Connections
             {
                 UserToken token = new UserToken(false);
                 token.m_socket = m_socket;
-                token.Init();
+                //token.Init();
                 token.StartRecv();
                 m_token = token;
                 LogManager.Log("[LoginQueueConnector] connected");

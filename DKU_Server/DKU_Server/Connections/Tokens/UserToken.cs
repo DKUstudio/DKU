@@ -61,6 +61,17 @@ namespace DKU_Server.Connections.Tokens
                 Task t = new Task(CheckConnectionTimeout);
                 t.Start();
             }
+
+            // 수신용 객체 설정
+            m_recv_args.Completed += onRecvCompleted;
+            m_recv_args.UserToken = this;
+
+            // 송신용 객체 설정
+            m_send_args.Completed += onSendCompleted;
+            m_send_args.UserToken = this;
+
+            m_recv_args.SetBuffer(new byte[CommonDefine.SOCKET_BUFFER_SIZE], 0, CommonDefine.SOCKET_BUFFER_SIZE);
+            m_send_args.SetBuffer(new byte[CommonDefine.SOCKET_BUFFER_SIZE], 0, CommonDefine.SOCKET_BUFFER_SIZE);
         }
 
         public void Init()
@@ -286,16 +297,6 @@ namespace DKU_Server.Connections.Tokens
         {
             try
             {
-                if (m_socket != null)
-                {
-                    m_socket.Close();
-                    m_socket = null;
-                }
-                m_message_resolver = null;
-                BufferManager.Instance.FreeBuffer(m_recv_args);
-                BufferManager.Instance.FreeBuffer(m_send_args);
-                m_recv_args = null;
-                m_send_args = null;
                 if (m_recv_packet_list != null)
                 {
                     m_recv_packet_list.Clear();
@@ -306,11 +307,20 @@ namespace DKU_Server.Connections.Tokens
                     m_send_packet_queue.Clear();
                     m_send_packet_queue = null;
                 }
-
-
-                LogManager.Log($"[UserToken] goodbye, {udata.nickname}");
                 if (udata != null)
                     NetworkManager.Instance.world.RemoveUidUser(udata.uid);
+
+                if (m_socket != null)
+                {
+                    m_socket.Shutdown(SocketShutdown.Both);
+                    m_socket.Close();
+                    m_socket = null;
+                }
+
+                BufferManager.Instance.FreeBuffer(m_recv_args);
+                BufferManager.Instance.FreeBuffer(m_send_args);
+
+                LogManager.Log($"[UserToken] goodbye, {udata.nickname}");
             }
             catch (Exception e)
             {
@@ -326,6 +336,7 @@ namespace DKU_Server.Connections.Tokens
                 if ((int)DateTime.Now.Subtract(m_last_connection).TotalSeconds > 180)   // 3분간 완복패킷 없으면 세션 종료
                 {
                     LogManager.Log($"[Close Connection] connection timeout {m_socket.RemoteEndPoint.ToString()}");
+                    
                     Close();
                     return;
                 }
