@@ -115,7 +115,7 @@ namespace DKU_Server.Connections.Tokens
                 if (m_socket != null && m_socket.Connected == true && args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
                 {
                     // read message
-                    LogManager.Log("[usertoken] recv completed");
+                    //LogManager.Log("[usertoken] recv completed");
                     m_message_resolver.onRecv(args.Buffer, args.Offset, args.BytesTransferred, onMessageCompleted);
                     m_last_connection = DateTime.Now;
 
@@ -308,19 +308,26 @@ namespace DKU_Server.Connections.Tokens
                     m_send_packet_queue = null;
                 }
                 if (udata != null)
+                {
                     NetworkManager.Instance.world.RemoveUidUser(udata.uid);
+                    LogManager.Log($"[UserToken] goodbye, {udata.nickname}");
+                }
 
                 if (m_socket != null)
                 {
+                    LogManager.Log($"[UserToken] goodbye, {m_socket.RemoteEndPoint.ToString()}");
                     m_socket.Shutdown(SocketShutdown.Both);
                     m_socket.Close();
                     m_socket = null;
                 }
 
-                BufferManager.Instance.FreeBuffer(m_recv_args);
-                BufferManager.Instance.FreeBuffer(m_send_args);
+                SocketAsyncEventArgs e_args = m_recv_args;
+                m_recv_args = null;
+                BufferManager.Instance.FreeBuffer(e_args);
+                e_args = m_send_args;
+                m_send_args = null;
+                BufferManager.Instance.FreeBuffer(e_args);
 
-                LogManager.Log($"[UserToken] goodbye, {udata.nickname}");
             }
             catch (Exception e)
             {
@@ -336,11 +343,11 @@ namespace DKU_Server.Connections.Tokens
                 if ((int)DateTime.Now.Subtract(m_last_connection).TotalSeconds > 180)   // 3분간 완복패킷 없으면 세션 종료
                 {
                     LogManager.Log($"[Close Connection] connection timeout {m_socket.RemoteEndPoint.ToString()}");
-                    
-                    Close();
-                    return;
+
+                    break;
                 }
             }
+            Close();
         }
     }
 }
