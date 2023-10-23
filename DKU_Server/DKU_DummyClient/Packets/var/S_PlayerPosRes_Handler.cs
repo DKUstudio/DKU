@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DKU_DummyClient.Packets.var
 {
-    public class S_UserPosRes_Handler
+    public class S_PlayerPosRes_Handler
     {
         public static void Method(Packet packet)
         {
-            S_UserPosRes res = Data<S_UserPosRes>.Deserialize(packet.m_data);
+            S_PlayerPosRes res = Data<S_PlayerPosRes>.Deserialize(packet.m_data);
 
         }
     }

@@ -119,7 +119,7 @@ namespace DKU_Server.Worlds
             user.Send(packet);
         }
 
-        public void ShootLocalUserPos(long uid, JVector3 pos)
+        public void ShootPlayerPos(long uid, JVector3 pos, JVector3 rot)
         {
             bool user_find = uid_users.TryGetValue(uid, out var user);
             if (user_find == false)
@@ -128,7 +128,7 @@ namespace DKU_Server.Worlds
             }
 
             short world_num = user.ldata.cur_world_block;
-            world_blocks[world_num].ShootLocalUserPos(uid, pos);
+            world_blocks[world_num].ShootLocalPlayerPos(uid, pos, rot);
         }
     }
 }

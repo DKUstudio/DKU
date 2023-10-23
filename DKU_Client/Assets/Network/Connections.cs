@@ -10,9 +10,9 @@ using DKU_ServerCore.Packets;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using DKU_ServerCore.Packets.var.client;
-using System.Threading.Tasks;
 using System.Threading;
 using DKU_ServerCore.Packets.var.qclient;
+using UnityEngine.SceneManagement;
 
 public class Connections : MonoBehaviour
 {
@@ -103,6 +103,15 @@ public class Connections : MonoBehaviour
                 Packet packet = new Packet(PacketType.C_MyUserDataReq, body, body.Length);
                 Send(packet);
 
+                try
+                {
+                    MainThreadDispatcher.mtd.AddJob(() => SceneManager.LoadScene("MainMap"));
+                    //SceneManager.LoadScene("MainMap");
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e.ToString());
+                }
                 Debug.Log("여기서 인게임 씬 전환");
             }
 
@@ -198,7 +207,7 @@ public class Connections : MonoBehaviour
         send_args.SetBuffer(send_data, 0, send_data.Length);
 
         m_socket.Send(send_data);
-        Debug.Log("[Send_sync] complete");
+        //Debug.Log("[Send_sync] complete");
     }
     void onSendCompleted(object sender, SocketAsyncEventArgs args)
     {
@@ -238,7 +247,7 @@ public class Connections : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        Debug.Log("OnAppQuit");
+        //Debug.Log("OnAppQuit");
         // 자동 대기열 탈출
         if (NetworkManager.Instance.IS_WAITING == true)
         {
@@ -253,7 +262,7 @@ public class Connections : MonoBehaviour
         // 자동 로그아웃
         if (NetworkManager.Instance.IS_LOGGED_IN == true)
         {
-            Debug.Log("[Logout] GS");
+            //Debug.Log("[Logout] GS");
             C_LogoutReq req = new C_LogoutReq();
             req.uid = NetworkManager.Instance.UDATA.uid;
             if (NetworkManager.Instance.UDATA != null)
@@ -265,7 +274,7 @@ public class Connections : MonoBehaviour
 
             Packet packet = new Packet(PacketType.C_LogoutReq, body, body.Length);
             Send_Sync(packet);
-            Debug.Log("[Logout] send complete");
+            //Debug.Log("[Logout] send complete");
         }
 
         m_socket = null;

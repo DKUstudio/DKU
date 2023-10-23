@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace DKU_Server.Packets.var
 {
-    public class C_UserPosReq_Handler
+    public class C_PlayerPosReq_Handler
     {
         public static void Method(SPacket packet)
         {
-            C_UserPosReq req = Data<C_UserPosReq>.Deserialize(packet.m_data);
+            C_PlayerPosReq req = Data<C_PlayerPosReq>.Deserialize(packet.m_data);
 
         }
     }

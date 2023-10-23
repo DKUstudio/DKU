@@ -52,14 +52,15 @@ namespace DKU_Server.Worlds
             }
         }
 
-        public void ShootLocalUserPos(long uid, JVector3 pos)
+        public void ShootLocalPlayerPos(long uid, JVector3 pos, JVector3 rot)
         {
-            S_UserPosRes res = new S_UserPosRes();
+            S_PlayerPosRes res = new S_PlayerPosRes();
             res.uid = uid;
-            res.v3 = pos;
+            res.pos = pos;
+            res.rot = rot;
             byte[] body = res.Serialize();
 
-            Packet packet = new Packet(PacketType.S_UserPosRes, body, body.Length);
+            Packet packet = new Packet(PacketType.S_PlayerPosRes, body, body.Length);
             foreach (var user in users_uid)
             {
                 bool find_user = the_world.uid_users.TryGetValue(user, out UserToken token);

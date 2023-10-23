@@ -9,9 +9,10 @@ namespace DKU_ServerCore.Packets.var.server
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)] // pack=1: 1byte 단위로 데이터 크기를 맞춤
-    public class S_UserPosRes : Data<S_UserPosRes>
+    public class S_PlayerPosRes : Data<S_PlayerPosRes>
     {
         public long uid;
-        public JVector3 v3;
+        public JVector3 pos;
+        public JVector3 rot;
     }
 }

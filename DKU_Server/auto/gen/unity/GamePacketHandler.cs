@@ -27,16 +27,16 @@ public class GamePacketHandler
                 S_PingRes_Impl(packet);
                 break;
 
+            case PacketType.S_PlayerPosRes:
+                S_PlayerPosRes_Impl(packet);
+                break;
+
             case PacketType.S_StartAuthRes:
                 S_StartAuthRes_Impl(packet);
                 break;
 
             case PacketType.S_TryAuthRes:
                 S_TryAuthRes_Impl(packet);
-                break;
-
-            case PacketType.S_UserPosRes:
-                S_UserPosRes_Impl(packet);
                 break;
 
             case PacketType.Q_GoToGameServerRes:
@@ -83,6 +83,11 @@ public class GamePacketHandler
         S_PingRes_Handler.Method(packet);
     }
 
+    void S_PlayerPosRes_Impl(Packet packet)
+    {
+        S_PlayerPosRes_Handler.Method(packet);
+    }
+
     void S_StartAuthRes_Impl(Packet packet)
     {
         S_StartAuthRes_Handler.Method(packet);
@@ -91,11 +96,6 @@ public class GamePacketHandler
     void S_TryAuthRes_Impl(Packet packet)
     {
         S_TryAuthRes_Handler.Method(packet);
-    }
-
-    void S_UserPosRes_Impl(Packet packet)
-    {
-        S_UserPosRes_Handler.Method(packet);
     }
 
     void Q_GoToGameServerRes_Impl(Packet packet)
