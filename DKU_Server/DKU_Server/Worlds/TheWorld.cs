@@ -124,6 +124,7 @@ namespace DKU_Server.Worlds
             bool user_find = uid_users.TryGetValue(uid, out var user);
             if (user_find == false)
             {
+                LogManager.Log($"[ShootPlayerPos] no such user {uid}");
                 return;
             }
 

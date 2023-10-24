@@ -9,7 +9,9 @@ public class S_PlayerPosRes_Handler
     public static void Method(Packet packet)
     {
         S_PlayerPosRes res = Data<S_PlayerPosRes>.Deserialize(packet.m_data);
-        if (!NetworkManager.Instance.IS_LOGGED_IN)
-            return;
+
+        Debug.Log(res.uid.ToString()
+         + new Vector3(res.pos.x, res.pos.y, res.pos.z).ToString()
+         + new Vector3(res.rot.x, res.rot.y, res.rot.z).ToString());
     }
 }

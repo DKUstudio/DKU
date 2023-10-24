@@ -15,22 +15,22 @@ namespace DKU_Server.Worlds
     public class WorldBlock
     {
         TheWorld the_world;
-        public List<long> users_uid;
+        public List<long> cur_block_users_uid;
 
         public WorldBlock(TheWorld world)
         {
             the_world = world;
-            users_uid = new List<long>();
+            cur_block_users_uid = new List<long>();
         }
 
         public void EnterUser(long v_uid)
         {
-            users_uid.Add(v_uid);
+            cur_block_users_uid.Add(v_uid);
         }
 
         public void ExitUser(long v_uid)
         {
-            users_uid.Remove(v_uid);
+            cur_block_users_uid.Remove(v_uid);
         }
 
         public void ShootLocalChat(ChatData data)
@@ -40,7 +40,7 @@ namespace DKU_Server.Worlds
             byte[] body = res.Serialize();
 
             Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
-            foreach (var user in users_uid)
+            foreach (var user in cur_block_users_uid)
             {
                 bool find_user = the_world.uid_users.TryGetValue(user, out UserToken token);
                 if(find_user == false)
@@ -54,6 +54,7 @@ namespace DKU_Server.Worlds
 
         public void ShootLocalPlayerPos(long uid, JVector3 pos, JVector3 rot)
         {
+            //LogManager.Log($"[Move] {uid} moved");
             S_PlayerPosRes res = new S_PlayerPosRes();
             res.uid = uid;
             res.pos = pos;
@@ -61,7 +62,7 @@ namespace DKU_Server.Worlds
             byte[] body = res.Serialize();
 
             Packet packet = new Packet(PacketType.S_PlayerPosRes, body, body.Length);
-            foreach (var user in users_uid)
+            foreach (long user in cur_block_users_uid)
             {
                 bool find_user = the_world.uid_users.TryGetValue(user, out UserToken token);
                 if (find_user == false)
@@ -69,6 +70,8 @@ namespace DKU_Server.Worlds
                     // TODO 비유효 유저 검사
                     continue;
                 }
+                if (token.udata.uid == uid)
+                    continue;
                 token.Send(packet);
             }
         }
