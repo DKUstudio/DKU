@@ -90,7 +90,7 @@ PlayerSettings:
   bakeCollisionMeshes: 0
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
-  resizableWindow: 0
+  resizableWindow: 1
   useMacAppStoreValidation: 0
   macAppStoreCategory: public.app-category.games
   gpuSkinning: 0
@@ -136,10 +136,7 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: 1.0.2
-  preloadedAssets:
-  - {fileID: 6534062656836169886, guid: c16e68297d60aab4e87d4f2c8d82aad2, type: 2}
-  - {fileID: 11400000, guid: 68eb05086af8eb245a9075851df036c8, type: 2}
-  - {fileID: 11400000, guid: 66732e5107a091d46b298bbad59d6d1c, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
