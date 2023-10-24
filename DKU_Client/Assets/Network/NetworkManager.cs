@@ -5,7 +5,6 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
-using UnityEditor.MemoryProfiler;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -52,10 +51,9 @@ public class NetworkManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        DontDestroyOnLoad(this);
 
         connections = this.AddComponent<Connections>();
-        //connections = GetComponent<Connections>();
-        DontDestroyOnLoad(this);
         connections.Init();
         connections.Connect();
     }

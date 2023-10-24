@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DKU_Server.Connections;
 
 namespace DKU_Server.Packets.var
 {

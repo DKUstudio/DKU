@@ -27,6 +27,10 @@ namespace DKU_Server.Packets
                     C_ChatReq_Impl(packet);
                     break;
 
+                case PacketType.C_GetWorldUsersDataReq:
+                    C_GetWorldUsersDataReq_Impl(packet);
+                    break;
+
                 case PacketType.C_LoginReq:
                     C_LoginReq_Impl(packet);
                     break;
@@ -91,6 +95,11 @@ namespace DKU_Server.Packets
         void C_ChatReq_Impl(SPacket packet)
         {
             C_ChatReq_Handler.Method(packet);
+        }
+
+        void C_GetWorldUsersDataReq_Impl(SPacket packet)
+        {
+            C_GetWorldUsersDataReq_Handler.Method(packet);
         }
 
         void C_LoginReq_Impl(SPacket packet)

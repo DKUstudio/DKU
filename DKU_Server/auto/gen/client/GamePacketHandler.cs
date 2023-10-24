@@ -26,6 +26,10 @@ namespace DKU_DummyClient.Packets
                     S_ConnectionTimeoutRes_Impl(packet);
                     break;
 
+                case PacketType.S_GetWorldUsersDataRes:
+                    S_GetWorldUsersDataRes_Impl(packet);
+                    break;
+
                 case PacketType.S_PingRes:
                     S_PingRes_Impl(packet);
                     break;
@@ -55,6 +59,11 @@ namespace DKU_DummyClient.Packets
         void S_ConnectionTimeoutRes_Impl(SPacket packet)
         {
             S_ConnectionTimeoutRes_Handler.Method(packet);
+        }
+
+        void S_GetWorldUsersDataRes_Impl(SPacket packet)
+        {
+            S_GetWorldUsersDataRes_Handler.Method(packet);
         }
 
         void S_PingRes_Impl(SPacket packet)

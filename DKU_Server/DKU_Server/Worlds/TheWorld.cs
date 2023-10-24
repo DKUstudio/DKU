@@ -8,8 +8,10 @@ using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static DKU_ServerCore.CommonDefine;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DKU_Server.Worlds
@@ -30,6 +32,7 @@ namespace DKU_Server.Worlds
             for (int i = 0; i < (int)WorldBlockType.Block_Count; i++)
             {
                 world_blocks[i] = new WorldBlock(this);
+                world_blocks[i].w_type = (CommonDefine.WorldBlockType)i;
             }
         }
 
@@ -46,7 +49,9 @@ namespace DKU_Server.Worlds
             try
             {
                 uid_users.Add(v_uid, v_data);
-                world_blocks[0].EnterUser(v_uid);
+                v_data.ldata = new LoginData();
+                v_data.ldata.cur_world_block = 0;
+                world_blocks[0].AddUid(v_uid);
                 LogManager.Log($"[Login] Hello, {v_data.udata.nickname}");
             }
             catch (Exception e)
@@ -59,7 +64,8 @@ namespace DKU_Server.Worlds
             if (uid_users.ContainsKey(v_uid))
             {
                 LogManager.Log($"[Logout] {uid_users[v_uid].udata.nickname}");
-                UserToken e_token = uid_users[v_uid];
+                short world_num = uid_users[v_uid].ldata.cur_world_block;
+                world_blocks[world_num].RemoveUid(v_uid);
                 uid_users.Remove(v_uid);
             }
         }
@@ -121,15 +127,50 @@ namespace DKU_Server.Worlds
 
         public void ShootPlayerPos(long uid, JVector3 pos, JVector3 rot)
         {
-            bool user_find = uid_users.TryGetValue(uid, out var user);
-            if (user_find == false)
+            try
             {
-                LogManager.Log($"[ShootPlayerPos] no such user {uid}");
-                return;
+                bool user_find = uid_users.TryGetValue(uid, out var user);
+                if (user_find == false)
+                {
+                    LogManager.Log($"[ShootPlayerPos] no such user {uid}");
+                    return;
+                }
+
+                short world_num = user.ldata.cur_world_block;
+                world_blocks[world_num].ShootLocalPlayerPos(uid, pos, rot);
+            }
+            catch (Exception e)
+            {
+                LogManager.Log(e.ToString());
+            }
+        }
+
+        public List<UserData> GetCurWorldUserDatas(long v_uid)
+        {
+            List<UserData> ret = new List<UserData>();
+
+            bool find_user = uid_users.TryGetValue(v_uid, out var user);
+            if (find_user == false)
+            {
+                LogManager.Log($"[GetCurWorldUserDatas] no such user {v_uid}");
+                return ret;
             }
 
             short world_num = user.ldata.cur_world_block;
-            world_blocks[world_num].ShootLocalPlayerPos(uid, pos, rot);
+            foreach (long item in world_blocks[world_num].cur_block_users_uid)
+            {
+                if (item == v_uid)
+                    continue;
+                bool find_user2 = uid_users.TryGetValue(item, out var user2);
+                if (find_user2 == false)
+                {
+                    LogManager.Log($"[GetCurWorldUserDatas] no such user {v_uid}");
+                    continue;
+                }
+                ret.Add(user2.udata);
+            }
+
+            return ret;
         }
     }
 }

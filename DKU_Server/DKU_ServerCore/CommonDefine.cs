@@ -35,6 +35,15 @@ namespace DKU_ServerCore
         // 패킷의 헤더 크기 : 4 byte
         public const int HEADER_SIZE = 4;
 
+        public enum WorldBlockType
+        {
+            Dankook_University,
+
+
+
+            Block_Count,
+        }
+
         static public string ToReadableByteArray(byte[] bytes)
         {
             return string.Join(",", bytes);

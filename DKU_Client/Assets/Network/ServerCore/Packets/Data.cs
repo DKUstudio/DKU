@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DKU_ServerCore.Packets
 {
@@ -14,6 +15,8 @@ namespace DKU_ServerCore.Packets
     {
         public byte[] Serialize()
         {
+            return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(this));
+
             var size = Marshal.SizeOf(typeof(T));
             var array = new byte[size];
             var ptr = Marshal.AllocHGlobal(size);
@@ -27,6 +30,8 @@ namespace DKU_ServerCore.Packets
 
         public static T Deserialize(byte[] array)
         {
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(array));
+
             var size = Marshal.SizeOf(typeof(T));
             var ptr = Marshal.AllocHGlobal(size);
 

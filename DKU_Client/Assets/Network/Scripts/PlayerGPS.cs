@@ -16,6 +16,10 @@ public class PlayerGPS : MonoBehaviour
 
     private void Update()   // 위치 변화를 감지하면 자동으로 서버로 패킷 쏴줌
     {
+        if (NetworkManager.Instance == null)
+        {
+            Debug.Log("network manager is null");
+        }
         if (NetworkManager.Instance.IS_LOGGED_IN == false)
             return;
 
@@ -31,7 +35,10 @@ public class PlayerGPS : MonoBehaviour
             byte[] body = req.Serialize();
 
             Packet packet = new Packet(PacketType.C_PlayerPosReq, body, body.Length);
-            //NetworkManager.Instance.Connections.Send(packet);
+            if (GameManager.Instance == null)
+            {
+                Debug.Log("game manager is null");
+            }
             GameManager.Instance.PushSendPacket(packet);
         }
     }

@@ -23,6 +23,10 @@ public class GamePacketHandler
                 S_ConnectionTimeoutRes_Impl(packet);
                 break;
 
+            case PacketType.S_GetWorldUsersDataRes:
+                S_GetWorldUsersDataRes_Impl(packet);
+                break;
+
             case PacketType.S_PingRes:
                 S_PingRes_Impl(packet);
                 break;
@@ -76,6 +80,11 @@ public class GamePacketHandler
     void S_ConnectionTimeoutRes_Impl(Packet packet)
     {
         S_ConnectionTimeoutRes_Handler.Method(packet);
+    }
+
+    void S_GetWorldUsersDataRes_Impl(Packet packet)
+    {
+        S_GetWorldUsersDataRes_Handler.Method(packet);
     }
 
     void S_PingRes_Impl(Packet packet)

@@ -13,6 +13,7 @@ namespace DKU_ServerCore.Packets
         TYPE_NONE = -1,
         
 		C_ChatReq,
+		C_GetWorldUsersDataReq,
 		C_LoginReq,
 		C_LogoutReq,
 		C_MyUserDataReq,
@@ -25,6 +26,7 @@ namespace DKU_ServerCore.Packets
 
 		S_ChatRes,
 		S_ConnectionTimeoutRes,
+		S_GetWorldUsersDataRes,
 		S_PingRes,
 		S_PlayerPosRes,
 		S_StartAuthRes,
