@@ -22,7 +22,7 @@ public class OtherPlayer : MonoBehaviour
     {
         if (pos_tweener == null)
         {
-            pos_tweener = transform.DOMove(v_pos, 1.5f).SetAutoKill(false);
+            pos_tweener = transform.DOMove(v_pos, 2f).SetAutoKill(false);
             return;
         }
         pos_tweener.ChangeEndValue(v_pos, true).Restart();
@@ -32,7 +32,7 @@ public class OtherPlayer : MonoBehaviour
     {
         if (rot_tweener == null)
         {
-            rot_tweener = transform.DORotate(v_rot, 1.5f).SetAutoKill(false);
+            rot_tweener = transform.DORotate(v_rot, 2f).SetAutoKill(false);
             return;
         }
         rot_tweener.ChangeEndValue(v_rot, true).Restart();
