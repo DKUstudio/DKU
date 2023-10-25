@@ -30,8 +30,8 @@ public class PlayerGPS : MonoBehaviour
 
             C_PlayerPosReq req = new C_PlayerPosReq();
             req.uid = NetworkManager.Instance.UDATA.uid;
-            req.pos = new JVector3(transform.position);
-            req.rot = new JVector3(transform.rotation.eulerAngles);
+            req.pos = new JVector3(transform.position.x, transform.position.y, transform.position.z);
+            req.rot = new JVector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
             byte[] body = req.Serialize();
 
             Packet packet = new Packet(PacketType.C_PlayerPosReq, body, body.Length);
