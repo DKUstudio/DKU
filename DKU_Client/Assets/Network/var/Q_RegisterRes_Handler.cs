@@ -17,10 +17,14 @@ public class Q_RegisterRes_Handler
         else if (res.success == 1)  // id 중복 실패
         {
             Debug.Log("[Register] <color=red>fail</color>...id duplicate");
+            login_input.instance.loadingcanvas.SetActive(false);
+            login_input.instance.registfail();
         }
         else if (res.success == 2)  // db 서버 오류
         {
             Debug.Log("[Register] <color=red>fail</color>...sql error");
+            login_input.instance.loadingcanvas.SetActive(false);
+            login_input.instance.registfail();
         }
     }
 }
