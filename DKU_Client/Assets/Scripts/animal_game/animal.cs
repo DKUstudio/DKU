@@ -7,11 +7,6 @@ public class animal : MonoBehaviour
 {
     public int Level;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -24,11 +19,10 @@ public class animal : MonoBehaviour
         {
             if (val.Level == Level)
             {
-                if (transform.position.x+transform.position.y > val.transform.position.x + val.transform.position.y)
+                if (transform.position.x + transform.position.y > val.transform.position.x + val.transform.position.y)
                 {
                     Debug.Log("Hit");
-                    spawnController.instance.LevelUp(this.gameObject,col.gameObject);
-                    
+                    spawnController.instance.LevelUp(this.gameObject, col.gameObject);
                 }
                 // Instantiate(GetComponentInParent<spawnController>().animals[Level + 1], newpos, transform.rotation);
                 // Destroy(col.gameObject);
