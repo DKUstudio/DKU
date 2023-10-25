@@ -5,6 +5,10 @@
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
+
+*~
+.DS_Store
+
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -12,6 +16,12 @@
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
+
+build_info.txt
+Assets/StreamingAssets/build_info
+Assets/PlayMaker/Editor/Resources/EditorStartupPrefs.asset
+Assets/StreamingAssets/build_info.meta
+Assets/PlayMaker/Editor/Resources/EditorStartupPrefs.asset.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -75,7 +85,5 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 [Aa]ssets/[Ss]treamingAssets/aa.meta
 [Aa]ssets/[Ss]treamingAssets/aa/*
-
-[Aa]ssets/[Ss]treamingAssets/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
