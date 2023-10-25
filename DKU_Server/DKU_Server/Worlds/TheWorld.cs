@@ -135,6 +135,8 @@ namespace DKU_Server.Worlds
                     LogManager.Log($"[ShootPlayerPos] no such user {uid}");
                     return;
                 }
+                user.ldata.cur_pos = pos;
+                user.ldata.cur_rot = rot;
 
                 short world_num = user.ldata.cur_world_block;
                 world_blocks[world_num].ShootLocalPlayerPos(uid, pos, rot);
