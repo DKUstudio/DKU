@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4839712157305765081}
   - component: {fileID: 4398136828830180441}
   - component: {fileID: 2927657698322952019}
+  - component: {fileID: 6483418230934312553}
   m_Layer: 0
   m_Name: chicken
   m_TagString: Untagged
@@ -136,7 +137,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -148,3 +149,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6483418230934312553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5717034396262154059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed692661ddf292a438c68260bc5e9baf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Level: 2
