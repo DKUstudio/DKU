@@ -11,7 +11,7 @@ public class QC_LoginReq_Handler
     public static void Method(Packet packet)
     {
         QC_LoginReq req = Data<QC_LoginReq>.Deserialize(packet.m_data);
-
+        LogManager.Log($"[LoginReq] {req.wid} tries login");
         bool isTrue = NetworkManager.Instance.m_wid_list.TryGetValue(req.wid, out UserToken token);
         if (isTrue == false)
         {

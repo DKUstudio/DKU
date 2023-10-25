@@ -48,10 +48,14 @@ namespace DKU_Server.Worlds
         {
             try
             {
+                if(uid_users.ContainsKey(v_uid))
+                {
+                    // TODO 중복로그인 예외처리
+                }
                 uid_users.Add(v_uid, v_data);
                 v_data.ldata = new LoginData();
                 v_data.ldata.cur_world_block = 0;
-                world_blocks[0].AddUid(v_uid);
+                world_blocks[0].AddUid(v_uid, v_data.udata);
                 LogManager.Log($"[Login] Hello, {v_data.udata.nickname}");
             }
             catch (Exception e)

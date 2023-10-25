@@ -18,19 +18,21 @@ namespace DKU_ServerCore.Packets
 		C_LogoutReq,
 		C_MyUserDataReq,
 		C_PingReq,
-		C_PlayerPosReq,
 		C_RegisterReq,
 		C_StartAuthReq,
 		C_TryAuthReq,
+		C_UserPosReq,
 
 
 		S_ChatRes,
 		S_ConnectionTimeoutRes,
 		S_GetWorldUsersDataRes,
+		S_OtherUserLoginRes,
+		S_OtherUserLogoutRes,
 		S_PingRes,
-		S_PlayerPosRes,
 		S_StartAuthRes,
 		S_TryAuthRes,
+		S_UserPosRes,
 
 
 		Q_GoToGameServerRes,
