@@ -35,7 +35,7 @@ namespace DKU_Server.Worlds
             if (cur_block_users_uid.Contains(v_uid))
             {
                 LogManager.Log($"[WorldBlock] {v_uid} exited {w_type}... {cur_block_users_uid.Count - 1}");
-
+                // TODO 유저 로그아웃을 다른 유저에게 알림
                 cur_block_users_uid.Remove(v_uid);
             }
         }
