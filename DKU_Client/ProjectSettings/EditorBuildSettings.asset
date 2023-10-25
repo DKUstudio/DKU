@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMap.unity
     guid: d65a2f42d8207cc4684619fd7a9d48c2
+  - enabled: 1
+    path: Assets/Scenes/AnimalGame.unity
+    guid: db9bec3ff50173a44bf23dedc481e676
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 66732e5107a091d46b298bbad59d6d1c, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: c16e68297d60aab4e87d4f2c8d82aad2, type: 2}
