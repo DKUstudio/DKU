@@ -595,7 +595,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.05
+  m_fontSize: 18.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1079,7 +1079,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1107352235}
@@ -2879,7 +2879,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2537744118306112914, guid: a2ebd15cf84bf1c4c84a6f3508fda5cf, type: 3}
       propertyPath: speed
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2537744118306112914, guid: a2ebd15cf84bf1c4c84a6f3508fda5cf, type: 3}
       propertyPath: camPivot
@@ -3219,7 +3219,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 26
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3512,8 +3512,8 @@ Transform:
   m_GameObject: {fileID: 1753583381}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0422058, y: 6.5429, z: -18.0171}
-  m_LocalScale: {x: 50.586742, y: 16.230333, z: 5.603159}
+  m_LocalPosition: {x: -3.0422058, y: 6.5429, z: -17.267101}
+  m_LocalScale: {x: 50.586742, y: 16.230333, z: 7.102936}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 604877797}
@@ -3622,8 +3622,8 @@ Transform:
   m_GameObject: {fileID: 1874917683}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.0422058, y: 6.5429, z: 18.2329}
-  m_LocalScale: {x: 50.586742, y: 16.230333, z: 5.603159}
+  m_LocalPosition: {x: -3.0422058, y: 6.5429, z: 17.3579}
+  m_LocalScale: {x: 50.586742, y: 16.230333, z: 7.3530254}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 604877797}
