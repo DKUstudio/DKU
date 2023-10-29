@@ -6,6 +6,7 @@ using UnityEngine;
 public class animal : MonoBehaviour
 {
     public int Level;
+    public int Points;
 
     // Update is called once per frame
     void Update()
@@ -22,6 +23,7 @@ public class animal : MonoBehaviour
                 if (transform.position.x + transform.position.y > val.transform.position.x + val.transform.position.y)
                 {
                     Debug.Log("Hit");
+                    AnimalGameManager.instance.addPoint(Points);
                     spawnController.instance.LevelUp(this.gameObject, col.gameObject);
                 }
                 // Instantiate(GetComponentInParent<spawnController>().animals[Level + 1], newpos, transform.rotation);
