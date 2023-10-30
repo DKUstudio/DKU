@@ -47,10 +47,6 @@ namespace DKU_Server.Packets
                     C_PingReq_Impl(packet);
                     break;
 
-                case PacketType.C_PlayerPosReq:
-                    C_PlayerPosReq_Impl(packet);
-                    break;
-
                 case PacketType.C_RegisterReq:
                     C_RegisterReq_Impl(packet);
                     break;
@@ -61,6 +57,10 @@ namespace DKU_Server.Packets
 
                 case PacketType.C_TryAuthReq:
                     C_TryAuthReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserPosReq:
+                    C_UserPosReq_Impl(packet);
                     break;
 
                 case PacketType.Q_GoToGameServerRes:
@@ -122,11 +122,6 @@ namespace DKU_Server.Packets
             C_PingReq_Handler.Method(packet);
         }
 
-        void C_PlayerPosReq_Impl(SPacket packet)
-        {
-            C_PlayerPosReq_Handler.Method(packet);
-        }
-
         void C_RegisterReq_Impl(SPacket packet)
         {
             C_RegisterReq_Handler.Method(packet);
@@ -140,6 +135,11 @@ namespace DKU_Server.Packets
         void C_TryAuthReq_Impl(SPacket packet)
         {
             C_TryAuthReq_Handler.Method(packet);
+        }
+
+        void C_UserPosReq_Impl(SPacket packet)
+        {
+            C_UserPosReq_Handler.Method(packet);
         }
 
         void Q_GoToGameServerRes_Impl(SPacket packet)

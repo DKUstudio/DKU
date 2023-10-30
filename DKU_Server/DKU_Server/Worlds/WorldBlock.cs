@@ -24,9 +24,29 @@ namespace DKU_Server.Worlds
             cur_block_users_uid = new HashSet<long>();
         }
 
-        public void AddUid(long v_uid)
+        public void AddUid(long v_uid, UserData v_udata)
         {
             LogManager.Log($"[WorldBlock] {v_uid} entered {w_type}... {cur_block_users_uid.Count + 1}");
+            try
+            {
+                S_OtherUserLoginRes res = new S_OtherUserLoginRes();
+                res.login_uid = v_uid;
+                res.udata = v_udata;
+                byte[] body = res.Serialize();
+                Packet packet = new Packet(PacketType.S_OtherUserLoginRes, body, body.Length);
+                foreach (var item in cur_block_users_uid)
+                {
+                    var usr = the_world.FindUserToken(item);
+                    if (usr != null)
+                    {
+                        usr.Send(packet);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
             cur_block_users_uid.Add(v_uid);
         }
 
@@ -35,7 +55,27 @@ namespace DKU_Server.Worlds
             if (cur_block_users_uid.Contains(v_uid))
             {
                 LogManager.Log($"[WorldBlock] {v_uid} exited {w_type}... {cur_block_users_uid.Count - 1}");
+                
+                try
+                {
+                    S_OtherUserLogoutRes res = new S_OtherUserLogoutRes();
+                    res.logout_uid = v_uid;
+                    byte[] body = res.Serialize();
+                    Packet packet = new Packet(PacketType.S_OtherUserLogoutRes, body, body.Length);
 
+                    foreach (var usr in cur_block_users_uid)
+                    {
+                        var found_usr = the_world.FindUserToken(usr);
+                        if (found_usr != null)
+                        {
+                            found_usr.Send(packet);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogManager.Log($"[OtherLogout] {e.ToString()}");
+                }
                 cur_block_users_uid.Remove(v_uid);
             }
         }
@@ -47,15 +87,28 @@ namespace DKU_Server.Worlds
             byte[] body = res.Serialize();
 
             Packet packet = new Packet(PacketType.S_ChatRes, body, body.Length);
+
+            List<long> error_user = new List<long>();
             foreach (var user in cur_block_users_uid)
             {
                 bool find_user = the_world.uid_users.TryGetValue(user, out UserToken token);
                 if (find_user == false)
                 {
-                    // TODO 비유효 유저 검사
+                    error_user.Add(user);
                     continue;
                 }
                 token.Send(packet);
+            }
+            foreach (long val in error_user)
+            {
+                try
+                {
+                    cur_block_users_uid.Remove(val);
+                }
+                catch (Exception e)
+                {
+
+                }
             }
         }
 
@@ -64,32 +117,38 @@ namespace DKU_Server.Worlds
             //LogManager.Log($"[Move] {uid} moved");
             try
             {
-                S_PlayerPosRes res = new S_PlayerPosRes();
+                S_UserPosRes res = new S_UserPosRes();
                 res.uid = uid;
                 res.pos = pos;
                 res.rot = rot;
                 byte[] body = res.Serialize();
 
-                Packet packet = new Packet(PacketType.S_PlayerPosRes, body, body.Length);
-                lock (cur_block_users_uid)
+                Packet packet = new Packet(PacketType.S_UserPosRes, body, body.Length);
+                List<long> error_user = new List<long>();
+                foreach (long item in cur_block_users_uid)
                 {
-                    foreach (long item in cur_block_users_uid)
+                    if (uid == item)
                     {
-                        //LogManager.Log($"[LocalPos] check {item}, uid {uid}");
-                        if (uid == item)
-                        {
-                            //LogManager.Log($"[LocalPos] {uid} == {item}");
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        bool find_user = the_world.uid_users.TryGetValue(item, out UserToken token);
-                        if (find_user == false)
-                        {
-                            // TODO 비유효 유저 검사
-                            LogManager.Log($"[LocalPos] no target found {item}");
-                            continue;
-                        }
-                        token.Send(packet);
+                    bool find_user = the_world.uid_users.TryGetValue(item, out UserToken token);
+                    if (find_user == false)
+                    {
+                        error_user.Add(item);
+                        continue;
+                    }
+                    token.Send(packet);
+                }
+                foreach (long val in error_user)
+                {
+                    try
+                    {
+                        cur_block_users_uid.Remove(val);
+                    }
+                    catch (Exception e)
+                    {
+
                     }
                 }
             }

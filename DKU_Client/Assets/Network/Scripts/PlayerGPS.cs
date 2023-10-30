@@ -14,32 +14,41 @@ public class PlayerGPS : MonoBehaviour
     [ReadOnly]
     private Vector3 lastRot = Vector3.zero;
 
-    private void Update()   // 위치 변화를 감지하면 자동으로 서버로 패킷 쏴줌
+    private void Start()
     {
-        if (NetworkManager.Instance == null)
+        StartCoroutine(MoveCo());
+    }
+    C_PlayerPosReq req = new C_PlayerPosReq();
+    IEnumerator MoveCo()    // 위치 변화를 감지하면 자동으로 서버로 패킷 쏴줌
+    {
+        while (true)
         {
-            Debug.Log("network manager is null");
-        }
-        if (NetworkManager.Instance.IS_LOGGED_IN == false)
-            return;
+            yield return new WaitForSeconds(0.25f);
 
-        if (lastPos != transform.position || lastRot != transform.rotation.eulerAngles)
-        {
-            lastPos = transform.position;
-            lastRot = transform.rotation.eulerAngles;
-
-            C_PlayerPosReq req = new C_PlayerPosReq();
-            req.uid = NetworkManager.Instance.UDATA.uid;
-            req.pos = new JVector3(transform.position.x, transform.position.y, transform.position.z);
-            req.rot = new JVector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-            byte[] body = req.Serialize();
-
-            Packet packet = new Packet(PacketType.C_PlayerPosReq, body, body.Length);
-            if (GameManager.Instance == null)
+            if (NetworkManager.Instance == null)
             {
-                Debug.Log("game manager is null");
+                Debug.Log("network manager is null");
             }
-            GameManager.Instance.PushSendPacket(packet);
+            if (NetworkManager.Instance.IS_LOGGED_IN == false)
+                continue;
+
+            if (lastPos != transform.position || lastRot != transform.rotation.eulerAngles)
+            {
+                lastPos = transform.position;
+                lastRot = transform.rotation.eulerAngles;
+
+                req.uid = NetworkManager.Instance.UDATA.uid;
+                req.pos = new JVector3(transform.position.x, transform.position.y, transform.position.z);
+                req.rot = new JVector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+                byte[] body = req.Serialize();
+
+                Packet packet = new Packet(PacketType.C_UserPosReq, body, body.Length);
+                if (GameManager.Instance == null)
+                {
+                    Debug.Log("game manager is null");
+                }
+                GameManager.Instance.PushSendPacket(packet);
+            }
         }
     }
 }

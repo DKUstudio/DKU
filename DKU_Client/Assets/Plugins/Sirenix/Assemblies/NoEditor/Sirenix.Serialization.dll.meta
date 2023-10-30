@@ -103,7 +103,7 @@ PluginImporter:
   - first:
       iPhone: iOS
     second:
-      enabled: 0
+      enabled: 1
       settings: {}
   - first:
       tvOS: tvOS

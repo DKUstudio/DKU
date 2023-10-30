@@ -19,7 +19,6 @@ namespace DKU_Server.Connections.Tokens
     public class UserToken
     {
         public Socket m_socket { get; set; } // 연결된 소켓
-        // TODO userdata
         public UserData? udata;
         public LoginData ldata = new LoginData();
 

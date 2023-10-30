@@ -20,6 +20,9 @@ public class Q_LoginRes_Handler
         else if (res.success == 1)  // 실패
         {
             Debug.Log("[Login] <color=red>fail</color>");
+            login_input.instance.loadingcanvas.SetActive(false);
+            login_input.instance.loginfail();
+
         }
     }
 }
