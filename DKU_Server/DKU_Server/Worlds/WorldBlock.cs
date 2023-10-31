@@ -1,5 +1,6 @@
 ﻿using DKU_Server.Connections;
 using DKU_Server.Connections.Tokens;
+using DKU_Server.Worlds.MiniGames;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.server;
@@ -16,12 +17,17 @@ namespace DKU_Server.Worlds
     {
         TheWorld the_world;
         public HashSet<long> cur_block_users_uid;
-        public CommonDefine.WorldBlockType w_type;
+        public int w_type;
 
-        public WorldBlock(TheWorld world)
+        public MiniGame mini_game;
+
+        public WorldBlock(TheWorld world, int world_type)
         {
             the_world = world;
             cur_block_users_uid = new HashSet<long>();
+
+            w_type = world_type;
+            mini_game = MiniGame.Gen_MiniGame((short)world_type);
         }
 
         public void AddUid(long v_uid, UserData v_udata)

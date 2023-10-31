@@ -38,7 +38,8 @@ namespace DKU_ServerCore
         public enum WorldBlockType
         {
             Dankook_University,
-
+            Suika_Game,
+            OX_quiz,
 
 
             Block_Count,
