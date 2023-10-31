@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     public GameObject menubar;
-    
+    public GameObject leaderboard;
+    public GameObject inven;
     public void MenuClick()
     {
         menubar.SetActive(true);
@@ -22,6 +23,26 @@ public class Menu : MonoBehaviour
         menubar.SetActive(false);
     }
 
+    public void inven_Click()
+    {
+        inven.SetActive(true);
+    }
+
+    public void inven_Cancel()
+    {
+        inven.SetActive(false);
+    }
+
+
+public void leaderboard_Click()
+    {
+        leaderboard.SetActive(true);
+    }
+
+    public void leaderboard_Cancel()
+    {
+        leaderboard.SetActive(false);
+    }
     public void ExitClick()
     {
     #if UNITY_EDITOR
