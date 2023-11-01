@@ -11,15 +11,19 @@ namespace DKU_Server.Worlds.MiniGames
 {
     public abstract class MiniGame
     {
+        WorldBlock world_block;
+
         public static Dictionary<short, MiniGame> miniGame_dic = new Dictionary<short, MiniGame>() {
             { 0, new MiniGame_NoGame() },
             { 1, new MiniGame_SuikaGame() },
             { 2, new MiniGame_OXquiz() } 
         };
 
-        public static MiniGame Gen_MiniGame(short world_type)
+        public static MiniGame Gen_MiniGame(WorldBlock v_world_block, short world_type)
         {
-            return miniGame_dic[world_type];
+            MiniGame ret = miniGame_dic[world_type];
+            ret.world_block = v_world_block;
+            return ret;
         }
 
         /// <summary>
@@ -30,7 +34,7 @@ namespace DKU_Server.Worlds.MiniGames
         /// <summary>
         /// 현재 게임 참가중인 플레이어들
         /// </summary>
-        public HashSet<long> ingame_players = new HashSet<long>();
+        public HashSet<long> uids_ingame = new HashSet<long>();
 
         /// <summary>
         /// 미니게임에서 사용되는 패킷들이 어떻게 동작해야는지 매핑
@@ -52,13 +56,13 @@ namespace DKU_Server.Worlds.MiniGames
         /// 미니게임 참가자 리스트에 추가
         /// </summary>
         /// <param name="userId"></param>
-        public abstract void AddUserId(long userId);
+        public abstract void AddUid(long userId);
 
         /// <summary>
         /// 미니게임 참가자 리스트에서 제거
         /// </summary>
         /// <param name="userId"></param>
-        public abstract void RemoveUserId(long userId);
+        public abstract void RemoveUid(long userId);
 
     }
 }

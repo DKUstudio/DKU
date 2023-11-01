@@ -192,7 +192,6 @@ namespace DKU_DummyClient
             // 패킷 리스트에 넣는다.
             //PushPacket(packet);
 
-            // TODO 패킷을 수신해서 어떻게 빠르게 처리할건지 개선 필요
             m_game_packet_handler.ParsePacket(packet);
 
             /*string str = Encoding.Unicode.GetString(packet.m_data);
