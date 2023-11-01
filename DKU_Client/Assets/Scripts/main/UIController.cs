@@ -21,4 +21,9 @@ public class UIController : MonoBehaviour
     {
         SceneManager.LoadScene("AnimalGame");
     }
+
+    public void ClickOXQUIZ()
+    {
+        SceneManager.LoadScene("leftright");
+    }
 }
