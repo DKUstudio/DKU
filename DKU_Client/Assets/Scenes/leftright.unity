@@ -22868,6 +22868,22 @@ PrefabInstance:
       propertyPath: EventObj
       value: 
       objectReference: {fileID: 356027514}
+    - target: {fileID: 4234215641789771256, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234215641789771256, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234215641789771256, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234215641789771256, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4589608505040846281, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -22956,6 +22972,30 @@ PrefabInstance:
       propertyPath: camPivot
       value: 
       objectReference: {fileID: 181538786}
+    - target: {fileID: 6547728435397528504, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6547728435397528504, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6547728435397528504, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6547728435397528504, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318597654917418603, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8318597654917418603, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8619995886342852359, guid: c1bfcc6215f7c4117bd4a5e5105c3c4a, type: 3}
       propertyPath: m_Name
       value: Canvas (1)
