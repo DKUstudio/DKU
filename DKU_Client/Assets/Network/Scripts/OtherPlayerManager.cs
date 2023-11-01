@@ -30,7 +30,7 @@ public class OtherPlayerManager : MonoBehaviour
             sb.Append(val.uid + " " + val.nickname + "\n");
             if (others.ContainsKey(val.uid) == true)
                 continue;
-            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("OtherPlayer"), this.transform, true);
+            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
             others.Add(val.uid, op);
         }
         Debug.Log(sb.ToString());
@@ -41,7 +41,7 @@ public class OtherPlayerManager : MonoBehaviour
         bool find_user = others.TryGetValue(uid, out var oplayer);
         if (find_user == false)
         {
-            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("OtherPlayer"), this.transform, true);
+            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
             others.Add(uid, op);
 
             oplayer = others[uid];
@@ -65,7 +65,7 @@ public class OtherPlayerManager : MonoBehaviour
     {
         if (others.ContainsKey(v_uid) == true)
             return;
-        OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("OtherPlayer"), this.transform, true);
+        OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
         others.Add(v_uid, op);
     }
 

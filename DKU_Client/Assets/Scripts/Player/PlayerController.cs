@@ -47,14 +47,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // if (dir != Vector3.zero)
-        // {
-        //     if (Mathf.Sign(transform.forward.x) != Mathf.Sign(dir.x) || Mathf.Sign(transform.forward.z) != Mathf.Sign(dir.z))
-        //     {
-        //         transform.Rotate(0,1,0);
-        //     }
-        //     transform.forward = Vector3.Lerp(transform.forward, dir, rotSpeed * Time.deltaTime);
-        // }
         Vector2 conDir = joystick.Direction;
         if (conDir == Vector2.zero)
         {
