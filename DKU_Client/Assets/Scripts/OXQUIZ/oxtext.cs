@@ -13,7 +13,7 @@ public class oxtext : MonoBehaviour
     //제한시간
     public float limitTime;
     //문제,답
-    private List<List<string>> _questionList = new List<List<string>>();
+    public List<List<string>> questionList=new List<List<string>>();
     //정답인지 
     public int answer;
     //public 받은 시간 저장해두기
@@ -33,13 +33,13 @@ public class oxtext : MonoBehaviour
     {
         init();
         timeData = limitTime;
-        _questionList.Add(new List<string> { "단국대에는 잘생긴 사람만 들어올 수 있다.", "1"});
-        _questionList.Add(new List<string> { "단국대에는 못생긴 사람만 들어올 수 있다.", "0"});
-        _questionList.Add(new List<string> { "안녕하세요는 Hi라는 뜻이다.", "1"});
-        _questionList.Add(new List<string> { "안녕히가세요는 bye라는 뜻이다.", "1"});
-        _questionList.Add(new List<string> { "이현우는 키가 185이다..", "1"});
-        _questionList.Add(new List<string> { "박새결은 안경을 쓰고 있다.", "1"});
-        _questionList.Add(new List<string> { "박정호는 롤을 사랑한다.", "0"});
+        questionList.Add(new List<string> { "단국대에는 잘생긴 사람만 들어올 수 있다.", "1"});
+        questionList.Add(new List<string> { "단국대에는 못생긴 사람만 들어올 수 있다.", "0"});
+        questionList.Add(new List<string> { "안녕하세요는 Hi라는 뜻이다.", "1"});
+        questionList.Add(new List<string> { "안녕히가세요는 bye라는 뜻이다.", "1"});
+        questionList.Add(new List<string> { "이현우는 키가 185이다..", "1"});
+        questionList.Add(new List<string> { "박새결은 안경을 쓰고 있다.", "1"});
+        questionList.Add(new List<string> { "박정호는 롤을 사랑한다.", "0"});
         ShowQuestion();
         showQuizNumber();
     }
@@ -81,9 +81,9 @@ public class oxtext : MonoBehaviour
     //문제 랜덤 출력
     void ShowQuestion()
     {
-        int questionNumber = Random.Range(0, _questionList.Count);
-        question.text = _questionList[questionNumber][0];
-        answer = int.Parse(_questionList[questionNumber][1]);
+        int questionNumber = Random.Range(0, questionList.Count);
+        question.text = questionList[questionNumber][0];
+        answer = int.Parse(questionList[questionNumber][1]);
     }
     //정답 출력
     void ShowAnswer()
