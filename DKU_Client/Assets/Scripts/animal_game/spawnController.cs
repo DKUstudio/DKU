@@ -10,6 +10,7 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     public static spawnController instance = null;
     public GameObject[] animals;
+    public GameObject[] nextanimal;
     public Transform zoo;
     public float cooltime = 0.3f;
     public bool cool = false;
@@ -37,6 +38,7 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     // Update is called once per frame
     void Update()
     {
+        
     }
 
     public void MakeAnimal()
@@ -46,6 +48,17 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         nowAnimal.GetComponent<Rigidbody2D>().simulated = false;
         randomint = Random.Range(0, 4);
         cool = false;
+        for (int i = 0; i < nextanimal.Length; i++)
+        {
+            if (i==randomint)
+            {
+                nextanimal[i].SetActive(true);
+            }
+            else
+            {
+                nextanimal[i].SetActive(false);
+            }
+        }
     }
     public void OnPointerClick(PointerEventData ClickedPoint)
     {
