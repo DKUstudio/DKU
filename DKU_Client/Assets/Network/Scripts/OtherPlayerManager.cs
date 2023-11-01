@@ -66,6 +66,7 @@ public class OtherPlayerManager : MonoBehaviour
         if (others.ContainsKey(v_uid) == true)
             return;
         OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
+        op.SetUserData(v_udata);
         others.Add(v_uid, op);
     }
 
