@@ -12,7 +12,7 @@ namespace DKU_Server.Worlds.MiniGames.Suika_Game
     /// </summary>
     public class MiniGame_SuikaGame : MiniGame
     {
-        public override void AddUserId(long userId)
+        public override void AddUid(long userId)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +27,7 @@ namespace DKU_Server.Worlds.MiniGames.Suika_Game
             throw new NotImplementedException();
         }
 
-        public override void RemoveUserId(long userId)
+        public override void RemoveUid(long userId)
         {
             throw new NotImplementedException();
         }

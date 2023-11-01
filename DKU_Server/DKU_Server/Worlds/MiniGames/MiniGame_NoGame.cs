@@ -9,7 +9,7 @@ namespace DKU_Server.Worlds.MiniGames
 {
     public class MiniGame_NoGame : MiniGame
     {
-        public override void AddUserId(long userId)
+        public override void AddUid(long userId)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace DKU_Server.Worlds.MiniGames
             throw new NotImplementedException();
         }
 
-        public override void RemoveUserId(long userId)
+        public override void RemoveUid(long userId)
         {
             throw new NotImplementedException();
         }

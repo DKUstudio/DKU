@@ -27,7 +27,7 @@ namespace DKU_Server.Worlds
             cur_block_users_uid = new HashSet<long>();
 
             w_type = world_type;
-            mini_game = MiniGame.Gen_MiniGame((short)world_type);
+            mini_game = MiniGame.Gen_MiniGame(this, (short)world_type);
         }
 
         public void AddUid(long v_uid, UserData v_udata)
@@ -35,6 +35,7 @@ namespace DKU_Server.Worlds
             LogManager.Log($"[WorldBlock] {v_uid} entered {w_type}... {cur_block_users_uid.Count + 1}");
             try
             {
+                // 해당 월드에 유저 추가
                 S_OtherUserLoginRes res = new S_OtherUserLoginRes();
                 res.login_uid = v_uid;
                 res.udata = v_udata;
@@ -48,6 +49,9 @@ namespace DKU_Server.Worlds
                         usr.Send(packet);
                     }
                 }
+
+                // 해당 월드의 미니게임에 유저 추가
+                mini_game.AddUid(v_uid);
             }
             catch (Exception e)
             {
@@ -64,6 +68,7 @@ namespace DKU_Server.Worlds
                 
                 try
                 {
+                    // 해당 월드의 유저 제거
                     S_OtherUserLogoutRes res = new S_OtherUserLogoutRes();
                     res.logout_uid = v_uid;
                     byte[] body = res.Serialize();
@@ -77,12 +82,18 @@ namespace DKU_Server.Worlds
                             found_usr.Send(packet);
                         }
                     }
+
+                    
                 }
                 catch (Exception e)
                 {
                     LogManager.Log($"[OtherLogout] {e.ToString()}");
                 }
                 cur_block_users_uid.Remove(v_uid);
+
+                // 해당 월드의 미니게임에서 유저 제거
+                if(mini_game.uids_ingame.Contains(v_uid))
+                    mini_game.RemoveUid(v_uid);
             }
         }
 
