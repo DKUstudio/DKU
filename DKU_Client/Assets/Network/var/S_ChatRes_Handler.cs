@@ -10,6 +10,7 @@ public class S_ChatRes_Handler
     public static void Method(Packet packet)
     {
         S_ChatRes res = Data<S_ChatRes>.Deserialize(packet.m_data);
+
         string opt = "";
         switch ((ChatRecvType)res.chatData.recv_target_group)
         {
@@ -28,8 +29,9 @@ public class S_ChatRes_Handler
             default:
                 break;
         }
-
         opt += res.chatData.message;
         Debug.Log(opt);
+
+        ChatUI.Instance.RecvMessage(res.chatData);
     }
 }

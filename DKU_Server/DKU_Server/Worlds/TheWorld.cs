@@ -32,7 +32,7 @@ namespace DKU_Server.Worlds
             for (int i = 0; i < (int)WorldBlockType.Block_Count; i++)
             {
                 world_blocks[i] = new WorldBlock(this, i);
-                world_blocks[i].w_type = (CommonDefine.WorldBlockType)i;
+                world_blocks[i].w_type = i;
             }
         }
 
