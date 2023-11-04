@@ -26,6 +26,9 @@ namespace DKU_ServerCore
         // 최대 동접자 수
         public const int MAX_CONNECTION = 100;
 
+        // 최대 
+        public const int MAX_TOKEN_CONNECTION_TIMEOUT = 300;
+
         // 소켓에서 한번에 보낼 수 있는 버퍼 크기 : 4K
         public const int SOCKET_BUFFER_SIZE = 4096;
 

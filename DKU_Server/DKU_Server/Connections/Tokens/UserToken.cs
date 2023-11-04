@@ -339,7 +339,7 @@ namespace DKU_Server.Connections.Tokens
             while (true)
             {
                 Thread.Sleep(5000);
-                if ((int)DateTime.Now.Subtract(m_last_connection).TotalSeconds > 180)   // 3분간 완복패킷 없으면 세션 종료
+                if ((int)DateTime.Now.Subtract(m_last_connection).TotalSeconds > CommonDefine.MAX_TOKEN_CONNECTION_TIMEOUT)   // 3분간 완복패킷 없으면 세션 종료
                 {
                     LogManager.Log($"[Close Connection] connection timeout {m_socket.RemoteEndPoint.ToString()}");
 
