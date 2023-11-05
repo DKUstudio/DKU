@@ -98,10 +98,10 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootLocalChat(ChatData data)
         {
-            bool user_find = uid_users.TryGetValue(data.sender_uid, out var user);
+            bool user_find = uid_users.TryGetValue(data.sender_data.uid, out var user);
             if (user_find == false)
             {
-                LogManager.Log($"[LocalChat] found no sender user {data.sender_uid}");
+                LogManager.Log($"[LocalChat] found no sender user {data.sender_data.uid}");
                 return;
             }
 
