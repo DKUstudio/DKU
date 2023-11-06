@@ -10,6 +10,7 @@ public class AnimalGameManager : MonoBehaviour
     public static AnimalGameManager instance;
     public TMP_Text scoreText;
     public int score = 0;
+    public Collider2D endpoint;
     private void Awake()
     {
         if (instance == null)
@@ -21,6 +22,7 @@ public class AnimalGameManager : MonoBehaviour
             Debug.LogWarning("게임매니저 중복!");
             Destroy(gameObject);
         }
+        
     }
 
     // Start is called before the first frame update
@@ -40,4 +42,6 @@ public class AnimalGameManager : MonoBehaviour
         score += p;
         scoreText.text = score.ToString();
     }
+
+    
 }

@@ -32,7 +32,7 @@ namespace DKU_Server.Worlds
             for (int i = 0; i < (int)WorldBlockType.Block_Count; i++)
             {
                 world_blocks[i] = new WorldBlock(this, i);
-                world_blocks[i].w_type = (CommonDefine.WorldBlockType)i;
+                world_blocks[i].w_type = i;
             }
         }
 
@@ -98,10 +98,10 @@ namespace DKU_Server.Worlds
         /// <param name="data"></param>
         public void ShootLocalChat(ChatData data)
         {
-            bool user_find = uid_users.TryGetValue(data.sender_uid, out var user);
+            bool user_find = uid_users.TryGetValue(data.sender_data.uid, out var user);
             if (user_find == false)
             {
-                LogManager.Log($"[LocalChat] found no sender user {data.sender_uid}");
+                LogManager.Log($"[LocalChat] found no sender user {data.sender_data.uid}");
                 return;
             }
 
