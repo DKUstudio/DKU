@@ -25,9 +25,11 @@ public class ChatService : MonoBehaviour
     [ShowInInspector]
     public static void Chat(ChatData data)
     {
+        if (NetworkManager.Instance.UDATA == null)
+            return;
         C_ChatReq req = new C_ChatReq();
         req.chatData = data;
-        req.chatData.sender_uid = NetworkManager.Instance.UDATA.uid;
+        req.chatData.sender_data = NetworkManager.Instance.UDATA;
         byte[] body = req.Serialize();
 
         Packet packet = new Packet(PacketType.C_ChatReq, body, body.Length);

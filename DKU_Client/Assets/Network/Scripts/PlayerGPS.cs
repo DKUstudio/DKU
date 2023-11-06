@@ -16,6 +16,8 @@ public class PlayerGPS : MonoBehaviour
 
     private void Start()
     {
+        lastPos = transform.position;
+        lastRot = transform.rotation.eulerAngles;
         StartCoroutine(MoveCo());
     }
     C_PlayerPosReq req = new C_PlayerPosReq();
