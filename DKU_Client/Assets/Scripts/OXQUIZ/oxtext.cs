@@ -18,14 +18,12 @@ public class oxtext : MonoBehaviour
     public int answer;
     //public 받은 시간 저장해두기
     public float timeData;
-    
-    //score저장용
+    //OX 위치 판정
     public GameObject Oloc;
     public GameObject Xloc;
-    //점수카운트
+    //점수
     public int scorecnt;
-    
-    //문제 카운트
+    //문제번호
     public int quizNumber;
     public TMP_Text quizNumberText;
     

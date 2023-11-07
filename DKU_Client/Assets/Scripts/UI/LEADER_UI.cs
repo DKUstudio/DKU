@@ -9,7 +9,7 @@ public class LEADER_UI : MonoBehaviour
 {
     public List<List<string>> LeaderBoardData = new List<List<string>>();
     public GameObject content;
-    public TMP_Text name;
+    public TMP_Text playername;
     public TMP_Text rank;
     public TMP_Text score;
     public GameObject a;
@@ -34,12 +34,12 @@ public class LEADER_UI : MonoBehaviour
         {
             a= content.transform.GetChild(i).gameObject;
             a.SetActive(true);
-            //name
-             name  = a.transform.GetChild(1).gameObject.GetComponent<TMP_Text>(); 
+            //playername
+             playername  = a.transform.GetChild(1).gameObject.GetComponent<TMP_Text>(); 
              rank  = a.transform.GetChild(2).gameObject.GetComponent<TMP_Text>(); 
              score = a.transform.GetChild(3).gameObject.GetComponent<TMP_Text>();
              rank.text = (i+1).ToString(); 
-             name.text  = LeaderBoardData[i][0];
+             playername.text  = LeaderBoardData[i][0];
              score.text = LeaderBoardData[i][1];
         }
     }

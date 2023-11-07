@@ -23,9 +23,25 @@ public class pawn1 : MonoBehaviour
         gameButton.SetActive(true);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("player"))
+        {
+            gameButton.SetActive(true);
+        }
+    }
+
     private void OnCollisionExit(Collision other)
     {
         gameButton.SetActive(false);
 
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("player"))
+        {
+            gameButton.SetActive(false);
+        }
     }
 }
