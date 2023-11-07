@@ -54,6 +54,10 @@ namespace DKU_DummyClient.Packets
                     S_UserPosRes_Impl(packet);
                     break;
 
+                case PacketType.S_WorldChangeAvailRes:
+                    S_WorldChangeAvailRes_Impl(packet);
+                    break;
+
             default:
                 break;
             }
@@ -102,6 +106,11 @@ namespace DKU_DummyClient.Packets
         void S_UserPosRes_Impl(SPacket packet)
         {
             S_UserPosRes_Handler.Method(packet);
+        }
+
+        void S_WorldChangeAvailRes_Impl(SPacket packet)
+        {
+            S_WorldChangeAvailRes_Handler.Method(packet);
         }
 
     }

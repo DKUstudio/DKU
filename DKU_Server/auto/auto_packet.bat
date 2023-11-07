@@ -12,3 +12,5 @@ xcopy /y ..\DKU_ServerCore\Packets\UserData.cs ..\..\DKU_Client\Assets\Network\S
 
 @REM client
 start ../DKU_PacketGenerator/bin/Debug/net6.0/DKU_PacketGenerator.exe
+
+pause

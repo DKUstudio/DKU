@@ -63,6 +63,10 @@ namespace DKU_Server.Packets
                     C_UserPosReq_Impl(packet);
                     break;
 
+                case PacketType.C_WorldChangeAvailReq:
+                    C_WorldChangeAvailReq_Impl(packet);
+                    break;
+
                 case PacketType.Q_GoToGameServerRes:
                     Q_GoToGameServerRes_Impl(packet);
                     break;
@@ -140,6 +144,11 @@ namespace DKU_Server.Packets
         void C_UserPosReq_Impl(SPacket packet)
         {
             C_UserPosReq_Handler.Method(packet);
+        }
+
+        void C_WorldChangeAvailReq_Impl(SPacket packet)
+        {
+            C_WorldChangeAvailReq_Handler.Method(packet);
         }
 
         void Q_GoToGameServerRes_Impl(SPacket packet)

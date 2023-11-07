@@ -22,6 +22,7 @@ namespace DKU_ServerCore.Packets
 		C_StartAuthReq,
 		C_TryAuthReq,
 		C_UserPosReq,
+		C_WorldChangeAvailReq,
 
 
 		S_ChatRes,
@@ -33,6 +34,7 @@ namespace DKU_ServerCore.Packets
 		S_StartAuthRes,
 		S_TryAuthRes,
 		S_UserPosRes,
+		S_WorldChangeAvailRes,
 
 
 		Q_GoToGameServerRes,
