@@ -1,6 +1,7 @@
 ﻿using DKU_Server.Connections;
 using DKU_Server.Worlds.MiniGames.OX_quiz;
 using DKU_Server.Worlds.MiniGames.Suika_Game;
+using DKU_ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace DKU_Server.Worlds.MiniGames
 {
     public abstract class MiniGame
     {
-        WorldBlock world_block;
+        protected WorldBlock world_block;
 
         public static Dictionary<short, MiniGame> miniGame_dic = new Dictionary<short, MiniGame>() {
             { 0, new MiniGame_NoGame() },
@@ -35,6 +36,11 @@ namespace DKU_Server.Worlds.MiniGames
         /// 현재 게임 참가중인 플레이어들
         /// </summary>
         public HashSet<long> uids_ingame = new HashSet<long>();
+
+        /// <summary>
+        /// 해당 미니게임에 참여할 수 있는 최대 인원 수
+        /// </summary>
+        public int MAX_USERS = CommonDefine.MAX_CONNECTION;
 
         /// <summary>
         /// 미니게임에서 사용되는 패킷들이 어떻게 동작해야는지 매핑

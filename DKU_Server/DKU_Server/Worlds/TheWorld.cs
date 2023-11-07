@@ -21,7 +21,6 @@ namespace DKU_Server.Worlds
         public Dictionary<long, UserToken> uid_users;
         public int users_count => uid_users.Count;
 
-
         public WorldBlock[] world_blocks = new WorldBlock[(int)WorldBlockType.Block_Count];
 
         public TheWorld()
