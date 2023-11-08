@@ -27,7 +27,16 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
     
     void Update()
     {
-        
+        if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                ClosePeek();
+                Debug.Log("CLOSE CLICK");
+            }
+            
+            
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -45,9 +54,18 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
             uistack.Push(popup);
         }
     }
+
+    public void Close(UIpopup popup)
+    {
+        if (popup != null && uistack.Contains(popup))
+        {
+            UIUtilities.UIActive(popup.gameObject,false);
+            Debug.Log(uistack.Peek().gameObject.name);
+        }
+    }
     // 가장 최근에 활성화된 UI를 스택에서 꺼내 비활성화시킨다
     [Button]
-    public void Close()
+    public void ClosePeek()
     {
         while (uistack.Count > 0)
         {
