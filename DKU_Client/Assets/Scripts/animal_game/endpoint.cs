@@ -16,13 +16,9 @@ public class endpoint : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("hit!");
-    }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        Debug.Log("hit!");
+        AnimalGameManager.instance.endGame();
     }
 }

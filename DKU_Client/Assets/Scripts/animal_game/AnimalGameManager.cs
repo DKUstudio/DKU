@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AnimalGameManager : MonoBehaviour
 {
     public static AnimalGameManager instance;
     public TMP_Text scoreText;
     public int score = 0;
-    public Collider2D endpoint;
+    public TMP_Text Lastscore;
+    private bool gameover = false;
+    public GameObject endui;
+    public GameObject menuui;
+    public Transform zoo;
     private void Awake()
     {
         if (instance == null)
@@ -36,6 +41,19 @@ public class AnimalGameManager : MonoBehaviour
     {
         
     }
+
+    public void menuon()
+    {
+        if (menuui.activeSelf)
+        {
+            menuui.SetActive(false);
+        }
+        else
+        {
+            menuui.SetActive(true);
+        }
+    }
+    
     [Button]
     public void addPoint(int p)
     {
@@ -43,5 +61,43 @@ public class AnimalGameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    
+    public void endGame()
+    {
+        if (gameover)
+        {
+            return;
+        }
+
+        gameover = true;
+        //score 
+        Debug.Log("ENDGAME---");
+        Lastscore.text = score.ToString();
+        endui.SetActive(true);
+    }
+
+    public void initgame()
+    {
+        score = 0;
+        scoreText.text = score.ToString();
+        endui.SetActive(false);
+        gameover = false;
+        menuui.SetActive(false);
+        animal[] zoos = zoo.gameObject.GetComponentsInChildren<animal>();
+        if (zoos == null)
+        {
+            Debug.Log("no animals");
+            return;
+        }
+        foreach (animal a in zoos)
+        {
+            Debug.Log(a.name);
+            Destroy(a.gameObject);
+        }
+    }
+
+    public void exitgame()
+    {
+        initgame();
+        SceneManager.LoadScene("MainMap");
+    }
 }
