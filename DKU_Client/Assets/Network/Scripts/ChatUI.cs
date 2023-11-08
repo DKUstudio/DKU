@@ -61,10 +61,14 @@ public class ChatUI : MonoBehaviour
             GameObject block = Instantiate(chatBlockFactory);
             block.transform.SetParent(content_chatBlock);
 
+            // 채팅 블록 설정
             RectTransform rect = block.GetComponent<RectTransform>();
             rect.offsetMin = new Vector2(25, 0);
             rect.offsetMax = new Vector2(-25, 100);
             rect.anchoredPosition = new Vector3(0, blockIdx++ * -100, 0);
+            rect.localScale = Vector3.one;
+
+            // 패널 최대 크기 지정
             rect_content_panel.offsetMin = new Vector2(0, 0);
             rect_content_panel.offsetMax = new Vector2(0, blockIdx * 100);
 
