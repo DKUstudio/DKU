@@ -28,4 +28,9 @@ public class UIController : MonoBehaviour
     {
         SceneManager.LoadScene("leftright");
     }
+
+    public void ClickHexaGone()
+    {
+        SceneManager.LoadScene("FALLGAME");
+    }
 }

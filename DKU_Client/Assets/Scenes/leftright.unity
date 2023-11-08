@@ -11994,7 +11994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 875009900}
-  name: {fileID: 0}
+  playername: {fileID: 0}
   rank: {fileID: 0}
   score: {fileID: 0}
   a: {fileID: 0}
@@ -36878,7 +36878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 875009900}
-  name: {fileID: 0}
+  playername: {fileID: 0}
   rank: {fileID: 0}
   score: {fileID: 0}
   a: {fileID: 0}
