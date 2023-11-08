@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour
     public GameObject menubar;
     public GameObject leaderboard;
     public GameObject inven;
+    
     public void MenuClick()
     {
         menubar.SetActive(true);
@@ -37,11 +38,13 @@ public class Menu : MonoBehaviour
 public void leaderboard_Click()
     {
         leaderboard.SetActive(true);
+        gameObject.GetComponent<LEADER_UI>().enabled = true;
     }
 
     public void leaderboard_Cancel()
     {
         leaderboard.SetActive(false);
+        gameObject.GetComponent<LEADER_UI>().enabled = false;
     }
     public void ExitClick()
     {
