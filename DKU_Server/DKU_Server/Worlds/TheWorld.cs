@@ -49,7 +49,9 @@ namespace DKU_Server.Worlds
             {
                 if(uid_users.ContainsKey(v_uid))
                 {
-                    // TODO 중복로그인 예외처리
+                    // 중복로그인 예외처리
+                    uid_users[v_uid].Close();
+                    uid_users.Remove(v_uid);
                 }
                 uid_users.Add(v_uid, v_data);
                 v_data.ldata = new LoginData();

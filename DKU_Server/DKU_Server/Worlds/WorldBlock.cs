@@ -16,6 +16,7 @@ namespace DKU_Server.Worlds
     public class WorldBlock
     {
         TheWorld the_world;
+        public TheWorld THE_WORLD => the_world;
         public HashSet<long> cur_block_users_uid;
         public int w_type;
 

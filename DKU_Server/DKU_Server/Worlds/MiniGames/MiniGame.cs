@@ -29,6 +29,8 @@ namespace DKU_Server.Worlds.MiniGames
 
         /// <summary>
         /// 현재 게임 상태를 나타내고 싶음 ex) 중지된 상태인지, 플레이중인 상태인지
+        /// 0: 입장 가능
+        /// 1: 플레이 중
         /// </summary>
         public short status;
 
