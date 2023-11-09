@@ -16,13 +16,13 @@ public class animal : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         col.gameObject.TryGetComponent<animal>(out animal val);
-        if (val != null)
+        if (val != null && val.Level < 9)
         {
             if (val.Level == Level)
             {
                 if (transform.position.x + transform.position.y > val.transform.position.x + val.transform.position.y)
                 {
-                    Debug.Log("Hit");
+                    // Debug.Log("Hit");
                     AnimalGameManager.instance.addPoint(Points);
                     spawnController.instance.LevelUp(this.gameObject, col.gameObject);
                 }
@@ -32,4 +32,6 @@ public class animal : MonoBehaviour
             }
         }
     }
+
+    
 }
