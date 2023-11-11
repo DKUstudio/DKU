@@ -15,57 +15,39 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
     public class MiniGame_OXquiz : MiniGame
     {
         public int MAX_USERS = 10;
-        HashSet<long> survived_users_uid;
 
-        public override void AddUid(long userId)
+        public override void CheckStartGame()
         {
-            // 참가 인원이 충분해졌는지 확인, 충분해졌으면 게임 시작
-            if(world_block.cur_block_users_uid.Count >= MAX_USERS)
-            {
+            // 플레이중이면 확인x
+            if (isPlaying == true)
+                return;
 
+            if (world_block.cur_block_users_uid.Count > MAX_USERS)
+            {
+                isPlaying = true;
                 Task game = new Task(StartGame);
 
-                // 해당 블록 플레이어 uid 복사
-                survived_users_uid = new HashSet<long>(world_block.cur_block_users_uid);
-                // [플레이중] 플래그 변경
-                status = 1; 
-                // TODO OX 플레이어들에게 게임시작 신호 패킷 송신
 
-
-                // 게임 시작
                 game.Start();
             }
         }
 
-        public override void FinishGame()
-        {
-            // TODO OX 최종 스코어보드를 유저에게 보내주고 메인맵으로 돌아가도록 함
-        }
-
-        public override void PacketHandle(SPacket packet)
-        {
-            // TODO OX 퀴즈시 사용할 패킷들 처리
-            switch((PacketType)packet.m_type)
-            {
-                
-            }
-        }
-
-        public override void RemoveUid(long userId)
-        {
-            // TODO OX 게임에서 유저가 나갔음...
-        }
-
         short cur_round = 0;
+        public HashSet<long> survived_users;
         public List<List<long>> game_result = new List<List<long>>(5);
         // TODO OX 라운드별 답지 저장
         public Stack<OXAnswerSheet> oXAnswerSheets = new Stack<OXAnswerSheet>();
 
         public override void StartGame()
         {
-            // 5라운드 까지
-            for(cur_round = 0; cur_round < 5; cur_round++)
+            survived_users = new HashSet<long>(world_block.cur_block_users_uid);
+
+            // 5라운드까지
+            for (cur_round = 0; cur_round < 5; cur_round++)
             {
+                // 10초간 대기시간
+                Thread.Sleep(10000);
+
                 oXAnswerSheets.Clear();
 
                 // TODO OX 문제 뿌리기
@@ -80,25 +62,45 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
                 Thread.Sleep(20000);
 
                 // 수신된 유저들의 답을 확인, 맞으면 통과 틀리면 낙오
-                while(oXAnswerSheets.Count > 0) 
-                {
-                    OXAnswerSheet sheet = oXAnswerSheets.Pop();
 
-                    if(sheet.ans_req != ans)
-                    {
-                        // TODO OX 플레이어 게임오버
-                        game_result[cur_round].Add(sheet.uid);
-                        survived_users_uid.Remove(sheet.uid);
-                    }
+
+                // 10초간 대기시간
+                Thread.Sleep(10000);
+
+                // 남은 사람 없으면 바로 미니게임 종료
+                if(survived_users.Count <= 0)
+                {
+                    FinishGame();
+                    return;
                 }
             }
 
             FinishGame();
         }
+
+        public override void FinishGame()
+        {
+            // TODO 게임이 끝남, 최종 스코어보드를 유저에게 보내주고 메인맵으로 돌아가도록 함
+
+
+            isPlaying = false;
+        }
+
+        public override void PacketHandle(SPacket packet)
+        {
+            // TODO OX 퀴즈시 사용할 패킷들 처리
+        }
+
+        private void UserGameOver(long userid)
+        {
+
+        }
+
     }
-    public class OXAnswerSheet
+
+    public struct OXAnswerSheet
     {
         public long uid;
-        public bool ans_req;
+        public bool ans;
     }
 }

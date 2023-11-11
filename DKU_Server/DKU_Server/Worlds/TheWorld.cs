@@ -58,6 +58,8 @@ namespace DKU_Server.Worlds
                 v_data.ldata.cur_world_block = 0;
                 world_blocks[0].AddUid(v_uid, v_data.udata);
                 LogManager.Log($"[Login] Hello, {v_data.udata.nickname}");
+
+                // TODO 신규 로그인시 기본 데이터 송신 or 로그인 기록 있을 시 저장된 정보 송신
             }
             catch (Exception e)
             {

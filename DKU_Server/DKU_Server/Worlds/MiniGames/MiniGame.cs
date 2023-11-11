@@ -24,6 +24,10 @@ namespace DKU_Server.Worlds.MiniGames
         {
             MiniGame ret = miniGame_dic[world_type];
             ret.world_block = v_world_block;
+
+            // 월드 유저 입장 이벤트 등록
+            v_world_block.user_entered_event = ret.CheckStartGame;
+
             return ret;
         }
 
@@ -32,7 +36,7 @@ namespace DKU_Server.Worlds.MiniGames
         /// 0: 입장 가능
         /// 1: 플레이 중
         /// </summary>
-        public short status;
+        public bool isPlaying;
 
         /// <summary>
         /// 현재 게임 참가중인 플레이어들
@@ -50,6 +54,8 @@ namespace DKU_Server.Worlds.MiniGames
         /// <param name="packet"></param>
         public abstract void PacketHandle(SPacket packet);
 
+        public abstract void CheckStartGame();
+
         /// <summary>
         /// 미니게임을 시작하자 (시뮬레이션)
         /// </summary>
@@ -59,18 +65,5 @@ namespace DKU_Server.Worlds.MiniGames
         /// 미니게임 종료...승자발표!...모든유저 로비로
         /// </summary>
         public abstract void FinishGame();
-
-        /// <summary>
-        /// 미니게임 참가자 리스트에 추가
-        /// </summary>
-        /// <param name="userId"></param>
-        public abstract void AddUid(long userId);
-
-        /// <summary>
-        /// 미니게임 참가자 리스트에서 제거
-        /// </summary>
-        /// <param name="userId"></param>
-        public abstract void RemoveUid(long userId);
-
     }
 }

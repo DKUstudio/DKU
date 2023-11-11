@@ -21,6 +21,7 @@ namespace DKU_Server.Worlds
         public int w_type;
 
         public MiniGame mini_game;
+        public Action user_entered_event;
 
         public WorldBlock(TheWorld world, int world_type)
         {
@@ -34,9 +35,13 @@ namespace DKU_Server.Worlds
         public void AddUid(long v_uid, UserData v_udata)
         {
             LogManager.Log($"[WorldBlock] {v_uid} entered {w_type}... {cur_block_users_uid.Count + 1}");
+
+            // 미니게임에 유저 입장을 알림
+            user_entered_event.Invoke();
+
             try
             {
-                // 해당 월드에 유저 추가
+                // 해당 월드에 유저가 들어왔다는 사실을 다른 유저들에게 알림
                 S_OtherUserLoginRes res = new S_OtherUserLoginRes();
                 res.login_uid = v_uid;
                 res.udata = v_udata;
@@ -51,8 +56,6 @@ namespace DKU_Server.Worlds
                     }
                 }
 
-                // 해당 월드의 미니게임에 유저 추가
-                mini_game.AddUid(v_uid);
             }
             catch (Exception e)
             {
@@ -66,7 +69,7 @@ namespace DKU_Server.Worlds
             if (cur_block_users_uid.Contains(v_uid))
             {
                 LogManager.Log($"[WorldBlock] {v_uid} exited {w_type}... {cur_block_users_uid.Count - 1}");
-                
+
                 try
                 {
                     // 해당 월드의 유저 제거
@@ -84,7 +87,7 @@ namespace DKU_Server.Worlds
                         }
                     }
 
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -92,9 +95,6 @@ namespace DKU_Server.Worlds
                 }
                 cur_block_users_uid.Remove(v_uid);
 
-                // 해당 월드의 미니게임에서 유저 제거
-                if(mini_game.uids_ingame.Contains(v_uid))
-                    mini_game.RemoveUid(v_uid);
             }
         }
 
