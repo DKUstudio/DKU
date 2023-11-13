@@ -15,6 +15,6 @@ namespace DKU_ServerCore.Packets.var.client
         /// using DKU_ServerCore;
         /// CommonDefine의 WorldBlockType을 short형으로 캐스팅해서 넣어줄것
         /// </summary>
-        public short room_number;   
+        public short room_number;
     }
 }
