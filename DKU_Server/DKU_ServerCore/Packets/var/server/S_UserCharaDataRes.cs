@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DKU_ServerCore.Packets.var.server
 {
     [Serializable]
-    public class S_UserCharaDataRes
+    public class S_UserCharaDataRes : Data<S_UserCharaDataRes>
     {
         public int bitmask;
         public short lastloginshift;
