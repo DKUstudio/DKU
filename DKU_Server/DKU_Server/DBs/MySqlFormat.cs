@@ -25,5 +25,11 @@ namespace DKU_Server.DBs
         public static string auth_insert_email = "insert into userdb.auth(uid, email) values (@UID, @EMAIL);";
         public static string auth_update_email = "update userdb.auth set email = @EMAIL where uid = @UID;";
         #endregion
+
+        #region chara
+        public static string chara_exists = "select count(*) from userdb.chara where uid = @UID;";
+        public static string chara_getData = "select * from userdb.chara where uid = @UID;";
+        public static string chara_setData = "insert into userdb.chara(uid, bitmask, lastloginshift) values (@UID, @BITMASK, @LASTLOGINSHIFT);";
+        #endregion
     }
 }

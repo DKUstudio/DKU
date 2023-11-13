@@ -56,5 +56,6 @@ namespace DKU_ServerCore.Packets
         To_All,
         To_Local,
         To_Whisper,
+        System,
     }
 }
