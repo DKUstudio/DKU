@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class tile : MonoBehaviour
 {
-    public float fadetime= 3.0f;
-
+    private float fadetime= 3.0f;
     public Material mat;
 
     public float timer;
