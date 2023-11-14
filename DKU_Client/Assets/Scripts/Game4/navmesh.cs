@@ -17,27 +17,37 @@ public class navmesh : MonoBehaviour
     void Start()
     {
         navAgent = GetComponent<NavMeshAgent>();
-        //MoveRandom();
-        
+        StartCoroutine( MoveTimer());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (navAgent.velocity.sqrMagnitude < 0.1f &&navAgent.remainingDistance <= 0.2f )
-        {
-            MoveRandom();
-        }
+        
+        // if (navAgent.velocity.sqrMagnitude < 0.1f &&navAgent.remainingDistance <= 0.2f )
+        // {
+        //     MoveRandom();
+        // }
     }
 
+    IEnumerator MoveTimer()
+    {
+        while (true)
+        {
+            MoveRandom();
+            yield return new WaitForSeconds(3f);
+        }
+    }
+    
     void MoveRandom()
     {
-        loc_x = Random.Range(-2f,2f);
-        loc_z = Random.Range(-2f,2f);
+        loc_x = Random.Range(-4f,4f);
+        loc_z = Random.Range(-4f,4f);
         Vector3 pos = new Vector3(transform.position.x+loc_x, transform.position.y,transform.position.z+loc_z);
         
         NavMeshHit hit;
-        NavMesh.SamplePosition(pos, out hit, 2f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(pos, out hit, 3f, NavMesh.AllAreas);
 
         navAgent.SetDestination(hit.position);
     }
