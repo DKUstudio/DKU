@@ -9,7 +9,7 @@ public class S_UserCharaDataLoginRes_Handler
     public static void Method(Packet packet)
     {
         S_UserCharaDataLoginRes res = Data<S_UserCharaDataLoginRes>.Deserialize(packet.m_data);
-        Debug.Log("[UserCharaData] ¿©±â¼­ ÃÊ±â Ä³¸¯ÅÍ ¼³Á¤ÇØÁÙ°Í" + res.bitmask.ToString() + " " + res.lastloginshift.ToString());
+        Debug.Log("[UserCharaData] ï¿½ï¿½ï¿½â¼­ ï¿½Ê±ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù°ï¿½" + res.bitmask.ToString() + " " + res.lastloginshift.ToString());
         
     }
 }

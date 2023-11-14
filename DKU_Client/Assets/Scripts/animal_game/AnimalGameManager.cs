@@ -98,6 +98,7 @@ public class AnimalGameManager : MonoBehaviour
     public void exitgame()
     {
         initgame();
+        
         SceneManager.LoadScene("MainMap");
     }
 }
