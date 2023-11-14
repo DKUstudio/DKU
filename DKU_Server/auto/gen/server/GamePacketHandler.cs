@@ -59,8 +59,20 @@ namespace DKU_Server.Packets
                     C_TryAuthReq_Impl(packet);
                     break;
 
+                case PacketType.C_UserCharaDataReq:
+                    C_UserCharaDataReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserCharaDataShiftChangeReq:
+                    C_UserCharaDataShiftChangeReq_Impl(packet);
+                    break;
+
                 case PacketType.C_UserPosReq:
                     C_UserPosReq_Impl(packet);
+                    break;
+
+                case PacketType.C_WorldChangeAvailReq:
+                    C_WorldChangeAvailReq_Impl(packet);
                     break;
 
                 case PacketType.Q_GoToGameServerRes:
@@ -137,9 +149,24 @@ namespace DKU_Server.Packets
             C_TryAuthReq_Handler.Method(packet);
         }
 
+        void C_UserCharaDataReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataShiftChangeReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataShiftChangeReq_Handler.Method(packet);
+        }
+
         void C_UserPosReq_Impl(SPacket packet)
         {
             C_UserPosReq_Handler.Method(packet);
+        }
+
+        void C_WorldChangeAvailReq_Impl(SPacket packet)
+        {
+            C_WorldChangeAvailReq_Handler.Method(packet);
         }
 
         void Q_GoToGameServerRes_Impl(SPacket packet)

@@ -1,4 +1,5 @@
-﻿using DKU_ServerCore.Packets;
+﻿using DKU_Server.Variants;
+using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,11 @@ namespace DKU_Server.DBs
         }
 
         public void Authentication(long uid, string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CharaData CharaDataExists(long uid)
         {
             throw new NotImplementedException();
         }

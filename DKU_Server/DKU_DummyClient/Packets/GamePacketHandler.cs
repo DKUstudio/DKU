@@ -38,6 +38,10 @@ namespace DKU_DummyClient.Packets
                     S_OtherUserLogoutRes_Impl(packet);
                     break;
 
+                case PacketType.S_OXGameStartRes:
+                    S_OXGameStartRes_Impl(packet);
+                    break;
+
                 case PacketType.S_PingRes:
                     S_PingRes_Impl(packet);
                     break;
@@ -50,8 +54,20 @@ namespace DKU_DummyClient.Packets
                     S_TryAuthRes_Impl(packet);
                     break;
 
+                case PacketType.S_UserCharaDataLoginRes:
+                    S_UserCharaDataLoginRes_Impl(packet);
+                    break;
+
+                case PacketType.S_UserCharaDataRes:
+                    S_UserCharaDataRes_Impl(packet);
+                    break;
+
                 case PacketType.S_UserPosRes:
                     S_UserPosRes_Impl(packet);
+                    break;
+
+                case PacketType.S_WorldChangeAvailRes:
+                    S_WorldChangeAvailRes_Impl(packet);
                     break;
 
             default:
@@ -84,6 +100,11 @@ namespace DKU_DummyClient.Packets
             S_OtherUserLogoutRes_Handler.Method(packet);
         }
 
+        void S_OXGameStartRes_Impl(SPacket packet)
+        {
+            S_OXGameStartRes_Handler.Method(packet);
+        }
+
         void S_PingRes_Impl(SPacket packet)
         {
             S_PingRes_Handler.Method(packet);
@@ -99,9 +120,24 @@ namespace DKU_DummyClient.Packets
             S_TryAuthRes_Handler.Method(packet);
         }
 
+        void S_UserCharaDataLoginRes_Impl(SPacket packet)
+        {
+            S_UserCharaDataLoginRes_Handler.Method(packet);
+        }
+
+        void S_UserCharaDataRes_Impl(SPacket packet)
+        {
+            S_UserCharaDataRes_Handler.Method(packet);
+        }
+
         void S_UserPosRes_Impl(SPacket packet)
         {
             S_UserPosRes_Handler.Method(packet);
+        }
+
+        void S_WorldChangeAvailRes_Impl(SPacket packet)
+        {
+            S_WorldChangeAvailRes_Handler.Method(packet);
         }
 
     }

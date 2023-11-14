@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using DKU_ServerCore;
 using DKU_Server.Connections;
+using DKU_Server.Variants;
 
 namespace DKU_Server.DBs
 {
@@ -18,7 +19,7 @@ namespace DKU_Server.DBs
 
 
         public void Init()
-        {   
+        {
             LogManager.Log(CommonDefine.MYSQL_IPv4_ADDRESS);
 #if RELEASE
             string mysql_id = "dkuserver";
@@ -203,6 +204,89 @@ db_pw : {db_pw}");
                     LogManager.Log(e.ToString());
                 }
             }
+        }
+
+        public CharaData CharaDataExists(long uid)
+        {
+            CharaData ret = null;
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        int res = 0;
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.chara_exists;
+                        cmd.Parameters.AddWithValue("@UID", uid);
+
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            res = rdr.GetInt32(0);
+                        }
+                        cmd.Parameters.Clear();
+
+                        // 캐릭터 정보 없음, 기본 정보 생성
+                        if (res == 0)
+                        {
+                            // 기본 데이터를 테이블에 생성
+                            try
+                            {
+                                cmd.CommandText = MySqlFormat.chara_setData;
+                                cmd.Parameters.AddWithValue("@UID", uid);
+                                cmd.Parameters.AddWithValue("@BITMASK", 1);
+                                cmd.Parameters.AddWithValue("@LASTLOGINSHIFT", 0);
+                                cmd.ExecuteNonQuery();
+                                ret = new CharaData();
+                                ret.uid = uid;
+                                ret.bitmask = 1;
+                                ret.lastloginshift = 0;
+                            }
+                            catch (Exception ex)
+                            {
+                                LogManager.Log(ex.ToString());
+                            }
+                        }
+                        // 캐릭터 정보 있음, 가져올것
+                        else
+                        {
+                            // 기존 데이터를 가져옴
+                            try
+                            {
+                                cmd.CommandText = MySqlFormat.chara_getData;
+                                cmd.Parameters.AddWithValue("@UID", uid);
+                                long sql_uid = 0;
+                                int sql_bitmask = 0;
+                                short sql_lastloginshift = 0;
+                                using (MySqlDataReader rdr = cmd.ExecuteReader())
+                                {
+                                    rdr.Read();
+                                    sql_uid = rdr.GetInt64(0);
+                                    sql_bitmask = rdr.GetInt32(1);
+                                    sql_lastloginshift = rdr.GetInt16(2);
+                                }
+                                ret = new CharaData();
+                                ret.uid = sql_uid;
+                                ret.bitmask = sql_bitmask;
+                                ret.lastloginshift = sql_lastloginshift;
+                            }
+                            catch (Exception ex)
+                            {
+                                LogManager.Log(ex.ToString());
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    LogManager.Log($"[CharaData] get chara data \"{uid}\" failed");
+                }
+            }
+            // null이 아닌게 정상
+            return ret;
         }
     }
 }
