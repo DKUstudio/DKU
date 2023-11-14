@@ -1,4 +1,5 @@
 ﻿using DKU_Server.Connections;
+using DKU_Server.Worlds.MiniGames.Hexagon;
 using DKU_Server.Worlds.MiniGames.OX_quiz;
 using DKU_Server.Worlds.MiniGames.Suika_Game;
 using DKU_ServerCore;
@@ -15,9 +16,10 @@ namespace DKU_Server.Worlds.MiniGames
         protected WorldBlock world_block;
 
         public static Dictionary<short, MiniGame> miniGame_dic = new Dictionary<short, MiniGame>() {
-            { 0, new MiniGame_NoGame() },
-            { 1, new MiniGame_SuikaGame() },
-            { 2, new MiniGame_OXquiz() } 
+            { (short)CommonDefine.WorldBlockType.Dankook_University, new MiniGame_NoGame() },
+            { (short)CommonDefine.WorldBlockType.Suika_Game, new MiniGame_SuikaGame() },
+            { (short)CommonDefine.WorldBlockType.OX_quiz, new MiniGame_OXquiz() },
+            { (short)CommonDefine.WorldBlockType.Hexagon, new MiniGame_Hexagon() }
         };
 
         public static MiniGame Gen_MiniGame(WorldBlock v_world_block, short world_type)

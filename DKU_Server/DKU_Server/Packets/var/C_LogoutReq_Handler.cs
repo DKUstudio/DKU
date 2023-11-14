@@ -19,7 +19,7 @@ namespace DKU_Server.Packets.var
         public static void Method(SPacket packet)
         {
             C_LogoutReq req = Data<C_LogoutReq>.Deserialize(packet.m_data);
-            //NetworkManager.Instance.world.RemoveUidUser(req.uid);
+            NetworkManager.Instance.world.RemoveUidUser(req.uid);
             packet.USER_TOKEN.Close();
         }
     }

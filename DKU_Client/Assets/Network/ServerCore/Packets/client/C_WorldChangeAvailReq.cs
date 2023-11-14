@@ -10,6 +10,7 @@ namespace DKU_ServerCore.Packets.var.client
     public class C_WorldChangeAvailReq : Data<C_WorldChangeAvailReq>
     {
         public UserData udata;
+        public short from_room_number;
 
         /// <summary>
         /// using DKU_ServerCore;

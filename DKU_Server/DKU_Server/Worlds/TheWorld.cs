@@ -101,6 +101,12 @@ namespace DKU_Server.Worlds
             }
         }
 
+        public void ChangeUserWorldBlock(long v_uid, UserData v_udata, short v_from, short v_to)
+        {
+            world_blocks[v_from].RemoveUid(v_uid);
+            world_blocks[v_to].AddUid(v_uid, v_udata);
+        }
+
 
         /// <summary>
         /// 모든 유저에게 채팅
