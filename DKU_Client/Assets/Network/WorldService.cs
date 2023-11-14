@@ -9,7 +9,7 @@ public class WorldService
 {
     public static void ChangeWorld(CommonDefine.WorldBlockType btype)
     {
-        // º¯°æÀ» ¿øÇÏ´Â ¿ùµå·Î ÀÔÀåÀÌ °¡´ÉÇÑÁö È®ÀÎÇÏ´Â ÆĞÅ¶À» ¼Û½Å
+        // ë³€ê²½ì„ ì›í•˜ëŠ” ì›”ë“œë¡œ ì…ì¥ì´ ê°€ëŠ¥í•œì§€ í™•ì¸í•˜ëŠ” íŒ¨í‚·ì„ ì†¡ì‹ 
         if (NetworkManager.Instance.UDATA == null)
             return;
         C_WorldChangeAvailReq req = new C_WorldChangeAvailReq();

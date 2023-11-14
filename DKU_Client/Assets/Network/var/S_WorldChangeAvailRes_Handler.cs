@@ -12,7 +12,7 @@ public class S_WorldChangeAvailRes_Handler
     {
         S_WorldChangeAvailRes res = Data<S_WorldChangeAvailRes>.Deserialize(packet.m_data);
 
-        // ÀÔÀå °¡´É
+        // ì…ì¥ ê°€ëŠ¥
         if (res.success == 0)
         {
             NetworkManager.Instance.current_world_block_number = res.room_number;
@@ -33,10 +33,10 @@ public class S_WorldChangeAvailRes_Handler
             }
             //SceneManager.LoadScene("leftright");
         }
-        // ÀÔÀå ½ÇÆĞ
+        // ì…ì¥ ì‹¤íŒ¨
         else if (res.success == 1)
         {
-            Debug.Log((CommonDefine.WorldBlockType)res.room_number + "¹æ Á¤¿ø ÃÊ°ú·Î ÀÔÀå ºÒ°¡");
+            Debug.Log((CommonDefine.WorldBlockType)res.room_number + "ë°© ì •ì› ì´ˆê³¼ë¡œ ì…ì¥ ë¶ˆê°€");
         }
     }
 }
