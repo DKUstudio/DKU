@@ -58,7 +58,7 @@ public class login_input : MonoBehaviour
 
     public void ClickLogin()
     {
-        Debug.Log("Login");
+        //Debug.Log("Login");
         string id = Input_ID.text;
         string pw = Input_PWD.text;
         

@@ -35,6 +35,10 @@ public class GamePacketHandler
                 S_OtherUserLogoutRes_Impl(packet);
                 break;
 
+            case PacketType.S_OXGameStartRes:
+                S_OXGameStartRes_Impl(packet);
+                break;
+
             case PacketType.S_PingRes:
                 S_PingRes_Impl(packet);
                 break;
@@ -45,6 +49,14 @@ public class GamePacketHandler
 
             case PacketType.S_TryAuthRes:
                 S_TryAuthRes_Impl(packet);
+                break;
+
+            case PacketType.S_UserCharaDataLoginRes:
+                S_UserCharaDataLoginRes_Impl(packet);
+                break;
+
+            case PacketType.S_UserCharaDataRes:
+                S_UserCharaDataRes_Impl(packet);
                 break;
 
             case PacketType.S_UserPosRes:
@@ -109,6 +121,11 @@ public class GamePacketHandler
         S_OtherUserLogoutRes_Handler.Method(packet);
     }
 
+    void S_OXGameStartRes_Impl(Packet packet)
+    {
+        S_OXGameStartRes_Handler.Method(packet);
+    }
+
     void S_PingRes_Impl(Packet packet)
     {
         S_PingRes_Handler.Method(packet);
@@ -122,6 +139,16 @@ public class GamePacketHandler
     void S_TryAuthRes_Impl(Packet packet)
     {
         S_TryAuthRes_Handler.Method(packet);
+    }
+
+    void S_UserCharaDataLoginRes_Impl(Packet packet)
+    {
+        S_UserCharaDataLoginRes_Handler.Method(packet);
+    }
+
+    void S_UserCharaDataRes_Impl(Packet packet)
+    {
+        S_UserCharaDataRes_Handler.Method(packet);
     }
 
     void S_UserPosRes_Impl(Packet packet)

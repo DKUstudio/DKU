@@ -33,7 +33,7 @@ public class OtherPlayerManager : MonoBehaviour
             OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
             others.Add(val.uid, op);
         }
-        Debug.Log(sb.ToString());
+        //Debug.Log(sb.ToString());
     }
 
     public void ControlUserTransform(long uid, JVector3 pos, JVector3 rot)
