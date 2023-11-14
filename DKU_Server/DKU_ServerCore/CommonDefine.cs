@@ -43,7 +43,7 @@ namespace DKU_ServerCore
             Dankook_University,
             Suika_Game,
             OX_quiz,
-
+            Hexagon,
 
             Block_Count,
         }
