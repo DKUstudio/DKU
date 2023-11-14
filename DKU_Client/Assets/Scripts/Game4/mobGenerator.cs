@@ -17,7 +17,9 @@ public class mobGenerator : MonoBehaviour
             for (int j = 0; j < cnt; j++)
             {
                 GameObject gen= Instantiate(monster);
-                gen.transform.position = new Vector3(gen.transform.position.x+Random.Range(2,6),gen.transform.position.y,gen.transform.position.z+Random.Range(2,6));
+                loc.x += Random.Range(2, 6);
+                loc.z += Random.Range(2, 6);
+                gen.transform.position = loc;
             }
         }        
     }
