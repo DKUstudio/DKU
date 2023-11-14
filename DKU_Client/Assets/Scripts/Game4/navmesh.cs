@@ -42,12 +42,12 @@ public class navmesh : MonoBehaviour
     
     void MoveRandom()
     {
-        loc_x = Random.Range(-4f,4f);
-        loc_z = Random.Range(-4f,4f);
+        loc_x = Random.Range(-10f,10f);
+        loc_z = Random.Range(-10f,10f);
         Vector3 pos = new Vector3(transform.position.x+loc_x, transform.position.y,transform.position.z+loc_z);
         
         NavMeshHit hit;
-        NavMesh.SamplePosition(pos, out hit, 3f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(pos, out hit, 10f, NavMesh.AllAreas);
 
         navAgent.SetDestination(hit.position);
     }
