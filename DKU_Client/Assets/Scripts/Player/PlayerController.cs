@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,13 +14,21 @@ public class PlayerController : MonoBehaviour
     public float dash = 5f;
     public float rotSpeed = 3f;
 
+    private int modelNUM;
+    private int modelCount;
     private Vector3 dir = Vector3.zero;
 
     public bool ground = false;
+    public bool ismove = false;
     public LayerMask layer;
     void Start()
     {
+        // modelNUM <- 서버에서 받아온 정보
+        modelNUM = 0;
         _rigidbody = this.GetComponent<Rigidbody>();
+        modelCount = transform.childCount;
+        
+        ChangeModel(modelNUM);
     }
 
     void Update()
@@ -50,9 +59,12 @@ public class PlayerController : MonoBehaviour
         Vector2 conDir = joystick.Direction;
         if (conDir == Vector2.zero)
         {
+            ismove = false;
             return;
         }
 
+        ismove = true;
+        
         float thetaEuler = Mathf.Acos(conDir.y / conDir.magnitude) * (180 / Mathf.PI) * Mathf.Sign(conDir.x);
         Vector3 moveAngle = Vector3.up * (camPivot.transform.rotation.eulerAngles.y + thetaEuler);
         transform.rotation = Quaternion.Euler(moveAngle);
@@ -71,6 +83,21 @@ public class PlayerController : MonoBehaviour
         else
         {
             ground = false;
+        }
+    }
+    [Button]
+    public void ChangeModel(int n)
+    {
+        for (int i = 0; i < modelCount; i++)
+        {
+            if (i == n)
+            {
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
         }
     }
 }

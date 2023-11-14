@@ -13,7 +13,7 @@ public class Q_GoToGameServerRes_Handler
     public static void Method(Packet packet)
     {
         Q_GoToGameServerRes res = Data<Q_GoToGameServerRes>.Deserialize(packet.m_data);
-
+        //Debug.Log("goto gameserver");
         NetworkManager.Instance.RestartConnection(res.game_server_ipv4);
     }
 

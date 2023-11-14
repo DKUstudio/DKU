@@ -112,7 +112,7 @@ public class Connections : MonoBehaviour
                 {
                     Debug.Log(e.ToString());
                 }
-                Debug.Log("여기서 인게임 씬 전환");
+                //Debug.Log("여기서 인게임 씬 전환");
             }
 
             StartRecv();
