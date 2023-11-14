@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class NewBehaviourScript : MonoBehaviour
+public class MobCollsion : MonoBehaviour
 {
     public float size;
     
     // Start is called before the first frame update
     void Start()
     {
-        size = Random.Range(0.1f, 3f);
+        size = Random.Range(0.5f, 3f);
         gameObject.transform.localScale = new Vector3(size,size,size);
     }
 
