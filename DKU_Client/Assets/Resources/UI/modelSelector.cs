@@ -10,7 +10,7 @@ public class modelSelector : MonoBehaviour
     public int modelnum;
     private void Start()
     {
-        modelCount = model.childCount;
+        modelCount = model.childCount-1;
         modelnum = 0;
     }
 

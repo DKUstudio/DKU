@@ -9,8 +9,11 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
 {
     public static UIManager instance;
 
-    [SerializeField] private Stack<UIpopup> uistack;
 
+    public GameObject camrot;
+    
+    public Stack<UIpopup> uistack;
+    
     void Awake()
     {
         if (instance == null)
@@ -27,6 +30,14 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
     
     void Update()
     {
+        if (uistack.Count > 0)
+        {
+            camrot.SetActive(false);
+        }
+        else
+        {
+            camrot.SetActive(true);
+        }
         if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -34,7 +45,6 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
                 ClosePeek();
                 Debug.Log("CLOSE CLICK");
             }
-            
             
         }
     }
