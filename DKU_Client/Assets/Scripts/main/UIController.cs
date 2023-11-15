@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DKU_ServerCore;
+using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets;
 
 public class UIController : MonoBehaviour
 {
@@ -20,18 +23,26 @@ public class UIController : MonoBehaviour
 
     public void Clickgamestart()
     {
-        SceneManager.LoadScene("AnimalGame");
+        WorldService.ChangeWorld(CommonDefine.WorldBlockType.Suika_Game);
+
+        //SceneManager.LoadScene("AnimalGame");
     }
     
 
     public void ClickOXQUIZ()
     {
-        SceneManager.LoadScene("leftright");
+        // 미니게임 서버에 입장이 가능한지 확인하는 패킷 송신 (입장은 회신받은 Handler에서 관리)
+
+        WorldService.ChangeWorld(CommonDefine.WorldBlockType.OX_quiz);
+
+        //SceneManager.LoadScene("leftright");
     }
 
     public void ClickHexaGone()
     {
-        SceneManager.LoadScene("FALLGAME");
+        WorldService.ChangeWorld(CommonDefine.WorldBlockType.Hexagon);
+
+        //SceneManager.LoadScene("FALLGAME");
     }
 
     public void ClickGame4()

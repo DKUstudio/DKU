@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DKU_ServerCore;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -98,6 +99,7 @@ public class AnimalGameManager : MonoBehaviour
     public void exitgame()
     {
         initgame();
-        SceneManager.LoadScene("MainMap");
+        WorldService.ChangeWorld(CommonDefine.WorldBlockType.Dankook_University);
+        // SceneManager.LoadScene("MainMap");
     }
 }

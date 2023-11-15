@@ -14,7 +14,7 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
     /// </summary>
     public class MiniGame_OXquiz : MiniGame
     {
-        public int MAX_USERS = 10;
+        public int MAX_USERS = 2;
 
         public override void CheckStartGame()
         {

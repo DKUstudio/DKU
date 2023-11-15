@@ -138,6 +138,8 @@ namespace DKU_Server.Connections.Tokens
 
         void onMessageCompleted(SPacket packet)
         {
+            if (packet == null)
+                return;
             try
             {
                 if (m_socket == null || m_socket.Connected == false)
