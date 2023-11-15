@@ -33,4 +33,9 @@ public class UIController : MonoBehaviour
     {
         SceneManager.LoadScene("FALLGAME");
     }
+
+    public void ClickGame4()
+    {
+        SceneManager.LoadScene("game4");
+    }
 }

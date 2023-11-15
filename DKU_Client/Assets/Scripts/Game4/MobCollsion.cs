@@ -1,36 +1,34 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class MobCollsion : MonoBehaviour
 {
     public float size;
+    public int level;
+    public GameObject MobEvent;
+
+    public TMP_Text levelText;
     
     // Start is called before the first frame update
     void Start()
     {
-        size = Random.Range(0.5f, 3f);
-        gameObject.transform.localScale = new Vector3(size,size,size);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        level = Random.Range(1,10);
+        levelText.text = "level " + level;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("player"))
         {
-            if (collision.transform.localScale.x > transform.localScale.x)
+            if (level<= MobEvent.GetComponent<Level>().PlayerLevel())
             {
-                float x = collision.transform.localScale.x;
-                float y = collision.transform.localScale.y;
-                float z = collision.transform.localScale.z;
-                collision.transform.localScale = new Vector3(x * 1.05f, y * 1.05f, z * 1.05f);
+                //몹 카운트 -1;
+                MobEvent.GetComponent<MobCount>().Currentmobminus();
+                MobEvent.GetComponent<Level>().PlayerLevelUp();
                 Destroy(gameObject);
             }
             else

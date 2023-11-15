@@ -5,8 +5,10 @@ using UnityEngine;
 public class mobGenerator : MonoBehaviour
 {
     public GameObject monster;
-
+    
     public List<GameObject> spawner;
+
+    public int total = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +16,7 @@ public class mobGenerator : MonoBehaviour
         {
             Vector3 loc = spawner[i].transform.position;
             int cnt = Random.Range(2, 5);
+            total += cnt;
             for (int j = 0; j < cnt; j++)
             {
                 GameObject gen= Instantiate(monster);
@@ -21,12 +24,15 @@ public class mobGenerator : MonoBehaviour
                 loc.z += Random.Range(2, 6);
                 gen.transform.position = loc;
             }
-        }        
+        }
+
+        gameObject.GetComponent<MobCount>().enabled = true;
+        gameObject.GetComponent<GAME4Canvas>().enabled = true;
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public int Mobtotal()
     {
-        
+        return total;
     }
 }
