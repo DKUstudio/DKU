@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class mobGenerator : MonoBehaviour
 {
+    //몹 스포너
     public GameObject monster;
     
     public List<GameObject> spawner;

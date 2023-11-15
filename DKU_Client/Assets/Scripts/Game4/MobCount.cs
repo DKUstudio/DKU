@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MobCount : MonoBehaviour
 {
-    //몹 총개수, 현재 개수
+    //몹 총개수, 현재 개수에 대한 정보 저장
     public int totalMob;
     public int currentMob;
     

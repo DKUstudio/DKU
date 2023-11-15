@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    //플레이어 레벨 관련 
     public int playerLevel = 1;
     public TMP_Text playerLevelText;
 

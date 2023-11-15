@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class MobCollsion : MonoBehaviour
 {
+    //몹에 대한 정보 
     public float size;
     public int level;
     public GameObject MobEvent;
