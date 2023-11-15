@@ -10,6 +10,6 @@ namespace DKU_ServerCore.Packets.var.client
     public class C_UserCharaDataShiftChangeReq : Data<C_UserCharaDataShiftChangeReq>
     {
         public long uid;
-        public short lastloginshift;
+        public short changed_lastloginshift;
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace DKU_ServerCore.Packets.var.client
 {
     [Serializable]
-    public class C_UserCharaDataShiftChangeReq : Data<C_UserCharaDataShiftChangeReq>
+    public class C_UserCharaDataBitChangeReq : Data<C_UserCharaDataBitChangeReq>
     {
         public long uid;
-        public short changed_lastloginshift;
+        public int changed_bitmask;
     }
 }
