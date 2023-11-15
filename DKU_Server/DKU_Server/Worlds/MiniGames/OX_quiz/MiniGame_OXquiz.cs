@@ -1,4 +1,5 @@
 ﻿using DKU_Server.Connections;
+using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
@@ -22,11 +23,14 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
             if (isPlaying == true)
                 return;
 
+            LogManager.Log($"[OXgame] new user entered!! {world_block.cur_block_users_uid.Count} users in this room..");
+            
             if (world_block.cur_block_users_uid.Count > MAX_USERS)
             {
                 isPlaying = true;
                 Task game = new Task(StartGame);
 
+                // TODO 모든 유저에게 게임 시작 알림
 
                 game.Start();
             }
