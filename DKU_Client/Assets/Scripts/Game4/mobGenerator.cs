@@ -16,7 +16,7 @@ public class mobGenerator : MonoBehaviour
         for (int i = 0; i < spawner.Count; i++)
         {
             Vector3 loc = spawner[i].transform.position;
-            int cnt = Random.Range(2, 5);
+            int cnt = Random.Range(5,15);
             total += cnt;
             for (int j = 0; j < cnt; j++)
             {
