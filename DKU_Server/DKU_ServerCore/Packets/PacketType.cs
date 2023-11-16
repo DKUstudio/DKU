@@ -21,6 +21,8 @@ namespace DKU_ServerCore.Packets
 		C_RegisterReq,
 		C_StartAuthReq,
 		C_TryAuthReq,
+		C_UserCharaDataBitChangeReq,
+		C_UserCharaDataChangeReq,
 		C_UserCharaDataReq,
 		C_UserCharaDataShiftChangeReq,
 		C_UserPosReq,

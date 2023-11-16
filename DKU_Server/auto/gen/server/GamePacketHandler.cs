@@ -59,6 +59,14 @@ namespace DKU_Server.Packets
                     C_TryAuthReq_Impl(packet);
                     break;
 
+                case PacketType.C_UserCharaDataBitChangeReq:
+                    C_UserCharaDataBitChangeReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserCharaDataChangeReq:
+                    C_UserCharaDataChangeReq_Impl(packet);
+                    break;
+
                 case PacketType.C_UserCharaDataReq:
                     C_UserCharaDataReq_Impl(packet);
                     break;
@@ -147,6 +155,16 @@ namespace DKU_Server.Packets
         void C_TryAuthReq_Impl(SPacket packet)
         {
             C_TryAuthReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataBitChangeReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataBitChangeReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataChangeReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataChangeReq_Handler.Method(packet);
         }
 
         void C_UserCharaDataReq_Impl(SPacket packet)
