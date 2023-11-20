@@ -1,6 +1,7 @@
 ﻿using DKU_Server.Connections;
 using DKU_ServerCore;
 using DKU_ServerCore.Packets;
+using DKU_ServerCore.Packets.var.server;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +31,27 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
                 isPlaying = true;
                 Task game = new Task(StartGame);
 
-                // TODO 모든 유저에게 게임 시작 알림
+                // 모든 유저에게 게임 시작 알림
+                S_OXGameStartRes res = new S_OXGameStartRes();
+                res.success = true;
+                byte[] body = res.Serialize();
+                Packet pkt = new Packet(PacketType.S_OXGameStartRes, body, body.Length);
+                foreach(var usr in world_block.cur_block_users_uid)
+                {
+                    try
+                    {
+                        NetworkManager.Instance.world.FindUserToken(usr)?.Send(pkt);
+                    }
+                    catch (Exception e) 
+                    {
+                    }
+                }
 
                 game.Start();
             }
         }
 
+        int probs_cnt = 0;
         short cur_round = 0;
         public HashSet<long> survived_users;
         public List<List<long>> game_result = new List<List<long>>(5);
@@ -44,6 +60,8 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
 
         public override void StartGame()
         {
+            Random random = new Random();
+            probs_cnt = NetworkManager.Instance.m_database_manager.GetOXProbsCount();
             survived_users = new HashSet<long>(world_block.cur_block_users_uid);
 
             // 5라운드까지
@@ -55,8 +73,7 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
                 oXAnswerSheets.Clear();
 
                 // TODO OX 문제 뿌리기
-                string prob = "";
-                bool ans = true;
+                OXProbSheet probSheet = NetworkManager.Instance.m_database_manager.GetProbAndAns(random.Next(0, probs_cnt) + 1);
                 foreach (var item in world_block.cur_block_users_uid)
                 {
 
@@ -105,6 +122,12 @@ namespace DKU_Server.Worlds.MiniGames.OX_quiz
     public struct OXAnswerSheet
     {
         public long uid;
+        public bool ans;
+    }
+
+    public struct OXProbSheet
+    {
+        public string prob;
         public bool ans;
     }
 }
