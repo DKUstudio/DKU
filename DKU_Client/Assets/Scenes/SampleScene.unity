@@ -2184,7 +2184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &655202646
 Transform:
   m_ObjectHideFlags: 0
@@ -2212,6 +2212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069db7adefc833d4cab104751bcbe28f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camrot: {fileID: 0}
 --- !u!1 &677744517
 GameObject:
   m_ObjectHideFlags: 0
@@ -4879,6 +4880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fd52f8f69e63e40bdb2d572ba75a04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  current_world_block_number: 0
 --- !u!114 &1775107979
 MonoBehaviour:
   m_ObjectHideFlags: 0
