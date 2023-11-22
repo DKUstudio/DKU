@@ -30,4 +30,9 @@ public class modelSelector : MonoBehaviour
         }
         Debug.Log("CHANGE MODEL to " + model.GetChild(modelnum).name);
     }
+
+    public void ChangeToPlayer()
+    {
+        PlayerInfo.instance.ChangeShift(modelnum);
+    }
 }
