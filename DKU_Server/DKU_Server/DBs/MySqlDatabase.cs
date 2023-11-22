@@ -9,6 +9,8 @@ using MySql.Data.MySqlClient;
 using DKU_ServerCore;
 using DKU_Server.Connections;
 using DKU_Server.Variants;
+using System.Security.Cryptography;
+using DKU_Server.Worlds.MiniGames.OX_quiz;
 
 namespace DKU_Server.DBs
 {
@@ -287,6 +289,65 @@ db_pw : {db_pw}");
             }
             // null이 아닌게 정상
             return ret;
+        }
+
+        public int GetOXProbsCount()
+        {
+            int res = 0;
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.ox_check_prob_cnt;
+
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            res = rdr.GetInt32(0);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log(ex.ToString());
+                }
+            }
+            return res;
+        }
+
+        public OXProbSheet GetProbAndAns(int idx)
+        {
+            OXProbSheet res = new OXProbSheet();
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.ox_check_prob_cnt;
+                        cmd.Parameters.AddWithValue("@PID", idx);
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            res.prob = rdr.GetString(0);
+                            res.ans = rdr.GetBoolean(1);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log(ex.ToString());
+                }
+            }
+            return res;
         }
     }
 }
