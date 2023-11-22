@@ -10,7 +10,7 @@ public class UIpopup : MonoBehaviour,IPointerClickHandler
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("CLICKED!");
+        // Debug.Log("CLICKED!");
         // Debug.Log(EventSystem.current.gameObject.name);
     }
 }

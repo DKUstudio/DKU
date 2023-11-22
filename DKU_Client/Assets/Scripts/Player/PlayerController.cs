@@ -9,11 +9,12 @@ public class PlayerController : MonoBehaviour
     public Joystick joystick;
     public Transform camPivot;
     private Rigidbody _rigidbody;
+    private Animator _animation;
     public float speed = 10f;
     public float jump = 3f;
     public float dash = 5f;
     public float rotSpeed = 3f;
-
+    
     private int modelNUM;
     private int modelCount;
     private Vector3 dir = Vector3.zero;
@@ -24,11 +25,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // modelNUM <- 서버에서 받아온 정보
-        modelNUM = 0;
+        modelNUM = PlayerInfo.instance.bitshift;
         _rigidbody = this.GetComponent<Rigidbody>();
         modelCount = transform.childCount;
         
         ChangeModel(modelNUM);
+
     }
 
     void Update()
@@ -41,7 +43,18 @@ public class PlayerController : MonoBehaviour
         dir.Normalize();
         
         CheckGround();
-        
+        if (!ground)
+        {
+            _animation.Play("Fly");
+        }
+        else if (ismove)
+        {
+            _animation.Play("Walk");
+        }
+        else
+        {
+            _animation.Play("Idle_A");
+        }
         if (Input.GetButtonDown("Jump") && ground)
         {
             Vector3 jumpPower = Vector3.up * jump;
@@ -88,6 +101,7 @@ public class PlayerController : MonoBehaviour
     [Button]
     public void ChangeModel(int n)
     {
+        modelNUM = n;
         for (int i = 0; i < modelCount; i++)
         {
             if (i == n)
@@ -99,5 +113,6 @@ public class PlayerController : MonoBehaviour
                 transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+        _animation = transform.GetChild(modelNUM).GetComponent<Animator>();
     }
 }
