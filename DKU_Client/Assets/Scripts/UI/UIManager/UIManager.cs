@@ -8,8 +8,7 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour, IPointerClickHandler
 {
     public static UIManager instance;
-
-
+    
     public GameObject camrot;
     
     public Stack<UIpopup> uistack;
@@ -30,6 +29,7 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
     
     void Update()
     {
+        
         if (uistack.Count > 0)
         {
             camrot.SetActive(false);
