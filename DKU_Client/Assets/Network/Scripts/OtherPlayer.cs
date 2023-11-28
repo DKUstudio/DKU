@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using DKU_ServerCore.Packets;
 using UnityEngine;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 
 
 public class OtherPlayer : MonoBehaviour
 {
-    private UserData udata;
+    [ShowInInspector][ReadOnly]private UserData udata;
     public UserData UDATA => udata;
 
     private Tweener pos_tweener;
