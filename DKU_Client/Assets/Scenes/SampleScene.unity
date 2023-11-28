@@ -4699,8 +4699,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   popup: {fileID: 0}
   Signin_ID: {fileID: 2061206340}
-  Signin_PWD: {fileID: 351264184}
-  Signin_NAME: {fileID: 1598107419}
+  Signin_PWD: {fileID: 1598107419}
+  Signin_NAME: {fileID: 351264184}
 --- !u!1 &1761420501
 GameObject:
   m_ObjectHideFlags: 0
