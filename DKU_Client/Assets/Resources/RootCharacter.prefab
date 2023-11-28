@@ -60,7 +60,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8121719827926061131}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 1.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -98,6 +98,7 @@ MonoBehaviour:
   dash: 20
   rotSpeed: 50
   animName: 
+  LastanimName: 
   ground: 0
   ismove: 0
   layer:
@@ -215,7 +216,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4411270392797867573, guid: 7829ffac68ffe624cb6f2fdd3f39003d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4411270392797867574, guid: 7829ffac68ffe624cb6f2fdd3f39003d, type: 3}
       propertyPath: m_LocalPosition.x
