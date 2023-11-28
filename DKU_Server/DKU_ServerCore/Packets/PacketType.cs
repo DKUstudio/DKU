@@ -20,6 +20,7 @@ namespace DKU_ServerCore.Packets
 		C_PingReq,
 		C_RegisterReq,
 		C_StartAuthReq,
+		C_SuikaGameResultReq,
 		C_TryAuthReq,
 		C_UserCharaDataBitChangeReq,
 		C_UserCharaDataChangeReq,

@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
 
     public void Start()
     {
-        playerLevelText.text = "Level 1";
+        playerLevelText.text = "";
     }
 
     public int PlayerLevel()
@@ -23,7 +23,7 @@ public class Level : MonoBehaviour
     public void PlayerLevelUp()
     {
         playerLevel += 1;
-        playerLevelText.text = "Level "+playerLevel;
+        playerLevelText.text = ""+playerLevel;
     }
     
     

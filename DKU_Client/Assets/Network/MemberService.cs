@@ -165,4 +165,20 @@ public class MemberService : MonoBehaviour
         Packet pkt = new Packet(PacketType.C_UserCharaDataChangeReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(pkt);
     }
+
+    /// <summary>
+    /// 동물게임 종료하고 스코어 이쪽으로 날려
+    /// </summary>
+    /// <param name="score"></param>
+    public static void SuikaGameResult(long score)
+    {
+        if (NetworkManager.Instance.UDATA == null)
+            return;
+        C_SuikaGameResultReq req = new C_SuikaGameResultReq();
+        req.uid = NetworkManager.Instance.UDATA.uid;
+        req.score = score;
+        byte[] body = req.Serialize();
+        Packet pkt = new Packet(PacketType.C_SuikaGameResultReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(pkt);
+    }
 }

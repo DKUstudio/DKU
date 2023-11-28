@@ -17,8 +17,8 @@ public class MobCollsion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        level = Random.Range(1,10);
-        levelText.text = "level " + level;
+        level = 1;
+        levelText.text = " ";
     }
 
     private void OnCollisionEnter(Collision collision)
