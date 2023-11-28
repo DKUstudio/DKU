@@ -252,7 +252,7 @@ namespace DKU_Server.Worlds
                     LogManager.Log($"[GetCurWorldUserDatas] no such user {v_uid}");
                     continue;
                 }
-                user2.udata.charaShift = (short)NetworkManager.Instance.m_database_manager.CharaDataExists(v_uid)?.lastloginshift;
+                user2.udata.charaShift = (short)NetworkManager.Instance.m_database_manager.CharaDataExists(item)?.lastloginshift;
                 ret.Add(user2.udata);
             }
 

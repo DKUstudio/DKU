@@ -31,6 +31,7 @@ public class OtherPlayerManager : MonoBehaviour
             if (others.ContainsKey(val.uid) == true)
                 continue;
             OtherPlayer op = GetOtherPlayerGameObject();
+            op.SetUserData(val);
             op.CharaChangeTo(val.charaShift);
             others.Add(val.uid, op);
         }
@@ -61,6 +62,7 @@ public class OtherPlayerManager : MonoBehaviour
             return;
         OtherPlayer op = GetOtherPlayerGameObject();
         op.SetUserData(v_udata);
+        op.CharaChangeTo(v_udata.charaShift);
         others.Add(v_uid, op);
     }
 

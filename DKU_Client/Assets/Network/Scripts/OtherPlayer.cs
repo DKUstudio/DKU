@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 
 public class OtherPlayer : MonoBehaviour
 {
-    [ShowInInspector][ReadOnly]private UserData udata;
+    [ShowInInspector][ReadOnly] private UserData udata;
     public UserData UDATA => udata;
 
     private Tweener pos_tweener;
