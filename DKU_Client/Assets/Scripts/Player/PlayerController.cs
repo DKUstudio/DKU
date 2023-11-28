@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float dash = 5f;
     public float rotSpeed = 3f;
     public string animName;
+    public string LastanimName;
     private int modelNUM;
     private int modelCount;
     private Vector3 dir = Vector3.zero;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = this.GetComponent<Rigidbody>();
         modelCount = transform.childCount;
         animName = "Idle_A";
+        LastanimName = "Idle_A";
         ChangeModel(modelNUM);
 
     }
@@ -56,8 +58,12 @@ public class PlayerController : MonoBehaviour
             animName = "Idle_A";
         }
 
-        MemberService.AnimChanged(animName);
-        _animation.Play(animName);
+        if (LastanimName != animName)
+        {
+            LastanimName = animName;
+            MemberService.AnimChanged(animName);
+            _animation.Play(animName);
+        }
 
         if (Input.GetButtonDown("Jump") && ground)
         {
