@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
                 camrot.SetActive(true);
             }
         }
-        if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
+        if (uistack.Count > 0 && Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
