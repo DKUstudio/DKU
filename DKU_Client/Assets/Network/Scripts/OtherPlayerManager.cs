@@ -26,15 +26,16 @@ public class OtherPlayerManager : MonoBehaviour
         sb.Append(v_ulist.Count + "\n");
         foreach (var val in v_ulist)
         {
-            Debug.Log(val.uid + val.nickname);
-            sb.Append(val.uid + " " + val.nickname + "\n");
+            sb.Append(val.uid + " " + val.nickname + " " + val.charaShift + "\n");
             if (others.ContainsKey(val.uid) == true)
                 continue;
-            OtherPlayer op = GetOtherPlayerGameObject();
-            op.SetUserData(val);
-            op.CharaChangeTo(val.charaShift);
-            others.Add(val.uid, op);
+            AddUser(val.uid, val);
+            // OtherPlayer op = GetOtherPlayerGameObject();
+            // op.SetUserData(val);
+            // op.CharaChangeTo(val.charaShift);
+            // others.Add(val.uid, op);
         }
+        Debug.Log(sb.ToString());
     }
 
     public void ControlUserTransform(long uid, JVector3 pos, JVector3 rot)
