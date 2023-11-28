@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float jump = 3f;
     public float dash = 5f;
     public float rotSpeed = 3f;
-    
+    public string animName;
     private int modelNUM;
     private int modelCount;
     private Vector3 dir = Vector3.zero;
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
         modelNUM = PlayerInfo.instance.bitshift;
         _rigidbody = this.GetComponent<Rigidbody>();
         modelCount = transform.childCount;
-        
+        animName = "Idle_A";
         ChangeModel(modelNUM);
 
     }
@@ -45,16 +45,19 @@ public class PlayerController : MonoBehaviour
         CheckGround();
         if (!ground)
         {
-            _animation.Play("Fly");
+            animName = "Fly";
         }
         else if (ismove)
         {
-            _animation.Play("Walk");
+            animName = "Walk";
         }
         else
         {
-            _animation.Play("Idle_A");
+            animName = "Idle_A";
         }
+        
+        _animation.Play(animName);
+        
         if (Input.GetButtonDown("Jump") && ground)
         {
             Vector3 jumpPower = Vector3.up * jump;
