@@ -27,6 +27,10 @@ public class GamePacketHandler
                 S_GetWorldUsersDataRes_Impl(packet);
                 break;
 
+            case PacketType.S_OtherUserCharShiftChangedRes:
+                S_OtherUserCharShiftChangedRes_Impl(packet);
+                break;
+
             case PacketType.S_OtherUserLoginRes:
                 S_OtherUserLoginRes_Impl(packet);
                 break;
@@ -109,6 +113,11 @@ public class GamePacketHandler
     void S_GetWorldUsersDataRes_Impl(Packet packet)
     {
         S_GetWorldUsersDataRes_Handler.Method(packet);
+    }
+
+    void S_OtherUserCharShiftChangedRes_Impl(Packet packet)
+    {
+        S_OtherUserCharShiftChangedRes_Handler.Method(packet);
     }
 
     void S_OtherUserLoginRes_Impl(Packet packet)

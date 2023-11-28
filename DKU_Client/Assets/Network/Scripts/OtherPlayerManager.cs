@@ -30,10 +30,9 @@ public class OtherPlayerManager : MonoBehaviour
             sb.Append(val.uid + " " + val.nickname + "\n");
             if (others.ContainsKey(val.uid) == true)
                 continue;
-            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
+            OtherPlayer op = GetOtherPlayerGameObject();
             others.Add(val.uid, op);
         }
-        //Debug.Log(sb.ToString());
     }
 
     public void ControlUserTransform(long uid, JVector3 pos, JVector3 rot)
@@ -41,7 +40,7 @@ public class OtherPlayerManager : MonoBehaviour
         bool find_user = others.TryGetValue(uid, out var oplayer);
         if (find_user == false)
         {
-            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
+            OtherPlayer op = GetOtherPlayerGameObject();
             others.Add(uid, op);
 
             oplayer = others[uid];
@@ -53,19 +52,13 @@ public class OtherPlayerManager : MonoBehaviour
 
         oplayer.MoveTo(npos);
         oplayer.RotateTo(nrot);
-
-        // oplayer.transform.DOMove(npos, 1.5f);
-        // oplayer.transform.DORotate(nrot, 1.5f);
-
-        // oplayer.transform.position = npos;
-        // oplayer.transform.rotation = Quaternion.Euler(nrot);
     }
 
     public void AddUser(long v_uid, UserData v_udata)
     {
         if (others.ContainsKey(v_uid) == true)
             return;
-        OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
+        OtherPlayer op = GetOtherPlayerGameObject();
         op.SetUserData(v_udata);
         others.Add(v_uid, op);
     }
@@ -78,5 +71,17 @@ public class OtherPlayerManager : MonoBehaviour
             others.Remove(v_uid);
             Destroy(other.gameObject);
         }
+    }
+
+    OtherPlayer GetOtherPlayerGameObject()
+    {
+        return Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
+    }
+
+    public void CharaShiftChange(long v_uid, short v_shift)
+    {
+        if (others.ContainsKey(v_uid) == false)
+            return;
+        others[v_uid].CharaChangeTo(v_shift);
     }
 }
