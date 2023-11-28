@@ -3024,7 +3024,7 @@ GameObject:
   - component: {fileID: 318020281}
   - component: {fileID: 318020280}
   m_Layer: 5
-  m_Name: currentval
+  m_Name: ScoreVal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8053,7 +8053,7 @@ GameObject:
   - component: {fileID: 807591548}
   - component: {fileID: 807591547}
   m_Layer: 5
-  m_Name: currentmob
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11659,8 +11659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d13570e7c36744aeac2b5b261f4eb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLevel: 1
-  playerLevelText: {fileID: 318020280}
+  Score: 1
+  ScoreText: {fileID: 318020280}
 --- !u!114 &1300637897
 MonoBehaviour:
   m_ObjectHideFlags: 0
