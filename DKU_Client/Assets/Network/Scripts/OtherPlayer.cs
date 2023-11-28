@@ -55,4 +55,9 @@ public class OtherPlayer : MonoBehaviour
         }
         anim = transform.GetChild(v_shift).GetComponent<Animator>();
     }
+
+    public void AnimationChangeTo(string v_animName)
+    {
+        anim?.Play(v_animName);
+    }
 }
