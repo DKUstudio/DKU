@@ -70,6 +70,10 @@ namespace DKU_DummyClient.Packets
                     S_UserCharaDataRes_Impl(packet);
                     break;
 
+                case PacketType.S_UserDataRes:
+                    S_UserDataRes_Impl(packet);
+                    break;
+
                 case PacketType.S_UserPosRes:
                     S_UserPosRes_Impl(packet);
                     break;
@@ -146,6 +150,11 @@ namespace DKU_DummyClient.Packets
         void S_UserCharaDataRes_Impl(SPacket packet)
         {
             S_UserCharaDataRes_Handler.Method(packet);
+        }
+
+        void S_UserDataRes_Impl(SPacket packet)
+        {
+            S_UserDataRes_Handler.Method(packet);
         }
 
         void S_UserPosRes_Impl(SPacket packet)

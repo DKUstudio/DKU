@@ -6,6 +6,7 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using System.Text;
 using DG.Tweening;
+using DKU_ServerCore.Packets.var.client;
 
 public class OtherPlayerManager : MonoBehaviour
 {
@@ -43,10 +44,16 @@ public class OtherPlayerManager : MonoBehaviour
         bool find_user = others.TryGetValue(uid, out var oplayer);
         if (find_user == false)
         {
-            OtherPlayer op = GetOtherPlayerGameObject();
-            others.Add(uid, op);
+            C_UserDataReq req = new C_UserDataReq();
+            req.uid = uid;
+            byte[] body = req.Serialize();
+            Packet pkt = new Packet(PacketType.C_UserDataReq, body, body.Length);
+            NetworkManager.Instance.Connections.Send(pkt);
+            return;
+            // OtherPlayer op = GetOtherPlayerGameObject();
+            // others.Add(uid, op);
 
-            oplayer = others[uid];
+            // oplayer = others[uid];
         }
 
 
@@ -94,5 +101,12 @@ public class OtherPlayerManager : MonoBehaviour
         if (others.ContainsKey(v_uid) == false)
             return;
         others[v_uid].AnimationChangeTo(v_animName);
+    }
+
+    public void UserDataRes(UserData v_udata)
+    {
+        if (others.ContainsKey(v_udata.uid))
+            return;
+        AddUser(v_udata.uid, v_udata);
     }
 }

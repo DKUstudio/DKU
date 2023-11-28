@@ -67,6 +67,10 @@ public class GamePacketHandler
                 S_UserCharaDataRes_Impl(packet);
                 break;
 
+            case PacketType.S_UserDataRes:
+                S_UserDataRes_Impl(packet);
+                break;
+
             case PacketType.S_UserPosRes:
                 S_UserPosRes_Impl(packet);
                 break;
@@ -167,6 +171,11 @@ public class GamePacketHandler
     void S_UserCharaDataRes_Impl(Packet packet)
     {
         S_UserCharaDataRes_Handler.Method(packet);
+    }
+
+    void S_UserDataRes_Impl(Packet packet)
+    {
+        S_UserDataRes_Handler.Method(packet);
     }
 
     void S_UserPosRes_Impl(Packet packet)
