@@ -174,11 +174,12 @@ namespace DKU_Server.Connections.Tokens
 
                     // 수신 중인 패킷이 있으면, 큐에 넣고 나감
                     // 쌓인 패킷이 100개가 넘으면 그 다음부터는 무시함, 게임마다 케바케임..
-                    if (m_send_packet_queue.Count < 100)
+                    if (m_send_packet_queue.Count < 1000)
                     {
                         m_send_packet_queue.Enqueue(packet);
                     }
                     LogManager.Log($"[Send] packet counts {m_send_packet_queue.Count}");
+                    SendProcess();
                 }
             }
             catch (Exception e)
