@@ -34,5 +34,6 @@ public class PlayerInfo : MonoBehaviour
     {
         bitshift = (short)modelNum;
         player.ChangeModel(modelNum);
+        NetworkManager.Instance.UDATA.charaShift = (short)modelNum;
     }
 }
