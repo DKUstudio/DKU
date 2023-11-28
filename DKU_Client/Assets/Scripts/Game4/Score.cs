@@ -7,23 +7,23 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     //플레이어 레벨 관련 
-    public int playerLevel = 1;
-    public TMP_Text playerLevelText;
+    public int Score = 1;
+    public TMP_Text ScoreText;
 
     public void Start()
     {
-        playerLevelText.text = "";
+        ScoreText.text = "";
     }
 
     public int PlayerLevel()
     {
-        return playerLevel;
+        return Score;
     }
 
     public void PlayerLevelUp()
     {
-        playerLevel += 1;
-        playerLevelText.text = ""+playerLevel;
+        Score += 1;
+        ScoreText.text = ""+Score;
     }
     
     
