@@ -69,5 +69,10 @@ namespace DKU_Server.DBs
         {
             throw new NotImplementedException();
         }
+
+        public void UserCharaShiftChanged(long uid, short v_shift)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

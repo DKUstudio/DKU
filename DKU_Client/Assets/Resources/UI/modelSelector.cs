@@ -10,7 +10,7 @@ public class modelSelector : MonoBehaviour
     public int modelnum;
     private void Start()
     {
-        modelCount = model.childCount-1;
+        modelCount = model.childCount - 1;
         modelnum = 0;
     }
 
@@ -23,9 +23,9 @@ public class modelSelector : MonoBehaviour
             model.GetChild(modelnum).gameObject.SetActive(true);
         }
         else
-        {            
+        {
             model.GetChild(modelnum).gameObject.SetActive(false);
-            modelnum = modelnum > 0 ? modelnum - 1 : modelCount-1;
+            modelnum = modelnum > 0 ? modelnum - 1 : modelCount - 1;
             model.GetChild(modelnum).gameObject.SetActive(true);
         }
         Debug.Log("CHANGE MODEL to " + model.GetChild(modelnum).name);
@@ -34,5 +34,7 @@ public class modelSelector : MonoBehaviour
     public void ChangeToPlayer()
     {
         PlayerInfo.instance.ChangeShift(modelnum);
+        // modelnum: 시프트
+        MemberService.CharaDataShiftChanged((short)modelnum); // shift 정보 갱신
     }
 }
