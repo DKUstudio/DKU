@@ -239,7 +239,7 @@ db_pw : {db_pw}");
                             {
                                 cmd.CommandText = MySqlFormat.chara_setData;
                                 cmd.Parameters.AddWithValue("@UID", uid);
-                                cmd.Parameters.AddWithValue("@BITMASK", 1);
+                                cmd.Parameters.AddWithValue("@BITMASK", 262143);
                                 cmd.Parameters.AddWithValue("@LASTLOGINSHIFT", 0);
                                 cmd.ExecuteNonQuery();
                                 ret = new CharaData();
@@ -289,6 +289,30 @@ db_pw : {db_pw}");
             }
             // null이 아닌게 정상
             return ret;
+        }
+
+        public void UserCharaShiftChanged(long uid, short v_shift)
+        {
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.chara_exists;
+                        cmd.Parameters.AddWithValue("@UID", uid);
+                        cmd.Parameters.AddWithValue("@LASTLOGINSHIFT", v_shift);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log($"[Chara Change] Exception, {uid} user {v_shift} shift.");
+                }
+            }
         }
 
         public int GetOXProbsCount()

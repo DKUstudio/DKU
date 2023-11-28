@@ -30,6 +30,7 @@ namespace DKU_Server.DBs
         public static string chara_exists = "select count(*) from userdb.chara where uid = @UID;";
         public static string chara_getData = "select * from userdb.chara where uid = @UID;";
         public static string chara_setData = "insert into userdb.chara(uid, bitmask, lastloginshift) values (@UID, @BITMASK, @LASTLOGINSHIFT);";
+        public static string chara_shiftChange = "UPDATE userdb.chara SET lastloginshift = @LASTLOGINSHIFT WHERE uid = @UID;";
         #endregion
 
         #region oxquiz

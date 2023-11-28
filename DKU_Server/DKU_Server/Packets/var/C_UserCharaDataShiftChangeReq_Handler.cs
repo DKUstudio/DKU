@@ -16,7 +16,7 @@ namespace DKU_Server.Packets.var
         public static void Method(SPacket packet)
         {
             C_UserCharaDataShiftChangeReq req = Data<C_UserCharaDataShiftChangeReq>.Deserialize(packet.m_data);
-
+            NetworkManager.Instance.m_database_manager.UserCharaShiftChanged(req.uid, req.changed_lastloginshift);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace DKU_Server.DBs
 
         public abstract void Authentication(long uid, string email);
         public CharaData CharaDataExists(long uid);
+        public void UserCharaShiftChanged(long uid, short v_shift);
         public int GetOXProbsCount();
         public OXProbSheet GetProbAndAns(int idx);
     }

@@ -7,7 +7,7 @@ public class PlayerInfo : MonoBehaviour
 {
     public static PlayerInfo instance;
     public PlayerController player;
-    
+
     public int bitmask;
     public short bitshift;
     void Awake()
@@ -20,13 +20,14 @@ public class PlayerInfo : MonoBehaviour
         {
             Destroy(this);
         }
-        
+
     }
 
     public void ServerData(int bit, short sh)
     {
         bitmask = bit;
         bitshift = sh;
+        player.ChangeModel(bitshift);
     }
 
     public void ChangeShift(int modelNum)
