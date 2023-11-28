@@ -33,6 +33,7 @@ namespace DKU_ServerCore.Packets
 		S_ChatRes,
 		S_ConnectionTimeoutRes,
 		S_GetWorldUsersDataRes,
+		S_OtherUserCharShiftChangedRes,
 		S_OtherUserLoginRes,
 		S_OtherUserLogoutRes,
 		S_OXGameStartRes,

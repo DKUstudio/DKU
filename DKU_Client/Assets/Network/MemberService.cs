@@ -162,7 +162,7 @@ public class MemberService : MonoBehaviour
         req.uid = NetworkManager.Instance.UDATA.uid;
         req.changed_lastloginshift = v_lastloginshift;
         byte[] body = req.Serialize();
-        Packet pkt = new Packet(PacketType.C_UserCharaDataChangeReq, body, body.Length);
+        Packet pkt = new Packet(PacketType.C_UserCharaDataShiftChangeReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(pkt);
         Debug.Log($"[Chara change] {v_lastloginshift}");
     }

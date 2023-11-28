@@ -291,7 +291,7 @@ db_pw : {db_pw}");
             return ret;
         }
 
-        public void UserCharaShiftChanged(long uid, short v_shift)
+        public void UserCharaShiftChanged(long v_uid, short v_shift)
         {
             using (var conn = new MySqlConnection(connString))
             {
@@ -302,15 +302,18 @@ db_pw : {db_pw}");
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = MySqlFormat.chara_exists;
-                        cmd.Parameters.AddWithValue("@UID", uid);
+                        cmd.CommandText = MySqlFormat.chara_shiftChange;
+                        cmd.Parameters.AddWithValue("@UID", v_uid);
                         cmd.Parameters.AddWithValue("@LASTLOGINSHIFT", v_shift);
                         cmd.ExecuteNonQuery();
+                        if(NetworkManager.Instance.world.uid_users.ContainsKey(v_uid))
+                            NetworkManager.Instance.world.uid_users[v_uid].udata.charaShift = v_shift; // UserToken의 udata 수정
+                        LogManager.Log($"[Chara Changed] {v_uid} user {v_shift} shift.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogManager.Log($"[Chara Change] Exception, {uid} user {v_shift} shift.");
+                    LogManager.Log($"[Chara Change] Exception, {v_uid} user {v_shift} shift.");
                 }
             }
         }

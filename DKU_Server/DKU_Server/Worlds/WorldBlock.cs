@@ -175,5 +175,32 @@ namespace DKU_Server.Worlds
                 LogManager.Log(e.ToString());
             }
         }
+
+        public void ShootLocalCharaShiftChanges(long v_uid, short v_shift)
+        {
+            S_OtherUserCharShiftChangedRes res = new S_OtherUserCharShiftChangedRes();
+            res.uid = v_uid;
+            res.shift = v_shift;
+            byte[] body = res.Serialize();
+            Packet pkt = new Packet(PacketType.S_OtherUserCharShiftChangedRes, body, body.Length);
+            foreach (long item in cur_block_users_uid)
+            {
+                try
+                {
+                    if (v_uid == item)
+                    {
+                        continue;
+                    }
+
+                    bool find_user = the_world.uid_users.TryGetValue(item, out UserToken token);
+                    if (find_user)
+                        token.Send(pkt);
+                }
+                catch (Exception e)
+                {
+                    LogManager.Log(e.ToString());
+                }
+            }
+        }
     }
 }
