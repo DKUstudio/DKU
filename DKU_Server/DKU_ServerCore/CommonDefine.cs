@@ -24,7 +24,7 @@ namespace DKU_ServerCore
         public const int MAX_PACKET_STRING_LENGTH = 100;
 
         // 최대 동접자 수
-        public const int MAX_CONNECTION = 100;
+        public const int MAX_CONNECTION = 1000;
 
         // 최대 
         public const int MAX_TOKEN_CONNECTION_TIMEOUT = 300;
