@@ -15754,7 +15754,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 512232063114759740, guid: 38cb3fc4c8bc3af43a12078430dd8b9a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 512232063114759740, guid: 38cb3fc4c8bc3af43a12078430dd8b9a, type: 3}
       propertyPath: m_TagString
@@ -15767,6 +15767,10 @@ PrefabInstance:
     - target: {fileID: 1355619596046748366, guid: 38cb3fc4c8bc3af43a12078430dd8b9a, type: 3}
       propertyPath: m_TagString
       value: player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1589838368086226475, guid: 38cb3fc4c8bc3af43a12078430dd8b9a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1589838368086226475, guid: 38cb3fc4c8bc3af43a12078430dd8b9a, type: 3}
       propertyPath: m_TagString
