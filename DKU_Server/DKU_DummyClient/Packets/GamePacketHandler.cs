@@ -30,6 +30,14 @@ namespace DKU_DummyClient.Packets
                     S_GetWorldUsersDataRes_Impl(packet);
                     break;
 
+                case PacketType.S_OtherUserAnimChangeRes:
+                    S_OtherUserAnimChangeRes_Impl(packet);
+                    break;
+
+                case PacketType.S_OtherUserCharShiftChangedRes:
+                    S_OtherUserCharShiftChangedRes_Impl(packet);
+                    break;
+
                 case PacketType.S_OtherUserLoginRes:
                     S_OtherUserLoginRes_Impl(packet);
                     break;
@@ -88,6 +96,16 @@ namespace DKU_DummyClient.Packets
         void S_GetWorldUsersDataRes_Impl(SPacket packet)
         {
             S_GetWorldUsersDataRes_Handler.Method(packet);
+        }
+
+        void S_OtherUserAnimChangeRes_Impl(SPacket packet)
+        {
+            S_OtherUserAnimChangeRes_Handler.Method(packet);
+        }
+
+        void S_OtherUserCharShiftChangedRes_Impl(SPacket packet)
+        {
+            S_OtherUserCharShiftChangedRes_Handler.Method(packet);
         }
 
         void S_OtherUserLoginRes_Impl(SPacket packet)

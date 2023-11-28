@@ -15,5 +15,7 @@ namespace DKU_ServerCore.Packets
 
         //[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CommonDefine.MAX_PACKET_STRING_LENGTH)]
         public string nickname;
+
+        public short charaShift;
     }
 }

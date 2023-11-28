@@ -21,7 +21,7 @@ public class S_UserPosRes_Handler
         }
         finally
         {
-            Debug.Log(res.uid.ToString() + new Vector3(res.pos.x, res.pos.y, res.pos.z).ToString() + new Vector3(res.rot.x, res.rot.y, res.rot.z).ToString());
+            //Debug.Log(res.uid.ToString() + new Vector3(res.pos.x, res.pos.y, res.pos.z).ToString() + new Vector3(res.rot.x, res.rot.y, res.rot.z).ToString());
         }
     }
 }

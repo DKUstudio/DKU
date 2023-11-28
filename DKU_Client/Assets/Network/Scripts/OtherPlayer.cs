@@ -13,6 +13,8 @@ public class OtherPlayer : MonoBehaviour
     private Tweener pos_tweener;
     private Tweener rot_tweener;
 
+    Animator anim;
+
     public void SetUserData(UserData v_udata)
     {
         udata = v_udata;
@@ -36,5 +38,26 @@ public class OtherPlayer : MonoBehaviour
             return;
         }
         rot_tweener.ChangeEndValue(v_rot, true).Restart();
+    }
+
+    public void CharaChangeTo(short v_shift)
+    {
+        for (short i = 0; i < transform.childCount; i++)
+        {
+            if (i == v_shift)
+            {
+                transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+        anim = transform.GetChild(v_shift).GetComponent<Animator>();
+    }
+
+    public void AnimationChangeTo(string v_animName)
+    {
+        anim?.Play(v_animName);
     }
 }
