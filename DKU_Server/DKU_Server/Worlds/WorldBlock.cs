@@ -44,7 +44,7 @@ namespace DKU_Server.Worlds
                 // 해당 월드에 유저가 들어왔다는 사실을 다른 유저들에게 알림
                 S_OtherUserLoginRes res = new S_OtherUserLoginRes();
                 res.login_uid = v_uid;
-                res.udata = v_udata;
+                res.udata = NetworkManager.Instance.world.uid_users[v_uid]?.udata;
                 byte[] body = res.Serialize();
                 Packet packet = new Packet(PacketType.S_OtherUserLoginRes, body, body.Length);
                 foreach (var item in cur_block_users_uid)
@@ -183,6 +183,33 @@ namespace DKU_Server.Worlds
             res.shift = v_shift;
             byte[] body = res.Serialize();
             Packet pkt = new Packet(PacketType.S_OtherUserCharShiftChangedRes, body, body.Length);
+            foreach (long item in cur_block_users_uid)
+            {
+                try
+                {
+                    if (v_uid == item)
+                    {
+                        continue;
+                    }
+
+                    bool find_user = the_world.uid_users.TryGetValue(item, out UserToken token);
+                    if (find_user)
+                        token.Send(pkt);
+                }
+                catch (Exception e)
+                {
+                    LogManager.Log(e.ToString());
+                }
+            }
+        }
+
+        public void ShootLocalAnimChanges(long v_uid, string v_animName)
+        {
+            S_OtherUserAnimChangeRes res = new S_OtherUserAnimChangeRes();
+            res.uid = v_uid;
+            res.animName = v_animName;
+            byte[] body = res.Serialize();
+            Packet pkt = new Packet(PacketType.S_OtherUserAnimChangeRes, body, body.Length);
             foreach (long item in cur_block_users_uid)
             {
                 try

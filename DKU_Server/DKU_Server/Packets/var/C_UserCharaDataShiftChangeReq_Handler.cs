@@ -17,6 +17,7 @@ namespace DKU_Server.Packets.var
         {
             C_UserCharaDataShiftChangeReq req = Data<C_UserCharaDataShiftChangeReq>.Deserialize(packet.m_data);
             NetworkManager.Instance.m_database_manager.UserCharaShiftChanged(req.uid, req.changed_lastloginshift);
+            NetworkManager.Instance.world.ShootCharaShiftChanges(req.uid, req.changed_lastloginshift);
         }
     }
 }
