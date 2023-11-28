@@ -31,6 +31,7 @@ public class OtherPlayerManager : MonoBehaviour
             if (others.ContainsKey(val.uid) == true)
                 continue;
             OtherPlayer op = GetOtherPlayerGameObject();
+            op.CharaChangeTo(val.charaShift);
             others.Add(val.uid, op);
         }
     }
@@ -75,7 +76,7 @@ public class OtherPlayerManager : MonoBehaviour
 
     OtherPlayer GetOtherPlayerGameObject()
     {
-        return Instantiate(Resources.Load<OtherPlayer>("otherPlayer"), this.transform, true);
+        return Instantiate(Resources.Load<OtherPlayer>("otherPlayer2"), this.transform, true);
     }
 
     public void CharaShiftChange(long v_uid, short v_shift)
