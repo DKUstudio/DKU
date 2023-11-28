@@ -17,6 +17,11 @@ public class ChatUI : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
         instance = this;
         DontDestroyOnLoad(this);
         //this.gameObject.SetActive(false);

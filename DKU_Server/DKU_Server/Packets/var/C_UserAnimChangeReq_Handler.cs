@@ -16,7 +16,7 @@ namespace DKU_Server.Packets.var
         public static void Method(SPacket packet)
         {
             C_UserAnimChangeReq req = Data<C_UserAnimChangeReq>.Deserialize(packet.m_data);
-
+            NetworkManager.Instance.world.ShootLocalAnimChanges(req.uid, req.animName);
         }
     }
 }

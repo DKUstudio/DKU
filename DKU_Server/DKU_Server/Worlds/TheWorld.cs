@@ -210,6 +210,26 @@ namespace DKU_Server.Worlds
             }
         }
 
+        public void ShootLocalAnimChanges(long v_uid, string v_animName)
+        {
+            try
+            {
+                bool user_find = uid_users.TryGetValue(v_uid, out var user);
+                if (user_find == false)
+                {
+                    LogManager.Log($"[ShootAnimChange] no such user {v_uid}");
+                    return;
+                }
+
+                short world_num = user.ldata.cur_world_block;
+                world_blocks[world_num].ShootLocalAnimChanges(v_uid, v_animName);
+            }
+            catch (Exception e)
+            {
+                LogManager.Log(e.ToString());
+            }
+        }
+
         public List<UserData> GetCurWorldUserDatas(long v_uid)
         {
             List<UserData> ret = new List<UserData>();
