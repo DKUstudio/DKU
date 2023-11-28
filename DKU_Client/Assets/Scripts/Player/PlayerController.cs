@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         // modelNUM <- 서버에서 받아온 정보
-        modelNUM = PlayerInfo.instance.bitshift;
+        //modelNUM = PlayerInfo.instance.bitshift;
+        modelNUM = NetworkManager.Instance.UDATA.charaShift;
         _rigidbody = this.GetComponent<Rigidbody>();
         modelCount = transform.childCount;
         animName = "Idle_A";
