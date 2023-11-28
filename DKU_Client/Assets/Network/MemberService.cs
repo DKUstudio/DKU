@@ -182,4 +182,16 @@ public class MemberService : MonoBehaviour
         Packet pkt = new Packet(PacketType.C_SuikaGameResultReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(pkt);
     }
+
+    public static void AnimChanged(string v_animName)
+    {
+        if (NetworkManager.Instance.UDATA == null)
+            return;
+        C_UserAnimChangeReq req = new C_UserAnimChangeReq();
+        req.uid = NetworkManager.Instance.UDATA.uid;
+        req.animName = v_animName;
+        byte[] body = req.Serialize();
+        Packet pkt = new Packet(PacketType.C_UserAnimChangeReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(pkt);
+    }
 }

@@ -84,4 +84,11 @@ public class OtherPlayerManager : MonoBehaviour
             return;
         others[v_uid].CharaChangeTo(v_shift);
     }
+
+    public void AnimChange(long v_uid, string v_animName)
+    {
+        if (others.ContainsKey(v_uid) == false)
+            return;
+        others[v_uid].AnimationChangeTo(v_animName);
+    }
 }
