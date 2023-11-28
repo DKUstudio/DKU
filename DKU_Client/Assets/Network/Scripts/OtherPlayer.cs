@@ -4,7 +4,7 @@ using DKU_ServerCore.Packets;
 using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
-
+using TMPro;
 
 public class OtherPlayer : MonoBehaviour
 {
@@ -15,10 +15,19 @@ public class OtherPlayer : MonoBehaviour
     private Tweener rot_tweener;
 
     Animator anim;
+    [SerializeField] TMP_Text nickname;
+    int charaCount = 18;
+
+    private void Update()
+    {
+        nickname.transform.rotation = Camera.main.transform.rotation;
+    }
+
 
     public void SetUserData(UserData v_udata)
     {
         udata = v_udata;
+        nickname.text = v_udata.nickname;
     }
 
     public void MoveTo(Vector3 v_pos)
@@ -43,7 +52,7 @@ public class OtherPlayer : MonoBehaviour
 
     public void CharaChangeTo(short v_shift)
     {
-        for (short i = 0; i < transform.childCount; i++)
+        for (short i = 0; i < charaCount; i++)
         {
             if (i == v_shift)
             {
