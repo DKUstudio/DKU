@@ -27,6 +27,7 @@ namespace DKU_ServerCore.Packets
 		C_UserCharaDataChangeReq,
 		C_UserCharaDataReq,
 		C_UserCharaDataShiftChangeReq,
+		C_UserDataReq,
 		C_UserPosReq,
 		C_WorldChangeAvailReq,
 
@@ -44,6 +45,7 @@ namespace DKU_ServerCore.Packets
 		S_TryAuthRes,
 		S_UserCharaDataLoginRes,
 		S_UserCharaDataRes,
+		S_UserDataRes,
 		S_UserPosRes,
 		S_WorldChangeAvailRes,
 
