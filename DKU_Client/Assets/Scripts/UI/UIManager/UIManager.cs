@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour, IPointerClickHandler
         }
         if (uistack.Count > 0 && Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!EventSystem.current.IsPointerOverGameObject() && EventSystem.current.currentSelectedGameObject == null)
             {
                 ClosePeek();
                 Debug.Log("CLOSE CLICK");
