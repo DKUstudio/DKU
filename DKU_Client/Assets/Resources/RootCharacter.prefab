@@ -97,7 +97,9 @@ MonoBehaviour:
   jump: 30
   dash: 20
   rotSpeed: 50
+  animName: 
   ground: 0
+  ismove: 0
   layer:
     serializedVersion: 2
     m_Bits: 1783
