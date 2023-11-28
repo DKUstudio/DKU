@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private int modelNUM;
     private int modelCount;
     private Vector3 dir = Vector3.zero;
-
+    private float DashCool = 2f;
     public bool ground = false;
     public bool ismove = false;
     public LayerMask layer;
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         {
             animName = "Idle_A";
         }
-
+        
         if (LastanimName != animName)
         {
             LastanimName = animName;
@@ -66,6 +66,11 @@ public class PlayerController : MonoBehaviour
             _animation.Play(animName);
         }
 
+        if (DashCool > 0)
+        {
+            DashCool -= Time.deltaTime;
+        }
+        
         if (Input.GetButtonDown("Jump") && ground)
         {
             Vector3 jumpPower = Vector3.up * jump;
@@ -125,5 +130,24 @@ public class PlayerController : MonoBehaviour
             }
         }
         _animation = transform.GetChild(modelNUM).GetComponent<Animator>();
+    }
+
+    public void JUMP()
+    {
+        if (ground)
+        {
+            Vector3 jumpPower = Vector3.up * jump;
+            _rigidbody.AddForce(jumpPower, ForceMode.VelocityChange);
+        }
+    }
+
+    public void DASH()
+    {
+        if (DashCool <= 0)
+        {
+            DashCool = 2f;
+            Vector3 dashPower = this.transform.forward * dash;
+            _rigidbody.AddForce(dashPower, ForceMode.VelocityChange);
+        }
     }
 }
