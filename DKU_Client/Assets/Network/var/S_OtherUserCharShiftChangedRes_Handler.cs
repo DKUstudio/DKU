@@ -9,6 +9,6 @@ public class S_OtherUserCharShiftChangedRes_Handler
     public static void Method(Packet packet)
     {
         S_OtherUserCharShiftChangedRes res = Data<S_OtherUserCharShiftChangedRes>.Deserialize(packet.m_data);
-        GameManager.Instance.WorldManager.OtherPlayerManager.CharaShiftChange(res.uid, res.shift);
+        GameManager.Instance.WorldManager?.OtherPlayerManager?.CharaShiftChange(res.uid, res.shift);
     }
 }
