@@ -9,6 +9,7 @@ public class S_OtherUserAnimChangeRes_Handler
     public static void Method(Packet packet)
     {
         S_OtherUserAnimChangeRes res = Data<S_OtherUserAnimChangeRes>.Deserialize(packet.m_data);
+        Debug.Log($"[Chara Changed] {res.uid} {res.animName}");
         GameManager.Instance.WorldManager.OtherPlayerManager.AnimChange(res.uid, res.animName);
     }
 }
