@@ -18,12 +18,12 @@ public class WorldManager : MonoBehaviour
 
     private void Start()    // 시작할 때 월드 세팅 담당
     {
-        GameManager.Instance.SetWorldManager(this);
+        GameManager.Instance.SetWorldManager(this); // 싱글톤
 
-        otherPlayerManager = this.AddComponent<OtherPlayerManager>();
-        otherPlayerManager.SetWorldManager(this);
+        otherPlayerManager = this.GetComponent<OtherPlayerManager>(); // 다른 유저들 관리 매니저
+        otherPlayerManager.SetWorldManager(this); // 의존성 주입
 
-        C_GetWorldUsersDataReq req = new C_GetWorldUsersDataReq();
+        C_GetWorldUsersDataReq req = new C_GetWorldUsersDataReq(); // 해당 월드의 다른 유저들 정보를 얻어옴
         req.uid = NetworkManager.Instance.UDATA.uid;
         byte[] body = req.Serialize();
         Packet packet = new Packet(PacketType.C_GetWorldUsersDataReq, body, body.Length);
@@ -33,6 +33,10 @@ public class WorldManager : MonoBehaviour
         Debug.Log("[New world] init");
     }
 
+    /// <summary>
+    /// Connection이 완전히 연결되기 전까지 기다리기 위함
+    /// </summary>
+    /// <param name="packet"></param>
     void SendWorldUsersReq(Packet packet)
     {
         while (NetworkManager.Instance.Connections == null)

@@ -5,6 +5,7 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using DKU_ServerCore.Packets.var.client;
 using DKU_ServerCore.Packets.var.server;
+using MySqlX.XDevAPI.Relational;
 using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
@@ -184,6 +185,51 @@ namespace DKU_Server.Worlds
             }
         }
 
+        /// <summary>
+        /// 같은 월드 다른 유저들한테 모델 변경사항 알림
+        /// </summary>
+        /// <param name="v_uid"></param>
+        /// <param name="v_shift"></param>
+        public void ShootCharaShiftChanges(long v_uid, short v_shift)
+        {
+            try
+            {
+                bool user_find = uid_users.TryGetValue(v_uid, out var user);
+                if (user_find == false)
+                {
+                    LogManager.Log($"[ShootCharaShift] no such user {v_uid}");
+                    return;
+                }
+
+                short world_num = user.ldata.cur_world_block;
+                world_blocks[world_num].ShootLocalCharaShiftChanges(v_uid, v_shift);
+            }
+            catch (Exception e)
+            {
+                LogManager.Log(e.ToString());
+            }
+        }
+
+        public void ShootLocalAnimChanges(long v_uid, string v_animName)
+        {
+            try
+            {
+                bool user_find = uid_users.TryGetValue(v_uid, out var user);
+                if (user_find == false)
+                {
+                    LogManager.Log($"[ShootAnimChange] no such user {v_uid}");
+                    return;
+                }
+
+                short world_num = user.ldata.cur_world_block;
+                world_blocks[world_num].ShootLocalAnimChanges(v_uid, v_animName);
+            }
+            catch (Exception e)
+            {
+                LogManager.Log(e.ToString());
+            }
+        }
+
         public List<UserData> GetCurWorldUserDatas(long v_uid)
         {
             List<UserData> ret = new List<UserData>();
@@ -206,6 +252,7 @@ namespace DKU_Server.Worlds
                     LogManager.Log($"[GetCurWorldUserDatas] no such user {v_uid}");
                     continue;
                 }
+                user2.udata.charaShift = (short)NetworkManager.Instance.m_database_manager.CharaDataExists(item)?.lastloginshift;
                 ret.Add(user2.udata);
             }
 

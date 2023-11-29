@@ -30,6 +30,12 @@ namespace DKU_Server.DBs
         public static string chara_exists = "select count(*) from userdb.chara where uid = @UID;";
         public static string chara_getData = "select * from userdb.chara where uid = @UID;";
         public static string chara_setData = "insert into userdb.chara(uid, bitmask, lastloginshift) values (@UID, @BITMASK, @LASTLOGINSHIFT);";
+        public static string chara_shiftChange = "UPDATE userdb.chara SET lastloginshift = @LASTLOGINSHIFT WHERE uid = @UID;";
+        #endregion
+
+        #region oxquiz
+        public static string ox_check_prob_cnt = "SELECT COUNT(*) FROM userdb.oxquiz;";
+        public static string ox_pick_prob_ans = "SELECT prob, ans FROM userdb.oxquiz WHERE auto_id = @PID;";
         #endregion
     }
 }

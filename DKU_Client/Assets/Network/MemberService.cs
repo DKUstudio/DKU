@@ -9,7 +9,7 @@ using UnityEngine;
 public class MemberService : MonoBehaviour
 {
     /// <summary>
-    /// È¸¿ø°¡ÀÔ ½Ãµµ
+    /// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
     /// </summary>
     /// <param name="id"></param>
     /// <param name="pw"></param>
@@ -32,7 +32,7 @@ public class MemberService : MonoBehaviour
         NetworkManager.Instance.Connections.Send(packet);
     } // S_RegisterRes.cs
     /// <summary>
-    /// ·Î±×ÀÎ ½Ãµµ
+    /// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
     /// </summary>
     /// <param name="id"></param>
     /// <param name="pw"></param>
@@ -54,7 +54,7 @@ public class MemberService : MonoBehaviour
         NetworkManager.Instance.Connections.Send(packet);
     }   // S_LoginRes.cs
     /// <summary>
-    /// ·Î±×¾Æ¿ô Åëº¸
+    /// ï¿½Î±×¾Æ¿ï¿½ ï¿½ëº¸
     /// </summary>
     [ShowInInspector]
     public static void Logout_Request()
@@ -109,7 +109,7 @@ public class MemberService : MonoBehaviour
     }
 
     /// <summary>
-    /// º¸À¯ ¸ðµ¨¸µ Á¤º¸¿Í ¸¶Áö¸· ·Î±×ÀÎ Á¤º¸¸¦ µ¿½Ã¿¡ ¼öÁ¤ÇÒ ¶§
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ðµ¨¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     /// </summary>
     /// <param name="v_bitmask"></param>
     /// <param name="v_lastloginshift"></param>
@@ -117,7 +117,7 @@ public class MemberService : MonoBehaviour
     {
         if (NetworkManager.Instance.UDATA == null)
         {
-            Debug.Log("UDATA Á¸Àç x");
+            Debug.Log("UDATA ï¿½ï¿½ï¿½ï¿½ x");
             return;
         }
         C_UserCharaDataChangeReq req = new C_UserCharaDataChangeReq();
@@ -128,16 +128,16 @@ public class MemberService : MonoBehaviour
         Packet pkt = new Packet(PacketType.C_UserCharaDataChangeReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(pkt);
     }
-    // ¸ðµ¨¸µ Á¤º¸¸¸ ¼öÁ¤ÇÒ ¶§
+    // ï¿½ðµ¨¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     /// <summary>
-    /// º¸À¯ ¸ðµ¨¸µ Á¤º¸¸¸ ¼öÁ¤ÇÒ ¶§
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ðµ¨¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     /// </summary>
     /// <param name="v_bitmask"></param>
     public static void CharaDataBitmaskChanged(int v_bitmask)
     {
         if (NetworkManager.Instance.UDATA == null)
         {
-            Debug.Log("UDATA Á¸Àç x");
+            Debug.Log("UDATA ï¿½ï¿½ï¿½ï¿½ x");
             return;
         }
         C_UserCharaDataBitChangeReq req = new C_UserCharaDataBitChangeReq();
@@ -148,21 +148,50 @@ public class MemberService : MonoBehaviour
         NetworkManager.Instance.Connections.Send(pkt);
     }
     /// <summary>
-    /// ¸¶Áö¸· ·Î±×ÀÎ Á¤º¸¸¸ ¼öÁ¤ÇÒ ¶§
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     /// </summary>
     /// <param name="v_shift"></param>
     public static void CharaDataShiftChanged(short v_lastloginshift)
     {
         if (NetworkManager.Instance.UDATA == null)
         {
-            Debug.Log("UDATA Á¸Àç x");
+            Debug.Log("UDATA ï¿½ï¿½ï¿½ï¿½ x");
             return;
         }
         C_UserCharaDataShiftChangeReq req = new C_UserCharaDataShiftChangeReq();
         req.uid = NetworkManager.Instance.UDATA.uid;
         req.changed_lastloginshift = v_lastloginshift;
         byte[] body = req.Serialize();
-        Packet pkt = new Packet(PacketType.C_UserCharaDataChangeReq, body, body.Length);
+        Packet pkt = new Packet(PacketType.C_UserCharaDataShiftChangeReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(pkt);
+        Debug.Log($"[Chara change] {v_lastloginshift}");
+    }
+
+    /// <summary>
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ú¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    /// </summary>
+    /// <param name="score"></param>
+    public static void SuikaGameResult(long score)
+    {
+        if (NetworkManager.Instance.UDATA == null)
+            return;
+        C_SuikaGameResultReq req = new C_SuikaGameResultReq();
+        req.uid = NetworkManager.Instance.UDATA.uid;
+        req.score = score;
+        byte[] body = req.Serialize();
+        Packet pkt = new Packet(PacketType.C_SuikaGameResultReq, body, body.Length);
+        NetworkManager.Instance.Connections.Send(pkt);
+    }
+
+    public static void AnimChanged(string v_animName)
+    {
+        if (NetworkManager.Instance.UDATA == null)
+            return;
+        C_UserAnimChangeReq req = new C_UserAnimChangeReq();
+        req.uid = NetworkManager.Instance.UDATA.uid;
+        req.animName = v_animName;
+        byte[] body = req.Serialize();
+        Packet pkt = new Packet(PacketType.C_UserAnimChangeReq, body, body.Length);
         NetworkManager.Instance.Connections.Send(pkt);
     }
 }

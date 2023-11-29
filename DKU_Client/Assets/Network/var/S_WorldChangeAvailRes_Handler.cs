@@ -15,6 +15,8 @@ public class S_WorldChangeAvailRes_Handler
         // 입장 가능
         if (res.success == 0)
         {
+            GameObject chat_canvas = GameObject.Find("Canvas_Chat");
+            chat_canvas?.SetActive(true);
             NetworkManager.Instance.current_world_block_number = res.room_number;
             switch ((CommonDefine.WorldBlockType)res.room_number)
             {
@@ -22,6 +24,7 @@ public class S_WorldChangeAvailRes_Handler
                     SceneManager.LoadScene("MainMap");
                     break;
                 case CommonDefine.WorldBlockType.Suika_Game:
+                    chat_canvas?.SetActive(false);
                     SceneManager.LoadScene("AnimalGame");
                     break;
                 case CommonDefine.WorldBlockType.OX_quiz:

@@ -35,7 +35,8 @@ public class navmesh : MonoBehaviour
         while (true)
         {
             MoveRandom();
-            yield return new WaitForSeconds(3f);
+            float nextTime = Random.Range(1f, 6f);
+            yield return new WaitForSeconds(nextTime);
         }
     }
     

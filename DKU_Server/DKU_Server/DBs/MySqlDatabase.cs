@@ -9,6 +9,8 @@ using MySql.Data.MySqlClient;
 using DKU_ServerCore;
 using DKU_Server.Connections;
 using DKU_Server.Variants;
+using System.Security.Cryptography;
+using DKU_Server.Worlds.MiniGames.OX_quiz;
 
 namespace DKU_Server.DBs
 {
@@ -237,7 +239,7 @@ db_pw : {db_pw}");
                             {
                                 cmd.CommandText = MySqlFormat.chara_setData;
                                 cmd.Parameters.AddWithValue("@UID", uid);
-                                cmd.Parameters.AddWithValue("@BITMASK", 1);
+                                cmd.Parameters.AddWithValue("@BITMASK", 262143);
                                 cmd.Parameters.AddWithValue("@LASTLOGINSHIFT", 0);
                                 cmd.ExecuteNonQuery();
                                 ret = new CharaData();
@@ -287,6 +289,92 @@ db_pw : {db_pw}");
             }
             // null이 아닌게 정상
             return ret;
+        }
+
+        public void UserCharaShiftChanged(long v_uid, short v_shift)
+        {
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.chara_shiftChange;
+                        cmd.Parameters.AddWithValue("@UID", v_uid);
+                        cmd.Parameters.AddWithValue("@LASTLOGINSHIFT", v_shift);
+                        cmd.ExecuteNonQuery();
+                        if(NetworkManager.Instance.world.uid_users.ContainsKey(v_uid))
+                            NetworkManager.Instance.world.uid_users[v_uid].udata.charaShift = v_shift; // UserToken의 udata 수정
+                        LogManager.Log($"[Chara Changed] {v_uid} user {v_shift} shift.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log($"[Chara Change] Exception, {v_uid} user {v_shift} shift.");
+                }
+            }
+        }
+
+        public int GetOXProbsCount()
+        {
+            int res = 0;
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.ox_check_prob_cnt;
+
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            res = rdr.GetInt32(0);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log(ex.ToString());
+                }
+            }
+            return res;
+        }
+
+        public OXProbSheet GetProbAndAns(int idx)
+        {
+            OXProbSheet res = new OXProbSheet();
+            using (var conn = new MySqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = MySqlFormat.ox_check_prob_cnt;
+                        cmd.Parameters.AddWithValue("@PID", idx);
+                        using (MySqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            rdr.Read();
+                            res.prob = rdr.GetString(0);
+                            res.ans = rdr.GetBoolean(1);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Log(ex.ToString());
+                }
+            }
+            return res;
         }
     }
 }

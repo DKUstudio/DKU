@@ -64,7 +64,7 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         if (cool) return;
         Debug.Log(ClickedPoint.position);
-        spawner.transform.position = new Vector3(ClickedPoint.position.x * (26f/Screen.width),spawnY.position.y,spawner.transform.position.z);
+        spawner.transform.position = new Vector3(ClickedPoint.position.x*(27f/Screen.width),spawnY.position.y,spawner.transform.position.z);
         // Instantiate(animals[randomint], new Vector3(ClickedPoint.position.x * (26f/Screen.width),spawnY.position.y, 0),
         //     animals[randomint].transform.rotation, transform);
         nowAnimal.GetComponent<Rigidbody2D>().simulated = true;
@@ -76,14 +76,14 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {        
         Debug.Log(beginPoint.position);
 
-        spawner.transform.position = new Vector3(beginPoint.position.x * (26f/Screen.width),spawnY.position.y,spawner.transform.position.z);
+        spawner.transform.position = new Vector3(beginPoint.position.x * (27f/Screen.width),spawnY.position.y,spawner.transform.position.z);
         
     }
 
     public void OnDrag(PointerEventData draggingPoint)
     {
         Debug.Log(draggingPoint.position);
-        spawner.transform.position = new Vector3(draggingPoint.position.x * (26f/Screen.width),spawnY.position.y,spawner.transform.position.z);
+        spawner.transform.position = new Vector3(draggingPoint.position.x * (27f/Screen.width),spawnY.position.y,spawner.transform.position.z);
 
     }
 

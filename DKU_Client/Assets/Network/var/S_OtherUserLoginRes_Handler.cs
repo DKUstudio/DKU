@@ -9,6 +9,6 @@ public class S_OtherUserLoginRes_Handler
     public static void Method(Packet packet)
     {
         S_OtherUserLoginRes res = Data<S_OtherUserLoginRes>.Deserialize(packet.m_data);
-        GameManager.Instance.WorldManager.OtherPlayerManager.AddUser(res.login_uid, res.udata);
+        GameManager.Instance.WorldManager?.OtherPlayerManager?.AddUser(res.login_uid, res.udata);
     }
 }

@@ -11,9 +11,8 @@ public class GAME4Canvas : MonoBehaviour
     
     void Start()
     {
-        totalMob.text = gameObject.GetComponent<MobCount>().TotalMob().ToString();
-        currentMob.text = gameObject.GetComponent<MobCount>().CurrentMob().ToString();
-        
+        totalMob.text = "";
+        currentMob.text = "0";
     }
  
     public void CurrentMobMinus()
