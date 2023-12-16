@@ -6,6 +6,7 @@ using DKU_ServerCore;
 using DKU_ServerCore.Packets;
 using System.Text;
 using DG.Tweening;
+using DKU_ServerCore.Packets.var.client;
 
 public class OtherPlayerManager : MonoBehaviour
 {
@@ -26,12 +27,14 @@ public class OtherPlayerManager : MonoBehaviour
         sb.Append(v_ulist.Count + "\n");
         foreach (var val in v_ulist)
         {
-            Debug.Log(val.uid + val.nickname);
-            sb.Append(val.uid + " " + val.nickname + "\n");
+            sb.Append(val.uid + " " + val.nickname + " " + val.charaShift + "\n");
             if (others.ContainsKey(val.uid) == true)
                 continue;
-            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("OtherPlayer"), this.transform, true);
-            others.Add(val.uid, op);
+            AddUser(val.uid, val);
+            // OtherPlayer op = GetOtherPlayerGameObject();
+            // op.SetUserData(val);
+            // op.CharaChangeTo(val.charaShift);
+            // others.Add(val.uid, op);
         }
         Debug.Log(sb.ToString());
     }
@@ -41,10 +44,16 @@ public class OtherPlayerManager : MonoBehaviour
         bool find_user = others.TryGetValue(uid, out var oplayer);
         if (find_user == false)
         {
-            OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("OtherPlayer"), this.transform, true);
-            others.Add(uid, op);
+            C_UserDataReq req = new C_UserDataReq();
+            req.uid = uid;
+            byte[] body = req.Serialize();
+            Packet pkt = new Packet(PacketType.C_UserDataReq, body, body.Length);
+            NetworkManager.Instance.Connections.Send(pkt);
+            return;
+            // OtherPlayer op = GetOtherPlayerGameObject();
+            // others.Add(uid, op);
 
-            oplayer = others[uid];
+            // oplayer = others[uid];
         }
 
 
@@ -53,19 +62,15 @@ public class OtherPlayerManager : MonoBehaviour
 
         oplayer.MoveTo(npos);
         oplayer.RotateTo(nrot);
-
-        // oplayer.transform.DOMove(npos, 1.5f);
-        // oplayer.transform.DORotate(nrot, 1.5f);
-
-        // oplayer.transform.position = npos;
-        // oplayer.transform.rotation = Quaternion.Euler(nrot);
     }
 
     public void AddUser(long v_uid, UserData v_udata)
     {
         if (others.ContainsKey(v_uid) == true)
             return;
-        OtherPlayer op = Instantiate(Resources.Load<OtherPlayer>("OtherPlayer"), this.transform, true);
+        OtherPlayer op = GetOtherPlayerGameObject();
+        op.SetUserData(v_udata);
+        op.CharaChangeTo(v_udata.charaShift);
         others.Add(v_uid, op);
     }
 
@@ -77,5 +82,31 @@ public class OtherPlayerManager : MonoBehaviour
             others.Remove(v_uid);
             Destroy(other.gameObject);
         }
+    }
+
+    OtherPlayer GetOtherPlayerGameObject()
+    {
+        return Instantiate(Resources.Load<OtherPlayer>("otherPlayer2"), this.transform, true);
+    }
+
+    public void CharaShiftChange(long v_uid, short v_shift)
+    {
+        if (others.ContainsKey(v_uid) == false)
+            return;
+        others[v_uid].CharaChangeTo(v_shift);
+    }
+
+    public void AnimChange(long v_uid, string v_animName)
+    {
+        if (others.ContainsKey(v_uid) == false)
+            return;
+        others[v_uid].AnimationChangeTo(v_animName);
+    }
+
+    public void UserDataRes(UserData v_udata)
+    {
+        if (others.ContainsKey(v_udata.uid))
+            return;
+        AddUser(v_udata.uid, v_udata);
     }
 }

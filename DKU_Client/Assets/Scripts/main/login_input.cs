@@ -58,7 +58,7 @@ public class login_input : MonoBehaviour
 
     public void ClickLogin()
     {
-        Debug.Log("Login");
+        //Debug.Log("Login");
         string id = Input_ID.text;
         string pw = Input_PWD.text;
         
@@ -98,7 +98,7 @@ public class login_input : MonoBehaviour
         }
         Debug.Log(Signin_NAME.text);
         MemberService.Register_Request(Signin_ID.text,Signin_PWD.text,Signin_NAME.text);
-        logincanvas.SetActive(true);
-        signincanvas.SetActive(false);
+        
+        
     }
 }

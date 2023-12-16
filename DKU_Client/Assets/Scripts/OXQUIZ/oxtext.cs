@@ -13,19 +13,17 @@ public class oxtext : MonoBehaviour
     //제한시간
     public float limitTime;
     //문제,답
-    private List<List<string>> _questionList = new List<List<string>>();
+    public List<List<string>> questionList=new List<List<string>>();
     //정답인지 
     public int answer;
     //public 받은 시간 저장해두기
     public float timeData;
-    
-    //score저장용
+    //OX 위치 판정
     public GameObject Oloc;
     public GameObject Xloc;
-    //점수카운트
+    //점수
     public int scorecnt;
-    
-    //문제 카운트
+    //문제번호
     public int quizNumber;
     public TMP_Text quizNumberText;
     
@@ -33,13 +31,12 @@ public class oxtext : MonoBehaviour
     {
         init();
         timeData = limitTime;
-        _questionList.Add(new List<string> { "단국대에는 잘생긴 사람만 들어올 수 있다.", "1"});
-        _questionList.Add(new List<string> { "단국대에는 못생긴 사람만 들어올 수 있다.", "0"});
-        _questionList.Add(new List<string> { "안녕하세요는 Hi라는 뜻이다.", "1"});
-        _questionList.Add(new List<string> { "안녕히가세요는 bye라는 뜻이다.", "1"});
-        _questionList.Add(new List<string> { "이현우는 키가 185이다..", "1"});
-        _questionList.Add(new List<string> { "박새결은 안경을 쓰고 있다.", "1"});
-        _questionList.Add(new List<string> { "박정호는 롤을 사랑한다.", "0"});
+        questionList.Add(new List<string> { "나무는 tree이다.", "1"});
+        questionList.Add(new List<string> { "공부는 즐겁다", "1"});
+        questionList.Add(new List<string> { "stl은 몰라도 된다.", "0"});
+        questionList.Add(new List<string> { "알고리즘은 재미없다", "0"});
+        questionList.Add(new List<string> { "CS 준비 안해도 면접에서 문제 없다.", "0"});
+        questionList.Add(new List<string> { "면접 보기 전에 회사에 대한 정보를 숙지 해야 한다.", "1"});
         ShowQuestion();
         showQuizNumber();
     }
@@ -81,9 +78,9 @@ public class oxtext : MonoBehaviour
     //문제 랜덤 출력
     void ShowQuestion()
     {
-        int questionNumber = Random.Range(0, _questionList.Count);
-        question.text = _questionList[questionNumber][0];
-        answer = int.Parse(_questionList[questionNumber][1]);
+        int questionNumber = Random.Range(0, questionList.Count);
+        question.text = questionList[questionNumber][0];
+        answer = int.Parse(questionList[questionNumber][1]);
     }
     //정답 출력
     void ShowAnswer()

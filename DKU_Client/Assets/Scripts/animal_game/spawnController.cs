@@ -10,6 +10,7 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 {
     public static spawnController instance = null;
     public GameObject[] animals;
+    public GameObject[] nextanimal;
     public Transform zoo;
     public float cooltime = 0.3f;
     public bool cool = false;
@@ -37,6 +38,7 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     // Update is called once per frame
     void Update()
     {
+        
     }
 
     public void MakeAnimal()
@@ -46,12 +48,23 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         nowAnimal.GetComponent<Rigidbody2D>().simulated = false;
         randomint = Random.Range(0, 4);
         cool = false;
+        for (int i = 0; i < nextanimal.Length; i++)
+        {
+            if (i==randomint)
+            {
+                nextanimal[i].SetActive(true);
+            }
+            else
+            {
+                nextanimal[i].SetActive(false);
+            }
+        }
     }
     public void OnPointerClick(PointerEventData ClickedPoint)
     {
         if (cool) return;
         Debug.Log(ClickedPoint.position);
-        spawner.transform.position = new Vector3(ClickedPoint.position.x * (26f/Screen.width),spawnY.position.y,spawner.transform.position.z);
+        spawner.transform.position = new Vector3(ClickedPoint.position.x*(27f/Screen.width),spawnY.position.y,spawner.transform.position.z);
         // Instantiate(animals[randomint], new Vector3(ClickedPoint.position.x * (26f/Screen.width),spawnY.position.y, 0),
         //     animals[randomint].transform.rotation, transform);
         nowAnimal.GetComponent<Rigidbody2D>().simulated = true;
@@ -63,14 +76,14 @@ public class spawnController : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {        
         Debug.Log(beginPoint.position);
 
-        spawner.transform.position = new Vector3(beginPoint.position.x * (26f/Screen.width),spawnY.position.y,spawner.transform.position.z);
+        spawner.transform.position = new Vector3(beginPoint.position.x * (27f/Screen.width),spawnY.position.y,spawner.transform.position.z);
         
     }
 
     public void OnDrag(PointerEventData draggingPoint)
     {
         Debug.Log(draggingPoint.position);
-        spawner.transform.position = new Vector3(draggingPoint.position.x * (26f/Screen.width),spawnY.position.y,spawner.transform.position.z);
+        spawner.transform.position = new Vector3(draggingPoint.position.x * (27f/Screen.width),spawnY.position.y,spawner.transform.position.z);
 
     }
 

@@ -41,6 +41,7 @@ namespace DKU_Server.Connections.Tokens
             m_recv_args = SocketAsyncEventArgsPool.Instance.Pop();
             m_send_args = SocketAsyncEventArgsPool.Instance.Pop();
 
+            // force timeout check
             m_last_connection = DateTime.Now;
             Task t = new Task(CheckConnectionTimeout);
             t.Start();
@@ -54,23 +55,27 @@ namespace DKU_Server.Connections.Tokens
             m_recv_args = SocketAsyncEventArgsPool.Instance.Pop();
             m_send_args = SocketAsyncEventArgsPool.Instance.Pop();
 
+            // timeout check
             if (timeout_check)
             {
                 m_last_connection = DateTime.Now;
                 Task t = new Task(CheckConnectionTimeout);
                 t.Start();
             }
+            else
+            {
+                // false인 경우 로그인 서버 접속이므로 강제 수동 할당 해줌
+                // 수신용 객체 설정
+                m_recv_args.Completed += onRecvCompleted;
+                m_recv_args.UserToken = this;
 
-            // 수신용 객체 설정
-            m_recv_args.Completed += onRecvCompleted;
-            m_recv_args.UserToken = this;
+                // 송신용 객체 설정
+                m_send_args.Completed += onSendCompleted;
+                m_send_args.UserToken = this;
 
-            // 송신용 객체 설정
-            m_send_args.Completed += onSendCompleted;
-            m_send_args.UserToken = this;
-
-            m_recv_args.SetBuffer(new byte[CommonDefine.SOCKET_BUFFER_SIZE], 0, CommonDefine.SOCKET_BUFFER_SIZE);
-            m_send_args.SetBuffer(new byte[CommonDefine.SOCKET_BUFFER_SIZE], 0, CommonDefine.SOCKET_BUFFER_SIZE);
+                m_recv_args.SetBuffer(new byte[CommonDefine.SOCKET_BUFFER_SIZE], 0, CommonDefine.SOCKET_BUFFER_SIZE);
+                m_send_args.SetBuffer(new byte[CommonDefine.SOCKET_BUFFER_SIZE], 0, CommonDefine.SOCKET_BUFFER_SIZE);
+            }
         }
 
         public void Init()
@@ -133,6 +138,8 @@ namespace DKU_Server.Connections.Tokens
 
         void onMessageCompleted(SPacket packet)
         {
+            if (packet == null)
+                return;
             try
             {
                 if (m_socket == null || m_socket.Connected == false)
@@ -155,7 +162,7 @@ namespace DKU_Server.Connections.Tokens
                 if (m_socket == null || m_socket.Connected == false)
                     return;
 
-                lock (m_send_packet_queue)
+                //lock (m_send_packet_queue)
                 {
                     // 수신 중인 패킷이 없으면, 바로 전송
                     if (m_send_packet_queue.Count < 1)
@@ -167,15 +174,21 @@ namespace DKU_Server.Connections.Tokens
 
                     // 수신 중인 패킷이 있으면, 큐에 넣고 나감
                     // 쌓인 패킷이 100개가 넘으면 그 다음부터는 무시함, 게임마다 케바케임..
-                    if (m_send_packet_queue.Count < 100)
+                    if (m_send_packet_queue.Count < 1000)
                     {
                         m_send_packet_queue.Enqueue(packet);
                     }
                     LogManager.Log($"[Send] packet counts {m_send_packet_queue.Count}");
+                    SendProcess();
                 }
             }
             catch (Exception e)
             {
+                if (m_send_packet_queue == null)
+                {
+                    LogManager.Log("[Closed] null send queue");
+                    return;
+                }
                 LogManager.Log(e.ToString());
             }
         }
@@ -339,7 +352,7 @@ namespace DKU_Server.Connections.Tokens
             while (true)
             {
                 Thread.Sleep(5000);
-                if ((int)DateTime.Now.Subtract(m_last_connection).TotalSeconds > 180)   // 3분간 완복패킷 없으면 세션 종료
+                if ((int)DateTime.Now.Subtract(m_last_connection).TotalSeconds > CommonDefine.MAX_TOKEN_CONNECTION_TIMEOUT)   // 3분간 완복패킷 없으면 세션 종료
                 {
                     LogManager.Log($"[Close Connection] connection timeout {m_socket.RemoteEndPoint.ToString()}");
 

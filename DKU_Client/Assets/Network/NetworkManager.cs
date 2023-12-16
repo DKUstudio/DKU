@@ -30,6 +30,7 @@ public class NetworkManager : MonoBehaviour
     [Sirenix.OdinInspector.ReadOnly]
     private UserData udata;
     public UserData UDATA => udata;
+    public short current_world_block_number = 0;
 
     public void SetIsWaiting(bool val)
     {

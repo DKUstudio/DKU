@@ -55,12 +55,44 @@ namespace DKU_Server.Packets
                     C_StartAuthReq_Impl(packet);
                     break;
 
+                case PacketType.C_SuikaGameResultReq:
+                    C_SuikaGameResultReq_Impl(packet);
+                    break;
+
                 case PacketType.C_TryAuthReq:
                     C_TryAuthReq_Impl(packet);
                     break;
 
+                case PacketType.C_UserAnimChangeReq:
+                    C_UserAnimChangeReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserCharaDataBitChangeReq:
+                    C_UserCharaDataBitChangeReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserCharaDataChangeReq:
+                    C_UserCharaDataChangeReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserCharaDataReq:
+                    C_UserCharaDataReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserCharaDataShiftChangeReq:
+                    C_UserCharaDataShiftChangeReq_Impl(packet);
+                    break;
+
+                case PacketType.C_UserDataReq:
+                    C_UserDataReq_Impl(packet);
+                    break;
+
                 case PacketType.C_UserPosReq:
                     C_UserPosReq_Impl(packet);
+                    break;
+
+                case PacketType.C_WorldChangeAvailReq:
+                    C_WorldChangeAvailReq_Impl(packet);
                     break;
 
                 case PacketType.Q_GoToGameServerRes:
@@ -132,14 +164,54 @@ namespace DKU_Server.Packets
             C_StartAuthReq_Handler.Method(packet);
         }
 
+        void C_SuikaGameResultReq_Impl(SPacket packet)
+        {
+            C_SuikaGameResultReq_Handler.Method(packet);
+        }
+
         void C_TryAuthReq_Impl(SPacket packet)
         {
             C_TryAuthReq_Handler.Method(packet);
         }
 
+        void C_UserAnimChangeReq_Impl(SPacket packet)
+        {
+            C_UserAnimChangeReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataBitChangeReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataBitChangeReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataChangeReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataChangeReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataReq_Handler.Method(packet);
+        }
+
+        void C_UserCharaDataShiftChangeReq_Impl(SPacket packet)
+        {
+            C_UserCharaDataShiftChangeReq_Handler.Method(packet);
+        }
+
+        void C_UserDataReq_Impl(SPacket packet)
+        {
+            C_UserDataReq_Handler.Method(packet);
+        }
+
         void C_UserPosReq_Impl(SPacket packet)
         {
             C_UserPosReq_Handler.Method(packet);
+        }
+
+        void C_WorldChangeAvailReq_Impl(SPacket packet)
+        {
+            C_WorldChangeAvailReq_Handler.Method(packet);
         }
 
         void Q_GoToGameServerRes_Impl(SPacket packet)

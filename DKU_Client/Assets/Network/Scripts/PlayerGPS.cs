@@ -16,6 +16,8 @@ public class PlayerGPS : MonoBehaviour
 
     private void Start()
     {
+        lastPos = transform.position;
+        lastRot = transform.rotation.eulerAngles;
         StartCoroutine(MoveCo());
     }
     C_PlayerPosReq req = new C_PlayerPosReq();
@@ -23,7 +25,7 @@ public class PlayerGPS : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.1f);
 
             if (NetworkManager.Instance == null)
             {

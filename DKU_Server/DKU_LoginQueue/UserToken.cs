@@ -94,7 +94,19 @@ namespace DKU_LoginQueue
 
         void onMessageCompleted(Packet packet)
         {
-            NetworkManager.Instance.m_game_packet_handler.ParsePacket(packet);
+            if (packet == null)
+                return;
+            try
+            {
+                if (m_socket == null || m_socket.Connected == false)
+                    return;
+                NetworkManager.Instance.m_game_packet_handler.ParsePacket(packet);
+            }
+            catch (Exception e)
+            {
+                LogManager.Log(e.ToString());
+            }
+            //NetworkManager.Instance.m_game_packet_handler.ParsePacket(packet);
         }
         #endregion
 

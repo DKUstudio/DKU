@@ -14,7 +14,8 @@ namespace DKU_ServerCore.Packets
         /// <summary>
         /// 발신자 uid
         /// </summary>
-        public long sender_uid;
+        //public long sender_uid;
+        public UserData sender_data;
 
         /// <summary>
         /// 채팅을 수신할 타겟 enum
@@ -55,5 +56,6 @@ namespace DKU_ServerCore.Packets
         To_All,
         To_Local,
         To_Whisper,
+        System,
     }
 }

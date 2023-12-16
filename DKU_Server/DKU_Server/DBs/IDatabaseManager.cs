@@ -1,4 +1,6 @@
-﻿using DKU_ServerCore.Packets;
+﻿using DKU_Server.Variants;
+using DKU_Server.Worlds.MiniGames.OX_quiz;
+using DKU_ServerCore.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +16,9 @@ namespace DKU_Server.DBs
         public abstract UserData Login(string id, string pw);
 
         public abstract void Authentication(long uid, string email);
+        public CharaData CharaDataExists(long uid);
+        public void UserCharaShiftChanged(long uid, short v_shift);
+        public int GetOXProbsCount();
+        public OXProbSheet GetProbAndAns(int idx);
     }
 }

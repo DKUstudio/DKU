@@ -1,0 +1,23 @@
+
+using DKU_ServerCore.Packets.var.client;
+using DKU_ServerCore.Packets.var.queue;
+using DKU_ServerCore.Packets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DKU_Server.Connections;
+
+namespace DKU_Server.Packets.var
+{
+    public class C_UserCharaDataShiftChangeReq_Handler
+    {
+        public static void Method(SPacket packet)
+        {
+            C_UserCharaDataShiftChangeReq req = Data<C_UserCharaDataShiftChangeReq>.Deserialize(packet.m_data);
+            NetworkManager.Instance.m_database_manager.UserCharaShiftChanged(req.uid, req.changed_lastloginshift);
+            NetworkManager.Instance.world.ShootCharaShiftChanges(req.uid, req.changed_lastloginshift);
+        }
+    }
+}

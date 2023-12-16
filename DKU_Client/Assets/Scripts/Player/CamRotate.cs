@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ public class CamRotate : MonoBehaviour, IBeginDragHandler, IDragHandler
         yAngle = camPivot.rotation.eulerAngles.y;
     }
 
-
+  
     public void OnBeginDrag(PointerEventData beginPoint)
     {
         beginPos = beginPoint.position;
@@ -46,8 +47,8 @@ public class CamRotate : MonoBehaviour, IBeginDragHandler, IDragHandler
         // camPivot.localRotation = Quaternion.Euler(cameraPitch,0,0);
 
 
-        yAngle = yAngleTmp + (draggingPos.x - beginPos.x) * Screen.height / 622 * rotationSpeed * Time.deltaTime;
-        xAngle = xAngleTmp - (draggingPos.y - beginPos.y) * Screen.width / 1439 * rotationSpeed * Time.deltaTime;
+        yAngle = yAngleTmp + (draggingPos.x - beginPos.x) * Screen.height / 1440 * rotationSpeed * Time.deltaTime;
+        xAngle = xAngleTmp - (draggingPos.y - beginPos.y) * Screen.width / 3200 * rotationSpeed * Time.deltaTime;
         if (xAngle > max_xAngle)
         {
             //Debug.Log("MAX_X");

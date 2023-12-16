@@ -27,12 +27,24 @@ public class GamePacketHandler
                 S_GetWorldUsersDataRes_Impl(packet);
                 break;
 
+            case PacketType.S_OtherUserAnimChangeRes:
+                S_OtherUserAnimChangeRes_Impl(packet);
+                break;
+
+            case PacketType.S_OtherUserCharShiftChangedRes:
+                S_OtherUserCharShiftChangedRes_Impl(packet);
+                break;
+
             case PacketType.S_OtherUserLoginRes:
                 S_OtherUserLoginRes_Impl(packet);
                 break;
 
             case PacketType.S_OtherUserLogoutRes:
                 S_OtherUserLogoutRes_Impl(packet);
+                break;
+
+            case PacketType.S_OXGameStartRes:
+                S_OXGameStartRes_Impl(packet);
                 break;
 
             case PacketType.S_PingRes:
@@ -47,8 +59,24 @@ public class GamePacketHandler
                 S_TryAuthRes_Impl(packet);
                 break;
 
+            case PacketType.S_UserCharaDataLoginRes:
+                S_UserCharaDataLoginRes_Impl(packet);
+                break;
+
+            case PacketType.S_UserCharaDataRes:
+                S_UserCharaDataRes_Impl(packet);
+                break;
+
+            case PacketType.S_UserDataRes:
+                S_UserDataRes_Impl(packet);
+                break;
+
             case PacketType.S_UserPosRes:
                 S_UserPosRes_Impl(packet);
+                break;
+
+            case PacketType.S_WorldChangeAvailRes:
+                S_WorldChangeAvailRes_Impl(packet);
                 break;
 
             case PacketType.Q_GoToGameServerRes:
@@ -95,6 +123,16 @@ public class GamePacketHandler
         S_GetWorldUsersDataRes_Handler.Method(packet);
     }
 
+    void S_OtherUserAnimChangeRes_Impl(Packet packet)
+    {
+        S_OtherUserAnimChangeRes_Handler.Method(packet);
+    }
+
+    void S_OtherUserCharShiftChangedRes_Impl(Packet packet)
+    {
+        S_OtherUserCharShiftChangedRes_Handler.Method(packet);
+    }
+
     void S_OtherUserLoginRes_Impl(Packet packet)
     {
         S_OtherUserLoginRes_Handler.Method(packet);
@@ -103,6 +141,11 @@ public class GamePacketHandler
     void S_OtherUserLogoutRes_Impl(Packet packet)
     {
         S_OtherUserLogoutRes_Handler.Method(packet);
+    }
+
+    void S_OXGameStartRes_Impl(Packet packet)
+    {
+        S_OXGameStartRes_Handler.Method(packet);
     }
 
     void S_PingRes_Impl(Packet packet)
@@ -120,9 +163,29 @@ public class GamePacketHandler
         S_TryAuthRes_Handler.Method(packet);
     }
 
+    void S_UserCharaDataLoginRes_Impl(Packet packet)
+    {
+        S_UserCharaDataLoginRes_Handler.Method(packet);
+    }
+
+    void S_UserCharaDataRes_Impl(Packet packet)
+    {
+        S_UserCharaDataRes_Handler.Method(packet);
+    }
+
+    void S_UserDataRes_Impl(Packet packet)
+    {
+        S_UserDataRes_Handler.Method(packet);
+    }
+
     void S_UserPosRes_Impl(Packet packet)
     {
         S_UserPosRes_Handler.Method(packet);
+    }
+
+    void S_WorldChangeAvailRes_Impl(Packet packet)
+    {
+        S_WorldChangeAvailRes_Handler.Method(packet);
     }
 
     void Q_GoToGameServerRes_Impl(Packet packet)

@@ -22,7 +22,7 @@ public class Q_RegisterRes_Handler
         }
         else if (res.success == 2)  // db 서버 오류
         {
-            Debug.Log("[Register] <color=red>fail</color>...sql error");
+            Debug.Log("[Register] <color=red>fail</color>...nickname duplicate");
             login_input.instance.loadingcanvas.SetActive(false);
             login_input.instance.registfail();
         }
